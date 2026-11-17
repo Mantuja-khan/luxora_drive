@@ -1,0 +1,614 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * - Keep every @import in this top block, above @theme and the rest of the file. Install an
+ *   npm package before @importing its CSS. Never @import a remote URL (web fonts, CDN CSS): the
+ *   build resolves @import from the filesystem. Load those with a <link> in the head() of
+ *   src/routes/__root.tsx and name the family in a --font-* token in @theme inline below.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The design lives in this file: oklch color tokens on the shadcn variables
+ * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
+ * new tokens as needed, font tokens, and custom styles and animations.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.83 0.18 91);
+  --foreground: oklch(0.18 0.015 56);
+  --card: oklch(0.99 0.006 90);
+  --card-foreground: oklch(0.18 0.015 56);
+  --popover: oklch(0.99 0.006 90);
+  --popover-foreground: oklch(0.18 0.015 56);
+  --primary: oklch(0.57 0.22 27);
+  --primary-foreground: oklch(0.99 0.006 90);
+  --secondary: oklch(0.93 0.04 88);
+  --secondary-foreground: oklch(0.22 0.02 50);
+  --muted: oklch(0.95 0.018 88);
+  --muted-foreground: oklch(0.48 0.025 55);
+  --accent: oklch(0.9 0.07 87);
+  --accent-foreground: oklch(0.22 0.02 50);
+  --destructive: oklch(0.57 0.22 27);
+  --destructive-foreground: oklch(0.99 0.006 90);
+  --border: oklch(0.86 0.025 84);
+  --input: oklch(0.86 0.025 84);
+  --ring: oklch(0.57 0.22 27);
+  --chart-1: oklch(0.57 0.22 27);
+  --chart-2: oklch(0.62 0.14 150);
+  --chart-3: oklch(0.62 0.13 242);
+  --chart-4: oklch(0.76 0.16 83);
+  --chart-5: oklch(0.55 0.11 316);
+  --sidebar: oklch(0.99 0.006 90);
+  --sidebar-foreground: oklch(0.18 0.015 56);
+  --sidebar-primary: oklch(0.57 0.22 27);
+  --sidebar-primary-foreground: oklch(0.99 0.006 90);
+  --sidebar-accent: oklch(0.95 0.018 88);
+  --sidebar-accent-foreground: oklch(0.22 0.02 50);
+  --sidebar-border: oklch(0.86 0.025 84);
+  --sidebar-ring: oklch(0.57 0.22 27);
+  --showroom-glass: oklch(0.99 0.006 90);
+  --showroom-ink: oklch(0.18 0.015 56);
+  --showroom-soft-ink: oklch(0.48 0.025 55);
+  --showroom-red: oklch(0.57 0.22 27);
+  --showroom-line: oklch(0.86 0.025 84);
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  --font-poster: "Barlow Condensed", "Impact", "Arial Black", sans-serif;
+}
+
+.dark {
+  --background: oklch(0.83 0.18 91);
+  --foreground: oklch(0.18 0.015 56);
+  --card: oklch(0.99 0.006 90);
+  --card-foreground: oklch(0.18 0.015 56);
+  --popover: oklch(0.99 0.006 90);
+  --popover-foreground: oklch(0.18 0.015 56);
+  --primary: oklch(0.57 0.22 27);
+  --primary-foreground: oklch(0.99 0.006 90);
+  --secondary: oklch(0.93 0.04 88);
+  --secondary-foreground: oklch(0.22 0.02 50);
+  --muted: oklch(0.95 0.018 88);
+  --muted-foreground: oklch(0.48 0.025 55);
+  --accent: oklch(0.9 0.07 87);
+  --accent-foreground: oklch(0.22 0.02 50);
+  --destructive: oklch(0.57 0.22 27);
+  --destructive-foreground: oklch(0.99 0.006 90);
+  --border: oklch(0.86 0.025 84);
+  --input: oklch(0.86 0.025 84);
+  --ring: oklch(0.57 0.22 27);
+  --chart-1: oklch(0.57 0.22 27);
+  --chart-2: oklch(0.62 0.14 150);
+  --chart-3: oklch(0.62 0.13 242);
+  --chart-4: oklch(0.76 0.16 83);
+  --chart-5: oklch(0.55 0.11 316);
+  --sidebar: oklch(0.99 0.006 90);
+  --sidebar-foreground: oklch(0.18 0.015 56);
+  --sidebar-primary: oklch(0.57 0.22 27);
+  --sidebar-primary-foreground: oklch(0.99 0.006 90);
+  --sidebar-accent: oklch(0.95 0.018 88);
+  --sidebar-accent-foreground: oklch(0.22 0.02 50);
+  --sidebar-border: oklch(0.86 0.025 84);
+  --sidebar-ring: oklch(0.57 0.22 27);
+  --showroom-glass: oklch(0.99 0.006 90);
+  --showroom-ink: oklch(0.18 0.015 56);
+  --showroom-soft-ink: oklch(0.48 0.025 55);
+  --showroom-red: oklch(0.57 0.22 27);
+  --showroom-line: oklch(0.86 0.025 84);
+}
+
+@theme inline {
+  --font-sans: var(--font-display);
+  --color-showroom-glass: var(--showroom-glass);
+  --color-showroom-ink: var(--showroom-ink);
+  --color-showroom-soft-ink: var(--showroom-soft-ink);
+  --color-showroom-red: var(--showroom-red);
+  --color-showroom-line: var(--showroom-line);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+  }
+}
+
+.car-showroom-fullscreen {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: #f8f9fa;
+  background-image: radial-gradient(
+    ellipse at 50% 15%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(246, 248, 250, 0.9) 50%,
+    rgba(238, 241, 246, 0.7) 100%
+  );
+  position: relative;
+  overflow-x: hidden;
+  color: #111418;
+}
+
+/* Dynamic diagonal background patti (stripe) */
+.diagonal-patti {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  clip-path: polygon(65% 0%, 86% 0%, 55% 100%, 34% 100%);
+  transition:
+    background-color 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 700ms ease;
+  z-index: 2;
+}
+
+@media (max-width: 1024px) {
+  .diagonal-patti {
+    /* Starts from right side and connects to left side corner, does not connect into the bottom */
+    clip-path: polygon(100% 18%, 100% 42%, 0% 64%, 0% 40%);
+  }
+}
+
+@media (max-width: 640px) {
+  .diagonal-patti {
+    /* Starts from right side and connects to left side corner, does not connect into the bottom */
+    clip-path: polygon(100% 16%, 100% 44%, 0% 65%, 0% 37%);
+    opacity: 0.88;
+  }
+}
+
+/* Giant brand typography - 80% above car, 20% behind car */
+.giant-brand-typography {
+  font-family: var(--font-poster);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  text-transform: uppercase;
+  color: #101216;
+  white-space: nowrap;
+  user-select: none;
+  font-size: clamp(82px, 18vw, 300px);
+  will-change: transform, opacity;
+}
+
+@media (max-width: 640px) {
+  .giant-brand-typography {
+    font-size: clamp(54px, 17vw, 92px);
+    line-height: 0.82;
+    letter-spacing: -0.03em;
+  }
+}
+
+/* Name entering from top side animation */
+@keyframes name-drop-from-top {
+  0% {
+    opacity: 0;
+    transform: translateY(-110px) scale(0.96);
+  }
+  60% {
+    opacity: 0.9;
+    transform: translateY(8px) scale(1.008);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-name-top {
+  animation: name-drop-from-top 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Name disappearing / fading out animation */
+@keyframes name-fade-out-disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+}
+
+.animate-name-exit {
+  animation: name-fade-out-disappear 400ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+}
+
+/* Dribbble 3D Car Showcase Animations (Matching Harri's showcase GIF) */
+@keyframes car-idle-breathe {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.008);
+  }
+}
+
+.animate-car-breathe {
+  animation: car-idle-breathe 4s ease-in-out infinite;
+}
+
+@keyframes shadow-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+    filter: blur(10px);
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.38;
+    filter: blur(14px);
+  }
+}
+
+.animate-shadow-breathe {
+  animation: shadow-breathe 4s ease-in-out infinite;
+}
+
+/* Staggered text and specs fade-slide reveal */
+@keyframes d-fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-d-fade-up {
+  animation: d-fade-slide-up 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Smooth Dribbble-style car sliding transitions */
+@keyframes car-exit-to-left {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(-110px) translateY(6px) scale(0.9);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes car-enter-from-right {
+  0% {
+    transform: translateX(120px) translateY(12px) scale(0.88);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  65% {
+    transform: translateX(-6px) translateY(-2px) scale(1.015);
+    opacity: 0.95;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes car-exit-to-right {
+  0% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(110px) translateY(6px) scale(0.9);
+    opacity: 0;
+    filter: blur(5px);
+  }
+}
+
+@keyframes car-enter-from-left {
+  0% {
+    transform: translateX(-120px) translateY(12px) scale(0.88);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  65% {
+    transform: translateX(6px) translateY(-2px) scale(1.015);
+    opacity: 0.95;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.animate-car-exit-left {
+  animation: car-exit-to-left 550ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+}
+
+.animate-car-enter-right {
+  animation: car-enter-from-right 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-car-exit-right {
+  animation: car-exit-to-right 550ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+}
+
+.animate-car-enter-left {
+  animation: car-enter-from-left 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Realistic Ground Contact Shadow */
+.car-contact-shadow {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 0%;
+  height: 28px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(16, 18, 22, 0.5) 0%,
+    rgba(16, 18, 22, 0.2) 45%,
+    transparent 75%
+  );
+  filter: blur(10px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Spec Icon Container */
+.spec-icon-box {
+  transition: all 250ms ease;
+}
+.spec-icon-box:hover {
+  transform: translateY(-2px);
+}
+
+.vehicle-category {
+  margin: 0;
+  color: var(--showroom-soft-ink);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.slide-indicator {
+  position: absolute;
+  right: clamp(20px, 4vw, 56px);
+  bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--showroom-soft-ink);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.slide-indicator__current {
+  color: var(--showroom-red);
+}
+.slide-indicator__line {
+  width: 20px;
+  height: 1px;
+  background: var(--showroom-line);
+}
+.slide-dots {
+  display: flex;
+  gap: 4px;
+  margin-left: 6px;
+}
+.slide-dot {
+  width: 11px !important;
+  height: 11px !important;
+  min-width: 11px;
+}
+.slide-dot::after {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--showroom-line);
+  content: "";
+}
+.slide-dot--active::after {
+  width: 7px;
+  height: 7px;
+  background: var(--showroom-red);
+}
+.stage-index {
+  position: absolute;
+  bottom: 29px;
+  left: clamp(20px, 4vw, 56px);
+  color: var(--showroom-soft-ink);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.showroom-footer {
+  min-height: 56px;
+  border-top: 1px solid var(--showroom-line);
+  color: var(--showroom-soft-ink);
+  font-size: 9px;
+}
+
+.showroom-footer p {
+  margin: 0;
+}
+.footer-edition {
+  color: var(--showroom-ink);
+  font-weight: 600;
+}
+.footer-divider {
+  padding: 0 7px;
+  color: var(--showroom-red);
+}
+.scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 8px;
+}
+.scroll-cue svg {
+  width: 12px;
+}
+
+@keyframes reveal-copy {
+  from {
+    opacity: 0.4;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-car {
+  from {
+    opacity: 0.65;
+    transform: translateY(15px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-stage {
+    min-height: 610px;
+  }
+}
+
+@media (max-width: 640px) {
+  .car-showroom {
+    padding: 12px;
+    background-attachment: scroll;
+  }
+  .showroom-panel {
+    min-height: calc(100svh - 24px);
+  }
+  .showroom-header {
+    min-height: 66px;
+  }
+  .feature-stage {
+    min-height: 480px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .feature-name {
+    font-size: clamp(64px, 18vw, 108px);
+  }
+  .car-artwork {
+    width: 94%;
+    aspect-ratio: 1.5 / 1;
+    margin-top: -6px;
+  }
+  .vehicle-caption {
+    margin-top: 0;
+  }
+  .carousel-arrow {
+    top: 50%;
+  }
+  .vehicle-category {
+    font-size: 8px;
+  }
+  .stage-index {
+    bottom: 20px;
+    font-size: 8px;
+  }
+  .slide-indicator {
+    right: 16px;
+    bottom: 17px;
+  }
+  .showroom-footer {
+    min-height: 48px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+  .showroom-footer p {
+    font-size: 8px;
+  }
+  .scroll-cue {
+    font-size: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
