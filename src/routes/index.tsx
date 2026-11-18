@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Calendar,
   MapPin,
   CheckCircle2,
@@ -19,6 +20,9 @@ import {
   Youtube,
   Mail,
   ShieldCheck,
+  X,
+  Globe,
+  Menu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +38,7 @@ import bmwM5Cs from "@/assets/bmw-m5-cs.png";
 import audiRsQ8 from "@/assets/audi-rs-q8.png";
 import porscheGt3Rs from "@/assets/porsche-gt3-rs.png";
 import porscheRed from "@/assets/porsche-red.png";
-import dubaiSuv from "@/assets/dubai-suv.png";
+import dubaiSuv from "@/assets/dubai_custom_suv.webp";
 
 export interface CarItem {
   id: string;
@@ -249,6 +253,41 @@ export const Route = createFileRoute("/")({
   component: CarShowcasePage,
 });
 
+export type CurrencyCode = "AED" | "USD" | "EUR";
+
+export interface CurrencyConfig {
+  code: CurrencyCode;
+  label: string;
+  symbol: string;
+  rate: number;
+  flag: string;
+}
+
+export const currencies: CurrencyConfig[] = [
+  { code: "AED", label: "AED (UAE Dirham)", symbol: "AED ", rate: 3.67, flag: "🇦🇪" },
+  { code: "USD", label: "USD (US Dollar)", symbol: "$", rate: 1.0, flag: "🇺🇸" },
+  { code: "EUR", label: "EUR (Euro)", symbol: "€", rate: 0.92, flag: "🇪🇺" },
+];
+
+export interface FlashSaleItem {
+  id: string;
+  badge: string;
+  name: string;
+  category: string;
+  image: string;
+  dailyRate: number;
+  originalDailyRate: number;
+  discount: string;
+  monthlyRate: number;
+  timerString: string;
+  specs: {
+    power: string;
+    speed: string;
+    accel: string;
+  };
+  carRef: CarItem;
+}
+
 export interface RentalCategory {
   id: string;
   title: string;
@@ -279,6 +318,7 @@ export interface PorscheProductCard {
   topBadgeTheme: "dark" | "blue";
   category: string;
   name: string;
+  images: string[];
   dayMonthRate?: number;
   dailyRate: number;
   originalDailyRate: number;
@@ -288,6 +328,16 @@ export interface PorscheProductCard {
   monthlyDiscount: string;
   hasFlashTimer?: boolean;
   timerString?: string;
+  specs: {
+    engine: string;
+    power: string;
+    speed: string;
+    accel: string;
+    gear: string;
+    weight: string;
+  };
+  features: string[];
+  description: string;
 }
 
 const porscheProductCards: PorscheProductCard[] = [
@@ -297,12 +347,29 @@ const porscheProductCards: PorscheProductCard[] = [
     topBadgeTheme: "dark",
     category: "Rent Sports",
     name: "Porsche 911 GT3 RS Clubsport",
+    images: [porscheGt3Rs, porscheRed, porscheGt3Rs],
     dailyRate: 499,
     originalDailyRate: 799,
     dailyDiscount: "38%",
     monthlyRate: 8599,
     originalMonthlyRate: 15999,
     monthlyDiscount: "46%",
+    specs: {
+      engine: "4.0L Naturally Aspirated Flat-6",
+      power: "525 PS / 386 kW",
+      speed: "296 km/h (184 mph)",
+      accel: "0-100 km/h in 3.2s",
+      gear: "7-Speed PDK Dual-Clutch",
+      weight: "1,450 kg (DIN)",
+    },
+    features: [
+      "Clubsport Roll-Cage & Harness",
+      "Active DRS Rear Wing Aero",
+      "Carbon Ceramic Composite Brakes (PCCB)",
+      "Motorsport Lightweight Forged Wheels",
+    ],
+    description:
+      "Motorsport aerodynamic downforce combined with a 9,000 RPM naturally aspirated engine. Tuned for peak racetrack connection and open Dubai highway cruising.",
   },
   {
     id: "porsche-gt3-weissach",
@@ -310,6 +377,7 @@ const porscheProductCards: PorscheProductCard[] = [
     topBadgeTheme: "dark",
     category: "Rent Convertible",
     name: "Porsche 911 GT3 RS Weissach Package",
+    images: [porscheRed, porscheGt3Rs, porscheRed],
     dailyRate: 399,
     originalDailyRate: 900,
     dailyDiscount: "56%",
@@ -318,6 +386,22 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyDiscount: "50%",
     hasFlashTimer: true,
     timerString: "02:10:40",
+    specs: {
+      engine: "4.0L High-Rev Boxer Flat-6",
+      power: "525 PS / 386 kW",
+      speed: "296 km/h (184 mph)",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed PDK Dual-Clutch",
+      weight: "1,430 kg Weissach Spec",
+    },
+    features: [
+      "Carbon-Weave Front Lid & Roof",
+      "Magnesium Forged Lightweight Wheels",
+      "Titanium Roll Cage Structure",
+      "Bespoke Alcantara Interior & Stitching",
+    ],
+    description:
+      "The Weissach Package optimizes weight reduction with exposed carbon-fiber components, magnesium wheels, and pure motorsport heritage.",
   },
   {
     id: "porsche-gt3-carbon",
@@ -325,6 +409,7 @@ const porscheProductCards: PorscheProductCard[] = [
     topBadgeTheme: "dark",
     category: "Rent Modified",
     name: "Porsche 911 GT3 RS Carbon Spec",
+    images: [porscheGt3Rs, porscheRed, porscheGt3Rs],
     dayMonthRate: 282,
     dailyRate: 439,
     originalDailyRate: 600,
@@ -332,6 +417,22 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyRate: 7499,
     originalMonthlyRate: 12500,
     monthlyDiscount: "40%",
+    specs: {
+      engine: "4.0L GT-Sport Flat-6",
+      power: "530 PS / 390 kW",
+      speed: "300 km/h (186 mph)",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed PDK Dual-Clutch",
+      weight: "1,440 kg Carbon Spec",
+    },
+    features: [
+      "Full Carbon Fiber Aero Diffusers",
+      "Sport Chrono Package with Lap Trigger",
+      "Akrapovič Titanium Exhaust System",
+      "Dynamic Engine & Transmission Mounts",
+    ],
+    description:
+      "Upgraded with custom carbon fiber aero blades and tuned titanium exhaust for an acoustic and physical driving experience like no other.",
   },
   {
     id: "porsche-gt3-brabus",
@@ -339,16 +440,128 @@ const porscheProductCards: PorscheProductCard[] = [
     topBadgeTheme: "blue",
     category: "Rent Modified",
     name: "Porsche 911 GT3 RS Brabus 1 of 1",
+    images: [porscheRed, porscheGt3Rs, porscheRed],
     dailyRate: 425,
     originalDailyRate: 999,
     dailyDiscount: "57%",
     monthlyRate: 7999,
     originalMonthlyRate: 18999,
     monthlyDiscount: "58%",
+    specs: {
+      engine: "4.0L Brabus Tuned Flat-6",
+      power: "540 PS / 397 kW",
+      speed: "302 km/h (188 mph)",
+      accel: "0-100 km/h in 3.0s",
+      gear: "7-Speed Dual-Clutch Brabus",
+      weight: "1,425 kg Custom Build",
+    },
+    features: [
+      "Exclusive 1 of 1 Brabus Styling Kit",
+      "Custom Monoblock Forged Wheels",
+      "Brabus Fine Leather Mastik Interior",
+      "Illuminated Carbon Door Sills",
+    ],
+    description:
+      "A bespoke 1 of 1 custom masterpiece crafted by Brabus. Combines unmatched German engineering with tailored ultra-luxury bespoke appointments.",
   },
 ];
 
+const flashSaleItems: FlashSaleItem[] = [
+  {
+    id: "flash-porsche-weissach",
+    badge: "56% OFF FLASH DEAL",
+    name: "Porsche 911 GT3 RS Weissach",
+    category: "Supercar / Track",
+    image: porscheRed,
+    dailyRate: 399,
+    originalDailyRate: 900,
+    discount: "56% OFF",
+    monthlyRate: 6499,
+    timerString: "02:10:40",
+    specs: { power: "525 PS", speed: "296 km/h", accel: "3.2s" },
+    carRef: fleet[3],
+  },
+  {
+    id: "flash-mclaren-765lt",
+    badge: "52% OFF EXCLUSIVE",
+    name: "McLaren 765LT Longtail",
+    category: "Hypercar",
+    image: mclaren765lt,
+    dailyRate: 799,
+    originalDailyRate: 1650,
+    discount: "52% OFF",
+    monthlyRate: 11999,
+    timerString: "04:45:15",
+    specs: { power: "765 PS", speed: "330 km/h", accel: "2.8s" },
+    carRef: fleet[0],
+  },
+  {
+    id: "flash-bmw-m5-cs",
+    badge: "48% OFF SPECIAL",
+    name: "BMW M5 CS Competition",
+    category: "Super Sedan",
+    image: bmwM5Cs,
+    dailyRate: 549,
+    originalDailyRate: 1050,
+    discount: "48% OFF",
+    monthlyRate: 8999,
+    timerString: "01:25:00",
+    specs: { power: "635 PS", speed: "305 km/h", accel: "3.0s" },
+    carRef: fleet[1],
+  },
+  {
+    id: "flash-audi-rs-q8",
+    badge: "46% OFF LUXURY SUV",
+    name: "Audi RS Q8 Performance",
+    category: "Super SUV",
+    image: audiRsQ8,
+    dailyRate: 480,
+    originalDailyRate: 890,
+    discount: "46% OFF",
+    monthlyRate: 7800,
+    timerString: "03:12:30",
+    specs: { power: "600 PS", speed: "305 km/h", accel: "3.8s" },
+    carRef: fleet[2],
+  },
+];
+
+const categoryDropdownRow1 = [
+  "RENT SUPER CAR",
+  "RENT LUXURY",
+  "RENT SUV",
+  "RENT 7 SEATER",
+  "WEEKLY CAR RENTAL",
+  "LONG TERM CAR RENTAL",
+  "AIRPORT CAR RENTAL",
+  "RENT ELECTRIC",
+];
+
+const categoryDropdownRow2 = [
+  "WEDDING CAR RENTAL",
+  "RENT MONTHLY",
+  "RENT SPORTS",
+  "RENT MODIFIED",
+  "RENT ECONOMY CAR",
+  "BUSINESS CAR RENTAL",
+  "LUXURY VAN RENTAL",
+  "CAR WITH DRIVER",
+];
+
 function CarShowcasePage() {
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>("AED");
+  const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
+  const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
+  const currentCurrencyConfig =
+    currencies.find((c) => c.code === selectedCurrency) || currencies[0];
+
+  const formatPrice = (usdAmount: number): string => {
+    const converted = Math.round(usdAmount * currentCurrencyConfig.rate);
+    return `${currentCurrencyConfig.symbol}${converted.toLocaleString()}`;
+  };
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [exitingIndex, setExitingIndex] = useState<number | null>(null);
   const [transitionDirection, setTransitionDirection] = useState<"next" | "prev">("next");
@@ -357,6 +570,13 @@ function CarShowcasePage() {
   const [progress, setProgress] = useState(0);
   const [bookingCar, setBookingCar] = useState<CarItem | null>(null);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+  // Dedicated Car Details Page / Modal state (opened via yellow arrow button)
+  const [selectedCarDetails, setSelectedCarDetails] = useState<PorscheProductCard | null>(null);
+
+  // Product cards 3-image carousel state
+  const [cardImageIndices, setCardImageIndices] = useState<Record<string, number>>({});
+  const cardTouchStartRef = useRef<{ id: string; x: number } | null>(null);
 
   // Dragging / swiping state
   const [isDragging, setIsDragging] = useState(false);
@@ -382,10 +602,10 @@ function CarShowcasePage() {
       setAnimKey((k) => k + 1);
       setProgress(0);
 
-      // Reset exiting car after 680ms animation finishes
+      // Reset exiting car after 540ms animation finishes
       transitionTimerRef.current = setTimeout(() => {
         setExitingIndex(null);
-      }, 680);
+      }, 540);
     },
     [currentIndex],
   );
@@ -403,6 +623,38 @@ function CarShowcasePage() {
   const selectCar = (index: number) => {
     if (index === currentIndex) return;
     startTransition(index, index > currentIndex ? "next" : "prev");
+  };
+
+  // Product Card 3-image slider handlers
+  const handleCardNextImage = (cardId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setCardImageIndices((prev) => ({
+      ...prev,
+      [cardId]: ((prev[cardId] || 0) + 1) % 3,
+    }));
+  };
+
+  const handleCardPrevImage = (cardId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setCardImageIndices((prev) => ({
+      ...prev,
+      [cardId]: ((prev[cardId] || 0) - 1 + 3) % 3,
+    }));
+  };
+
+  const handleCardTouchStart = (cardId: string, clientX: number) => {
+    cardTouchStartRef.current = { id: cardId, x: clientX };
+  };
+
+  const handleCardTouchEnd = (cardId: string, clientX: number) => {
+    if (!cardTouchStartRef.current || cardTouchStartRef.current.id !== cardId) return;
+    const diff = clientX - cardTouchStartRef.current.x;
+    if (diff < -30) {
+      handleCardNextImage(cardId);
+    } else if (diff > 30) {
+      handleCardPrevImage(cardId);
+    }
+    cardTouchStartRef.current = null;
   };
 
   // Auto-play timer
@@ -530,11 +782,12 @@ function CarShowcasePage() {
 
         {/* 
         Navbar: Fully transparent (no background color, no glass blur, completely transparent)
-        Website name: LUXORA DRIVE
+        Buttons: Home, All brands, Flash Sale, Categories, Locations, Blogs, Contact US
+        Currency Dropdown: AED, USD, EUR (updates all prices across the site)
       */}
-        <header className="relative z-30 w-full px-6 py-4 sm:px-12 sm:py-6 flex items-center justify-between bg-transparent border-none shadow-none backdrop-blur-none">
+        <header className="relative z-30 w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-5 flex items-center justify-between bg-transparent border-none shadow-none backdrop-blur-none">
           {/* Brand Logo & Name: LUXORA DRIVE */}
-          <a href="#home" className="flex items-center gap-3 cursor-pointer group">
+          <a href="#home" className="flex items-center gap-2.5 cursor-pointer group shrink-0">
             <span
               className="w-9 h-9 rounded-lg grid place-items-center font-black text-white text-base shadow-sm transition-colors duration-500"
               style={{ backgroundColor: car.themeColor }}
@@ -545,53 +798,278 @@ function CarShowcasePage() {
               <span className="font-black text-lg sm:text-xl tracking-wider text-neutral-900 leading-none">
                 LUXORA <span style={{ color: car.themeColor }}>DRIVE</span>
               </span>
-              <span className="text-[9px] font-bold tracking-[0.28em] text-neutral-500 uppercase mt-0.5">
+              <span className="text-[9px] font-bold tracking-[0.24em] text-neutral-500 uppercase mt-0.5">
                 EXOTIC & SUPERCAR FLEET
               </span>
             </div>
           </a>
 
-          {/* Minimal Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider text-neutral-600">
-            <span
-              className="text-neutral-900 cursor-pointer border-b-2 pb-0.5"
-              style={{ borderColor: car.themeColor }}
+          {/* Full Desktop Navigation: ALL CAPITAL, NOT BOLD, NO ICONS */}
+          <nav className="hidden xl:flex items-center gap-6 lg:gap-7 text-xs font-normal tracking-wider text-neutral-700">
+            <a href="#home" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+              HOME
+            </a>
+            <a href="#categories" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+              ALL BRANDS
+            </a>
+            <a
+              href="#flash-sale"
+              className="uppercase font-normal text-amber-600 hover:text-amber-700 transition-colors cursor-pointer"
             >
-              THE FLEET
-            </span>
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">
-              VIP CONCIERGE
-            </span>
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">
-              DOORSTEP DELIVERY
-            </span>
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">
-              MEMBERSHIP
-            </span>
+              FLASH SALE
+            </a>
+
+            {/* Categories Dropdown in Two Vertical Columns */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
+              onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setIsCategoriesDropdownOpen((prev) => !prev)}
+                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+              >
+                <span>CATEGORIES</span>
+                <ChevronDown
+                  className={`w-3 h-3 text-neutral-400 transition-transform duration-200 ${isCategoriesDropdownOpen ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {isCategoriesDropdownOpen && (
+                <div
+                  className="absolute left-0 top-full mt-2 w-80 sm:w-[480px] bg-white rounded-2xl shadow-2xl border border-neutral-200/90 py-4 px-5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
+                  onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
+                >
+                  <div className="grid grid-cols-2 gap-x-5 gap-y-1">
+                    {/* Vertical Column 1 */}
+                    <div className="flex flex-col gap-1">
+                      {categoryDropdownRow1.map((name) => (
+                        <a
+                          key={name}
+                          href="#categories"
+                          onClick={() => setIsCategoriesDropdownOpen(false)}
+                          className="uppercase font-normal text-[11px] sm:text-xs text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100/80 px-2.5 py-1.5 rounded-md transition-colors tracking-wider block"
+                        >
+                          {name}
+                        </a>
+                      ))}
+                    </div>
+
+                    {/* Vertical Column 2 */}
+                    <div className="flex flex-col gap-1">
+                      {categoryDropdownRow2.map((name) => (
+                        <a
+                          key={name}
+                          href="#categories"
+                          onClick={() => setIsCategoriesDropdownOpen(false)}
+                          className="uppercase font-normal text-[11px] sm:text-xs text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100/80 px-2.5 py-1.5 rounded-md transition-colors tracking-wider block"
+                        >
+                          {name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <a href="#tailor-dubai" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+              LOCATIONS
+            </a>
+            <a href="#blogs" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+              BLOGS
+            </a>
+            <a
+              href="tel:+0008088888"
+              className="uppercase font-normal text-neutral-900 hover:opacity-80 transition-colors cursor-pointer"
+            >
+              CONTACT US
+            </a>
           </nav>
 
-          {/* Top Right Model Badge */}
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <span
-                className="font-black italic text-xl sm:text-2xl tracking-tighter block leading-none transition-colors duration-500"
-                style={{ color: car.themeColor }}
+          {/* Right Action: Currency Dropdown + Contact Button + Mobile Menu Toggle */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Currency Switcher Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsCurrencyDropdownOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 bg-white/90 hover:bg-white text-neutral-900 text-xs font-normal uppercase px-3 py-1.5 rounded-xl border border-neutral-300/80 shadow-xs cursor-pointer transition-all hover:scale-105 active:scale-95"
               >
-                {car.badge}
-              </span>
-              <span className="text-[9px] font-bold text-neutral-500 tracking-widest uppercase">
-                AVAILABLE FOR HIRE
-              </span>
+                <span>{currentCurrencyConfig.flag}</span>
+                <span>{currentCurrencyConfig.code}</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 text-neutral-500 transition-transform duration-200 ${isCurrencyDropdownOpen ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {isCurrencyDropdownOpen && (
+                <div
+                  className="absolute right-0 mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-neutral-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  onMouseLeave={() => setIsCurrencyDropdownOpen(false)}
+                >
+                  <div className="px-3 py-1 text-[10px] font-normal text-neutral-400 uppercase tracking-wider border-b border-neutral-100">
+                    Select Currency
+                  </div>
+                  {currencies.map((curr) => (
+                    <button
+                      key={curr.code}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCurrency(curr.code);
+                        setIsCurrencyDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-normal text-left hover:bg-neutral-50 cursor-pointer transition-colors uppercase ${selectedCurrency === curr.code
+                          ? "text-neutral-950 font-medium bg-neutral-100/70"
+                          : "text-neutral-700"
+                        }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span>{curr.flag}</span>
+                        <span>{curr.label}</span>
+                      </span>
+                      {selectedCurrency === curr.code && (
+                        <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Rent Now CTA (Desktop) */}
             <Button
               size="sm"
               onClick={() => setBookingCar(car)}
-              className="hidden sm:inline-flex text-xs font-bold text-white shadow hover:opacity-90 transition-opacity cursor-pointer px-4"
+              className="hidden sm:inline-flex text-xs font-normal uppercase tracking-wider text-white shadow hover:opacity-90 transition-opacity cursor-pointer px-4 rounded-xl"
               style={{ backgroundColor: car.themeColor }}
             >
-              <Key className="w-3.5 h-3.5 mr-1.5" /> RENT NOW
+              RENT NOW
             </Button>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle Navigation Menu"
+              className="xl:hidden w-9 h-9 rounded-xl bg-white/90 hover:bg-white text-neutral-800 border border-neutral-200/80 shadow-xs flex items-center justify-center cursor-pointer"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
+
+          {/* Mobile Menu Dropdown / Drawer */}
+          {isMobileMenuOpen && (
+            <div className="xl:hidden absolute top-full left-0 right-0 bg-white/98 backdrop-blur-xl border-b border-neutral-200 shadow-2xl px-6 py-6 z-50 animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto">
+              <nav className="flex flex-col gap-3.5 text-sm font-normal uppercase tracking-wider text-neutral-800">
+                <a
+                  href="#home"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                >
+                  HOME
+                </a>
+                <a
+                  href="#categories"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                >
+                  ALL BRANDS
+                </a>
+                <a
+                  href="#flash-sale"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-amber-600 hover:text-amber-700 py-1 border-b border-neutral-100"
+                >
+                  FLASH SALE
+                </a>
+                <a
+                  href="#categories"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                >
+                  CATEGORIES
+                </a>
+                <div className="py-2 pl-2 grid grid-cols-2 gap-2 border-b border-neutral-100">
+                  <div className="flex flex-col gap-1">
+                    {categoryDropdownRow1.map((item) => (
+                      <a
+                        key={item}
+                        href="#categories"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-[10px] text-neutral-600 uppercase font-normal px-2 py-1 rounded-md bg-neutral-100/70 block"
+                      >
+                        {item}
+                      </a>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {categoryDropdownRow2.map((item) => (
+                      <a
+                        key={item}
+                        href="#categories"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-[10px] text-neutral-600 uppercase font-normal px-2 py-1 rounded-md bg-neutral-100/70 block"
+                      >
+                        {item}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <a
+                  href="#tailor-dubai"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                >
+                  LOCATIONS
+                </a>
+                <a
+                  href="#blogs"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                >
+                  BLOGS
+                </a>
+                <a
+                  href="tel:+0008088888"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-neutral-900 py-1"
+                >
+                  CONTACT US: +00 080 888 88
+                </a>
+              </nav>
+
+              {/* Mobile Currency Switcher */}
+              <div className="mt-5 pt-4 border-t border-neutral-200">
+                <span className="text-[11px] font-normal text-neutral-400 uppercase tracking-wider block mb-2">
+                  SELECT CURRENCY
+                </span>
+                <div className="grid grid-cols-3 gap-2">
+                  {currencies.map((curr) => (
+                    <button
+                      key={curr.code}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCurrency(curr.code);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-normal uppercase border transition-all ${selectedCurrency === curr.code
+                          ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
+                          : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                        }`}
+                    >
+                      <span>{curr.flag}</span>
+                      <span>{curr.code}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </header>
 
         {/* Main Feature Stage Area */}
@@ -630,8 +1108,8 @@ function CarShowcasePage() {
           - Right: Vertical timeline with connected glowing dots showing vehicle SPECS (shifted further to the right)
         */}
           <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center relative z-20 my-auto pt-4 sm:pt-6 lg:pt-10">
-            {/* Left Column (Desktop): Badge, Heading, Short Description, Rating - Shifted Lower */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pr-4 select-none translate-y-8 xl:translate-y-12">
+            {/* Left Column (Desktop): Badge, Heading, Short Description, Rating - Shifted Further Down for Large Screen */}
+            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pr-4 select-none translate-y-20 xl:translate-y-28 2xl:translate-y-32">
               <div
                 key={`left-cat-${car.id}-${animKey}`}
                 className="animate-d-fade-up"
@@ -661,36 +1139,19 @@ function CarShowcasePage() {
                 {car.description}
               </p>
 
-              {/* Rating block (Dribbble 4.2 / stars style) */}
-              <div
-                key={`left-rating-${car.id}-${animKey}`}
-                className="flex items-center gap-2.5 mt-4 animate-d-fade-up"
-                style={{ animationDelay: "280ms" }}
-              >
-                <span className="text-3xl font-black text-neutral-900 leading-none">4.9</span>
-                <div className="flex flex-col">
-                  <div className="flex text-amber-400 text-sm tracking-tight leading-none">
-                    ★★★★★
-                  </div>
-                  <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider mt-1">
-                    142 Verified Reviews
-                  </span>
-                </div>
-              </div>
-
               {/* Left Column Daily Pricing & Rent Button */}
               <div
                 key={`left-cta-${car.id}-${animKey}`}
                 className="mt-6 flex flex-col items-start gap-3 animate-d-fade-up"
-                style={{ animationDelay: "360ms" }}
+                style={{ animationDelay: "260ms" }}
               >
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
-                    ${car.dailyRate}
+                    {formatPrice(car.dailyRate)}
                   </span>
                   <span className="text-xs text-neutral-500 font-semibold">/ day</span>
                   <span className="text-xs text-neutral-400 line-through font-bold">
-                    ${car.originalDailyRate}
+                    {formatPrice(car.originalDailyRate)}
                   </span>
                   <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
                     {Math.round(
@@ -710,9 +1171,9 @@ function CarShowcasePage() {
               </div>
             </div>
 
-            {/* Center Column: Centered Car with Breathing Idle Animation & Bottom Thumbnails - Slightly larger car size */}
-            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2">
-              <div className="relative w-full max-w-[660px] sm:max-w-[740px] lg:max-w-[820px] xl:max-w-[900px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-1 sm:px-3">
+            {/* Center Column: Increased Car Size on Large Screen, Shifted Down on Small Screen */}
+            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2 translate-y-10 sm:translate-y-14 lg:translate-y-0 pt-4 sm:pt-6 lg:pt-0">
+              <div className="relative w-full max-w-[660px] sm:max-w-[740px] lg:max-w-[960px] xl:max-w-[1080px] 2xl:max-w-[1180px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-1 sm:px-3">
                 {/* Ground Contact Shadow with Synchronous Breathing Animation */}
                 <div
                   className={`car-contact-shadow ${exitingCar ? "" : "animate-shadow-breathe"}`}
@@ -765,21 +1226,21 @@ function CarShowcasePage() {
 
               {/* 
                 Under Center Car:
-                - On Small Screens (lg:hidden): Price section + RENT NOW button
+                - On Small Screens (lg:hidden): Price section + RENT NOW button without background, details removed!
                 - On Large Screens (hidden lg:flex): 4 cars thumbnail carousel shifted lower down
               */}
 
-              {/* Small Screen: Price & RENT NOW button right below the main car */}
-              <div className="flex lg:hidden flex-col items-center justify-center gap-2 mt-3 sm:mt-5 z-30 w-full px-2">
-                <div className="flex items-center gap-2.5 sm:gap-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-neutral-200/80">
+              {/* Small Screen: Price & RENT NOW button without background, details text removed */}
+              <div className="flex lg:hidden flex-col items-center justify-center gap-2 mt-6 sm:mt-8 z-30 w-full px-2">
+                <div className="flex items-center gap-3 bg-transparent border-none shadow-none backdrop-blur-none px-2 py-1">
                   <div className="flex flex-col items-start">
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight leading-none">
-                        ${car.dailyRate}
+                        {formatPrice(car.dailyRate)}
                       </span>
                       <span className="text-[11px] font-semibold text-neutral-500">/ day</span>
                       <span className="text-[11px] font-bold text-neutral-400 line-through">
-                        ${car.originalDailyRate}
+                        {formatPrice(car.originalDailyRate)}
                       </span>
                       <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
                         {Math.round(
@@ -792,7 +1253,7 @@ function CarShowcasePage() {
                       className="text-[11px] font-extrabold mt-0.5"
                       style={{ color: car.themeColor }}
                     >
-                      Weekly: ${car.weeklyRate}{" "}
+                      Weekly: {formatPrice(car.weeklyRate)}{" "}
                       <span className="text-neutral-500 font-medium">/ week</span>
                     </div>
                   </div>
@@ -800,10 +1261,10 @@ function CarShowcasePage() {
                   <Button
                     size="sm"
                     onClick={() => setBookingCar(car)}
-                    className="text-xs font-black text-white px-3.5 py-2 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0"
+                    className="text-xs font-black text-white px-4 py-2 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0"
                     style={{ backgroundColor: car.themeColor }}
                   >
-                    <Key className="w-3.5 h-3.5" /> RENT NOW
+                    RENT NOW
                   </Button>
                 </div>
               </div>
@@ -1078,8 +1539,8 @@ function CarShowcasePage() {
             </div>
           </div>
 
-          {/* Small Screen Bottom: 4-Car Preview Thumbnail Carousel (swapped to bottom for small screens only!) */}
-          <div className="flex lg:hidden items-center justify-center gap-1.5 sm:gap-2 z-30 w-full sm:w-auto py-1">
+          {/* Small Screen Bottom: 4-Car Preview Thumbnail Carousel (swapped to bottom for small screens only, shifted lower) */}
+          <div className="flex lg:hidden items-center justify-center gap-1.5 sm:gap-2 z-30 w-full sm:w-auto pt-3 pb-2 mt-1">
             <button
               type="button"
               onClick={goToPrev}
@@ -1138,73 +1599,208 @@ function CarShowcasePage() {
 
       {/* 
         Categories Section (Image 1):
-        - All categories use the Porsche image!
-        - Tilted bright yellow background accent block behind car!
-        - Special "FLASH SALE" corner badge.
-        - Responsive grid matching Image 1 layout.
+        - Section Title: Luxora Drive Rental Dubai (Centered, right side content removed)
+        - Border line & background white section removed: shows only car, yellow line, Rent title, and car count
+        - On hover: car moves a little bit to the left side (group-hover:-translate-x-3)
+        - Shows only 6 categories initially with "View More" toggle button below
       */}
       <section
         id="categories"
         className="w-full bg-[#F5F6F8] border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[11px] font-black uppercase tracking-widest text-amber-500">
-                  PRESTIGE VEHICLE CATEGORIES
-                </span>
-                <span className="bg-neutral-900 text-amber-400 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">
-                  14 CATEGORIES
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
-                BROWSE BY CATEGORY
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-neutral-500 font-medium max-w-md">
-              Explore our verified luxury and performance supercar inventory. Every category offers
-              insured doorstep handover and transparent daily rates.
-            </p>
+          {/* Centered Main Header, right side content removed */}
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+              PRESTIGE DUBAI FLEET
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+              Luxora Drive Rental Dubai
+            </h2>
           </div>
 
-          {/* Categories Grid (14 items matching Image 1, all with Porsche image) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 sm:gap-4">
-            {rentalCategories.map((cat) => (
+          {/* Categories Grid (Only Car, Yellow Line Accent, Rent Title, and Count - No white card box / No border line) */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+            {rentalCategories.slice(0, showAllCategories ? rentalCategories.length : 6).map((cat) => (
               <a
                 key={cat.id}
-                href="#fleet-deals"
-                className="bg-white rounded-xl border border-neutral-200/80 p-3 sm:p-4 text-center hover:border-amber-400 hover:shadow-xl transition-all duration-300 group relative flex flex-col items-center justify-between min-h-[145px] sm:min-h-[165px] cursor-pointer"
+                href="#flash-sale"
+                className="bg-transparent border-0 shadow-none p-2 sm:p-3 text-center group relative flex flex-col items-center justify-between min-h-[140px] sm:min-h-[160px] cursor-pointer"
               >
-                {/* Yellow Diagonal Patti Accent behind the car (matching Image 1) */}
-                <div className="absolute top-2 right-4 sm:right-6 w-14 sm:w-16 h-8 sm:h-10 bg-[#FFE600] -skew-x-12 rounded-xs opacity-90 group-hover:scale-110 transition-transform -z-0 pointer-events-none" />
+                {/* Yellow Diagonal Patti Accent behind the car */}
+                <div className="absolute top-1 sm:top-2 right-2 sm:right-5 w-14 sm:w-16 h-8 sm:h-9 bg-[#FFE600] -skew-x-12 rounded-xs opacity-90 transition-transform group-hover:scale-110 pointer-events-none" />
 
                 {/* Flash Sale Red Badge */}
                 {cat.isFlash && (
-                  <span className="absolute top-1.5 right-1.5 bg-[#FF0033] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded shadow-sm rotate-6 z-20">
+                  <span className="absolute -top-1 right-1 bg-[#FF0033] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded shadow-sm rotate-6 z-20">
                     FLASH SALE
                   </span>
                 )}
 
-                {/* Car Image - Porsche used for every category as requested */}
+                {/* Car Image - Porsche image on every category; shifts slightly to left on hover */}
                 <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center my-1">
                   <img
                     src={porscheGt3Rs}
                     alt={cat.title}
                     loading="lazy"
-                    className="max-h-full max-w-full object-contain drop-shadow-[0_8px_12px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-300 select-none pointer-events-none"
+                    className="max-h-full max-w-full object-contain drop-shadow-[0_8px_12px_rgba(0,0,0,0.20)] transition-transform duration-300 group-hover:-translate-x-3 select-none pointer-events-none"
                   />
                 </div>
 
-                {/* Category Typography */}
-                <div className="relative z-10 w-full mt-auto">
+                {/* Category Typography: Rent Title & Number of cars */}
+                <div className="relative z-10 w-full mt-2 text-center">
                   <h3 className="text-xs sm:text-[13px] font-black uppercase text-neutral-900 tracking-tight leading-tight group-hover:text-amber-600 transition-colors">
                     {cat.title}
                   </h3>
                   <p className="text-[11px] text-neutral-400 font-semibold mt-0.5">{cat.count}</p>
                 </div>
               </a>
+            ))}
+          </div>
+
+          {/* View More Categories Toggle Button */}
+          <div className="flex justify-center mt-10">
+            <button
+              type="button"
+              onClick={() => setShowAllCategories((prev) => !prev)}
+              className="flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white font-black text-xs px-6 py-3 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <span>{showAllCategories ? "VIEW LESS CATEGORIES" : "VIEW MORE CATEGORIES"}</span>
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-300 ${showAllCategories ? "rotate-180" : ""
+                  }`}
+              />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        Flash Sale Section:
+        - Background: White (as requested: "make sure super car flash deal should be their backgeround should be white")
+        - Heading: Centered, right-side content removed
+        - Car Card Color: #B7B09E (as requested: "#B7B09E please use this color on the flash deal car card")
+        - No unnecessary icons
+      */}
+      <section
+        id="flash-sale"
+        className="w-full bg-white border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
+      >
+        <div className="w-full max-w-[1720px] mx-auto">
+          {/* Centered Header, right side content removed */}
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#D1121E] block mb-1">
+              LIMITED TIME SUPERCAR SPECIALS • UP TO 56% OFF
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+              SUPERCAR FLASH SALE
+            </h2>
+          </div>
+
+          {/* 4 Flash Sale Cards in #B7B09E */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {flashSaleItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-[#B7B09E] rounded-2xl border border-[#A69F8E] shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+              >
+                {/* Countdown Timer Bar */}
+                <div className="w-full bg-[#18191B] px-3.5 py-1.5 flex items-center justify-between text-[#FFE600] text-xs font-bold uppercase tracking-wider">
+                  <span>FLASH SALE</span>
+                  <span className="font-mono tracking-widest text-[11px] font-bold text-white">
+                    {item.timerString}
+                  </span>
+                </div>
+
+                {/* Car Preview Container with hover scale */}
+                <div className="relative w-full h-44 sm:h-48 bg-[#A8A18E]/30 p-3 flex items-center justify-center overflow-hidden select-none">
+                  {/* Discount Badge */}
+                  <div className="absolute top-2.5 left-3 bg-[#D1121E] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs z-10">
+                    {item.discount}
+                  </div>
+
+                  {/* Car Image: Scales slightly on hover */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    loading="lazy"
+                    draggable={false}
+                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                  />
+                </div>
+
+                {/* Card Body */}
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-neutral-900">
+                  <div>
+                    <span className="text-[10px] font-bold text-neutral-700 uppercase tracking-wider block">
+                      {item.category}
+                    </span>
+                    <h3 className="text-base font-black text-neutral-950 leading-snug mt-0.5">
+                      {item.name}
+                    </h3>
+                  </div>
+
+                  {/* Price Row (Formatted with active currency) */}
+                  <div className="space-y-1 pt-1">
+                    {/* Daily Rate */}
+                    <div className="flex items-baseline justify-between">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xl font-black text-neutral-950 leading-none">
+                          {formatPrice(item.dailyRate)}
+                        </span>
+                        <span className="text-xs font-semibold text-neutral-700">/ Day</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-xs">
+                        <span className="text-neutral-600 line-through">
+                          {formatPrice(item.originalDailyRate)}
+                        </span>
+                        <span className="font-bold text-red-700">{item.discount}</span>
+                      </div>
+                    </div>
+
+                    {/* Monthly Rate */}
+                    <div className="flex items-baseline justify-between text-xs text-neutral-800 font-semibold">
+                      <span>Monthly Deal</span>
+                      <span className="text-neutral-950 font-black">{formatPrice(item.monthlyRate)}</span>
+                    </div>
+                  </div>
+
+                  {/* Free Delivery & Insurance Included */}
+                  <div className="flex items-center gap-3 text-[11px] font-bold text-neutral-800 pt-2 border-t border-[#A8A18E]/60">
+                    <span className="flex items-center gap-1 text-emerald-800">
+                      Free Delivery
+                    </span>
+                    <span className="flex items-center gap-1 text-emerald-800">
+                      Insurance Included
+                    </span>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="grid grid-cols-3 gap-1.5 pt-2">
+                    <a
+                      href={`https://wa.me/?text=Hi%2C%20I%20am%20interested%20in%20the%20Flash%20Sale%20deal%20for%20${encodeURIComponent(item.name)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-center gap-1 bg-[#128C7E] hover:bg-[#075E54] text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer text-center"
+                    >
+                      WhatsApp
+                    </a>
+                    <a
+                      href="tel:+0008088888"
+                      className="flex items-center justify-center gap-1 bg-[#D32F2F] hover:bg-[#B71C1C] text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer text-center"
+                    >
+                      Call Us
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setBookingCar(item.carRef)}
+                      className="flex items-center justify-center gap-1 bg-neutral-950 hover:bg-neutral-800 text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer text-center"
+                    >
+                      Claim Deal
+                    </button>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -1214,8 +1810,6 @@ function CarShowcasePage() {
         Fleet / Product Card Section (Image 2):
         - 4 Columns of luxury cards.
         - Uses Porsche image on every card.
-        - Top Badges, image preview with carousel controls & dots, yellow action dot.
-        - Flash Sale yellow countdown bar on active sale cars.
         - Rates with daily and monthly discounts.
         - WhatsApp, Call Us, and Inquire Now buttons.
       */}
@@ -1224,25 +1818,14 @@ function CarShowcasePage() {
         className="w-full bg-white border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[11px] font-black uppercase tracking-widest text-amber-500">
-                  FEATURED PROMOTIONS
-                </span>
-                <span className="bg-red-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
-                  <Zap className="w-2.5 h-2.5 fill-white" /> SPECIAL OFFER
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
-                FEATURED PORSCHE FLEET DEALS
-              </h2>
-            </div>
-            <p className="text-xs sm:text-sm text-neutral-500 font-medium max-w-md">
-              Rent 4 days and get 1 day completely free. Includes complimentary delivery, zero
-              hidden costs, and comprehensive insurance.
-            </p>
+          {/* Centered Main Header, right side content removed */}
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+              FEATURED PROMOTIONS
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+              FEATURED PORSCHE FLEET DEALS
+            </h2>
           </div>
 
           {/* 4-Card Grid matching Image 2 */}
@@ -1252,63 +1835,85 @@ function CarShowcasePage() {
                 key={card.id}
                 className="bg-white rounded-xl border border-neutral-200/80 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
-                {/* Top Badge Banner */}
+                {/* Top Badge Banner (clean text, no icons) */}
                 <div
-                  className={`px-3.5 py-1.5 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider flex items-center justify-center ${
                     card.topBadgeTheme === "dark"
                       ? "bg-neutral-950 text-amber-300"
                       : "bg-[#0B1B3D] text-amber-300"
                   }`}
                 >
-                  <Zap className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
                   <span>{card.topBadge}</span>
                 </div>
 
-                {/* Car Preview Box */}
-                <div className="relative w-full h-44 sm:h-48 bg-gradient-to-b from-neutral-50 to-neutral-100/70 p-3 flex items-center justify-center overflow-hidden">
+                {/* Car Preview Box with 3-Image Slider (Drag & Left/Right buttons) */}
+                <div
+                  className="relative w-full h-44 sm:h-48 bg-gradient-to-b from-neutral-50 to-neutral-100/70 p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none"
+                  onTouchStart={(e) => handleCardTouchStart(card.id, e.touches[0].clientX)}
+                  onTouchEnd={(e) => handleCardTouchEnd(card.id, e.changedTouches[0].clientX)}
+                  onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
+                  onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
+                >
                   {/* Left & Right Slider Arrows */}
                   <button
                     type="button"
+                    onClick={(e) => handleCardPrevImage(card.id, e)}
                     aria-label="Previous view"
-                    className="absolute left-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white text-neutral-600 shadow-xs flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity cursor-pointer z-20"
+                    className="absolute left-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-xs flex items-center justify-center opacity-80 hover:opacity-100 transition-all hover:scale-110 active:scale-95 cursor-pointer z-20"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                   </button>
                   <button
                     type="button"
+                    onClick={(e) => handleCardNextImage(card.id, e)}
                     aria-label="Next view"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white text-neutral-600 shadow-xs flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity cursor-pointer z-20"
+                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-xs flex items-center justify-center opacity-80 hover:opacity-100 transition-all hover:scale-110 active:scale-95 cursor-pointer z-20"
                   >
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
 
                   {/* Left Brand Badge */}
-                  <div className="absolute left-3 bottom-2 text-[10px] font-black uppercase tracking-wider text-neutral-400 z-10">
-                    PORSCHE
+                  <div className="absolute left-3 bottom-2 text-[10px] font-black uppercase tracking-wider text-neutral-400 z-10 pointer-events-none">
+                    PORSCHE • {(cardImageIndices[card.id] || 0) + 1}/3
                   </div>
 
-                  {/* Carousel Pagination Dots */}
-                  <div className="absolute bottom-2.5 inset-x-0 flex justify-center items-center gap-1 z-10">
-                    <span className="w-4 h-1.5 rounded-full bg-[#FFE600]" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-300" />
+                  {/* Carousel 3 Pagination Dots */}
+                  <div className="absolute bottom-2.5 inset-x-0 flex justify-center items-center gap-1.5 z-10">
+                    {[0, 1, 2].map((dotIdx) => (
+                      <span
+                        key={dotIdx}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCardImageIndices((prev) => ({ ...prev, [card.id]: dotIdx }));
+                        }}
+                        className={`rounded-full transition-all duration-300 cursor-pointer ${(cardImageIndices[card.id] || 0) === dotIdx
+                          ? "w-4 h-1.5 bg-[#FFE600]"
+                          : "w-1.5 h-1.5 bg-neutral-300 hover:bg-neutral-400"
+                          }`}
+                      />
+                    ))}
                   </div>
 
-                  {/* Yellow Circular Action Button */}
+                  {/* Yellow Circular Action Button -> Opens Detailed Car Page */}
                   <div
-                    onClick={() => handleBookProductCard(card)}
-                    className="absolute right-2.5 bottom-2.5 w-6 h-6 rounded-full bg-[#FFE600] text-neutral-950 flex items-center justify-center shadow-xs cursor-pointer hover:scale-110 transition-transform z-20"
-                    title="Quick Book"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCarDetails(card);
+                    }}
+                    className="absolute right-2.5 bottom-2.5 w-7 h-7 rounded-full bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
+                    title="View Car Details & Full Specs"
                   >
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                   </div>
 
-                  {/* Porsche Image */}
+                  {/* Porsche Image from 3 images with hover scale */}
                   <img
-                    src={porscheGt3Rs}
-                    alt={card.name}
+                    src={card.images[cardImageIndices[card.id] || 0]}
+                    alt={`${card.name} - View ${(cardImageIndices[card.id] || 0) + 1}`}
                     loading="lazy"
-                    className="max-h-32 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-300 select-none pointer-events-none relative z-10"
+                    draggable={false}
+                    className="max-h-32 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
 
@@ -1335,11 +1940,11 @@ function CarShowcasePage() {
                     </h3>
                   </div>
 
-                  {/* Price Row */}
+                  {/* Price Row (Formatted with dynamic currency) */}
                   <div className="space-y-1.5 pt-1">
                     {card.dayMonthRate && (
                       <div className="flex items-baseline justify-between text-xs font-bold text-neutral-500">
-                        <span>${card.dayMonthRate} / Day-Month</span>
+                        <span>{formatPrice(card.dayMonthRate)} / Day-Month</span>
                       </div>
                     )}
 
@@ -1347,13 +1952,13 @@ function CarShowcasePage() {
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
                         <span className="text-lg font-black text-neutral-900 leading-none">
-                          ${card.dailyRate}
+                          {formatPrice(card.dailyRate)}
                         </span>
                         <span className="text-xs font-semibold text-neutral-500">/ Day</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
                         <span className="text-neutral-400 line-through">
-                          ${card.originalDailyRate}
+                          {formatPrice(card.originalDailyRate)}
                         </span>
                         <span className="font-bold text-emerald-600">{card.dailyDiscount}</span>
                       </div>
@@ -1363,13 +1968,13 @@ function CarShowcasePage() {
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
                         <span className="text-base font-black text-neutral-900 leading-none">
-                          ${card.monthlyRate.toLocaleString()}
+                          {formatPrice(card.monthlyRate)}
                         </span>
                         <span className="text-xs font-semibold text-neutral-500">/ Monthly</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
                         <span className="text-neutral-400 line-through">
-                          ${card.originalMonthlyRate.toLocaleString()}
+                          {formatPrice(card.originalMonthlyRate)}
                         </span>
                         <span className="font-bold text-emerald-600">{card.monthlyDiscount}</span>
                       </div>
@@ -1428,20 +2033,15 @@ function CarShowcasePage() {
         id="promotions"
         className="w-full bg-[#F5F6F8] border-t border-neutral-200/80 py-10 sm:py-14 px-4 sm:px-8 lg:px-12 relative z-20"
       >
-        <div className="w-full max-w-[1720px] mx-auto space-y-6">
-          {/* Section Subheader */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-1">
-            <div>
-              <span className="text-[11px] font-black uppercase tracking-widest text-amber-500">
-                EXCLUSIVE CAMPAIGNS
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight uppercase">
-                SPECIAL PROMOTIONAL OFFERS
-              </h2>
-            </div>
-            <p className="text-xs text-neutral-500 font-semibold max-w-md">
-              Instant 24/7 delivery across Dubai & airport terminals with complimentary insurance.
-            </p>
+        <div className="w-full max-w-[1720px] mx-auto space-y-8">
+          {/* Centered Main Header, right side content removed */}
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+              EXCLUSIVE CAMPAIGNS
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+              SPECIAL PROMOTIONAL OFFERS
+            </h2>
           </div>
 
           {/* Two Promotional Banners in a Single Row */}
@@ -1464,7 +2064,7 @@ function CarShowcasePage() {
                 {/* Top Brand Logo with high-contrast white font on pencil color */}
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 rounded-md bg-[#D1121E] text-white font-black grid place-items-center text-[10px] shadow-xs">
-                    ⚡
+                    L
                   </span>
                   <div>
                     <span className="text-xs sm:text-sm font-black tracking-wider text-white leading-none block">
@@ -1544,7 +2144,7 @@ function CarShowcasePage() {
                 {/* Top Brand Logo with high-contrast white font on pencil color */}
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 rounded-md bg-[#FF5900] text-white font-black grid place-items-center text-[10px] shadow-xs">
-                    ⚡
+                    L
                   </span>
                   <div>
                     <span className="text-xs sm:text-sm font-black tracking-wider text-white leading-none block">
@@ -1631,22 +2231,22 @@ function CarShowcasePage() {
         />
 
         <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-12 relative z-10">
-          {/* Left Column: Yellow/Black Luxury Custom SUV */}
-          <div className="lg:col-span-5 flex items-center justify-center">
-            <div className="relative w-full max-w-[460px] flex items-center justify-center group">
+          {/* Left Column: Yellow/Black Luxury Custom SUV (Increased image size) */}
+          <div className="lg:col-span-6 flex items-center justify-center">
+            <div className="relative w-full max-w-[580px] lg:max-w-[650px] flex items-center justify-center group">
               {/* Radial glow */}
-              <div className="absolute inset-0 bg-[#FFE600]/10 rounded-full blur-2xl group-hover:bg-[#FFE600]/15 transition-all" />
+              <div className="absolute inset-0 bg-[#FFE600]/15 rounded-full blur-3xl group-hover:bg-[#FFE600]/20 transition-all" />
               <img
                 src={dubaiSuv}
                 alt="Custom Two-Tone Luxury SUV in Dubai"
                 loading="lazy"
-                className="w-full h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.6)] relative z-10 transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.65)] relative z-10 transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           </div>
 
-          {/* Right Column: Tailor Your Rental Copy & Bullet Points (Exact from Image 2) */}
-          <div className="lg:col-span-7 space-y-4">
+          {/* Right Column: Tailor Your Rental Copy & Bullet Points */}
+          <div className="lg:col-span-6 space-y-4">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
               Tailor Your Car Rental In Dubai Plan To Your Specific Requirement
             </h2>
@@ -1722,6 +2322,12 @@ function CarShowcasePage() {
           </div>
         </div>
       </section>
+
+      {/* 
+        Blogs & Editorial Guides Section:
+        - Linked from Navbar (#blogs)
+        - Main heading centered, right side content removed
+      */}
 
       {/* 
         Professional Luxury Automotive Footer:
@@ -2011,10 +2617,10 @@ function CarShowcasePage() {
                         className="text-xs font-extrabold"
                         style={{ color: bookingCar.themeColor }}
                       >
-                        ${bookingCar.dailyRate} / day
+                          {formatPrice(bookingCar.dailyRate)} / day
                       </div>
                       <div className="text-[10px] text-neutral-500">
-                        Deposit: ${bookingCar.securityDeposit} • {bookingCar.includedMileage}
+                          Deposit: {formatPrice(bookingCar.securityDeposit)} • {bookingCar.includedMileage}
                       </div>
                     </div>
                   </div>
@@ -2095,21 +2701,21 @@ function CarShowcasePage() {
                   {/* Total Estimate Calculation */}
                   <div className="bg-neutral-50 p-3 rounded-lg text-xs space-y-1 text-neutral-600">
                     <div className="flex justify-between">
-                      <span>3 Days Rental (${bookingCar.dailyRate} × 3)</span>
+                        <span>3 Days Rental ({formatPrice(bookingCar.dailyRate)} × 3)</span>
                       <span className="font-semibold text-neutral-800">
-                        ${bookingCar.dailyRate * 3}
+                          {formatPrice(bookingCar.dailyRate * 3)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Refundable Security Deposit</span>
                       <span className="font-semibold text-neutral-800">
-                        ${bookingCar.securityDeposit}
+                          {formatPrice(bookingCar.securityDeposit)}
                       </span>
                     </div>
                     <div className="flex justify-between border-t border-neutral-200/80 pt-1 text-neutral-900 font-bold">
                       <span>Estimated Total</span>
                       <span style={{ color: bookingCar.themeColor }}>
-                        ${bookingCar.dailyRate * 3 + bookingCar.securityDeposit}
+                          {formatPrice(bookingCar.dailyRate * 3 + bookingCar.securityDeposit)}
                       </span>
                     </div>
                   </div>
@@ -2124,6 +2730,224 @@ function CarShowcasePage() {
                   </Button>
                 </form>
               )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Dedicated Vehicle Details Page / Modal (Opened via Yellow Arrow Button) */}
+      <Dialog
+        open={!!selectedCarDetails}
+        onOpenChange={(open) => !open && setSelectedCarDetails(null)}
+      >
+        <DialogContent className="max-w-2xl bg-white p-6 sm:p-8 rounded-2xl border border-neutral-200 shadow-2xl overflow-y-auto max-h-[92vh]">
+          {selectedCarDetails && (
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-4 border-b border-neutral-100 pb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="bg-[#FFE600] text-neutral-950 text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
+                      {selectedCarDetails.category}
+                    </span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+                      {selectedCarDetails.topBadge}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
+                    {selectedCarDetails.name}
+                  </h3>
+                  <p className="text-xs text-neutral-500 font-medium mt-1">
+                    Official Luxora Drive Fleet • Verified Condition • Doorstep Delivery Available
+                  </p>
+                </div>
+              </div>
+
+              {/* 3-Image Interactive Gallery */}
+              <div className="space-y-2">
+                <div className="relative w-full h-56 sm:h-64 bg-gradient-to-b from-neutral-50 to-neutral-100/80 rounded-xl p-4 flex items-center justify-center overflow-hidden border border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => handleCardPrevImage(selectedCarDetails.id)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleCardNextImage(selectedCarDetails.id)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+
+                  <img
+                    src={
+                      selectedCarDetails.images[cardImageIndices[selectedCarDetails.id] || 0]
+                    }
+                    alt={selectedCarDetails.name}
+                    className="max-h-48 w-auto object-contain drop-shadow-[0_16px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none transition-all duration-300"
+                    key={`modal-img-${selectedCarDetails.id}-${cardImageIndices[selectedCarDetails.id] || 0}`}
+                  />
+
+                  <div className="absolute bottom-2.5 right-3 text-[10px] font-mono font-bold text-neutral-400 bg-white/80 px-2 py-0.5 rounded">
+                    Photo {(cardImageIndices[selectedCarDetails.id] || 0) + 1} of 3
+                  </div>
+                </div>
+
+                {/* 3 Thumbnails Selector */}
+                <div className="flex items-center justify-center gap-2 pt-1">
+                  {[0, 1, 2].map((idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() =>
+                        setCardImageIndices((prev) => ({ ...prev, [selectedCarDetails.id]: idx }))
+                      }
+                      className={`h-12 w-20 rounded-lg border p-1 bg-neutral-50 flex items-center justify-center cursor-pointer transition-all ${(cardImageIndices[selectedCarDetails.id] || 0) === idx
+                        ? "border-2 border-[#FFE600] shadow-sm scale-105"
+                        : "border-neutral-200 opacity-60 hover:opacity-100"
+                        }`}
+                    >
+                      <img
+                        src={selectedCarDetails.images[idx]}
+                        alt={`Thumb ${idx + 1}`}
+                        className="max-h-full max-w-full object-contain pointer-events-none"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+                {selectedCarDetails.description}
+              </p>
+
+              {/* Full Technical Specifications Grid */}
+              <div>
+                <h4 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-2.5">
+                  TECHNICAL SPECIFICATIONS
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      ENGINE
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.engine}
+                    </span>
+                  </div>
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      HORSEPOWER
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.power}
+                    </span>
+                  </div>
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      0-100 KM/H
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.accel}
+                    </span>
+                  </div>
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      TOP SPEED
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.speed}
+                    </span>
+                  </div>
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      TRANSMISSION
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.gear}
+                    </span>
+                  </div>
+                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase block">
+                      KERB WEIGHT
+                    </span>
+                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                      {selectedCarDetails.specs.weight}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Special Features */}
+              <div>
+                <h4 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
+                  HIGHLIGHTED FEATURES
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-700 font-medium">
+                  {selectedCarDetails.features.map((feat, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-2">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                    <span>24/7 VIP Doorstep Delivery in Dubai</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                    <span>Full Comprehensive Insurance Included</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pricing & Booking Action Footer */}
+              <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
+                      {formatPrice(selectedCarDetails.dailyRate)}
+                    </span>
+                    <span className="text-xs text-neutral-500 font-semibold">/ Day</span>
+                    <span className="text-xs text-neutral-400 line-through font-bold">
+                      {formatPrice(selectedCarDetails.originalDailyRate)}
+                    </span>
+                    <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
+                      {selectedCarDetails.dailyDiscount} OFF
+                    </span>
+                  </div>
+                  <div className="text-xs text-neutral-500 font-medium mt-0.5">
+                    Monthly Rate:{" "}
+                    <strong className="text-neutral-900">
+                      {formatPrice(selectedCarDetails.monthlyRate)}
+                    </strong>{" "}
+                    ({selectedCarDetails.monthlyDiscount} OFF)
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <a
+                    href={`https://wa.me/?text=Hi%2C%20I%20am%20inquiring%20about%20the%20${encodeURIComponent(selectedCarDetails.name)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 bg-[#128C7E] hover:bg-[#075E54] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" /> WhatsApp
+                  </a>
+                  <Button
+                    onClick={() => {
+                      handleBookProductCard(selectedCarDetails);
+                      setSelectedCarDetails(null);
+                    }}
+                    className="flex-1 sm:flex-initial bg-neutral-950 hover:bg-neutral-800 text-white py-2.5 px-6 rounded-xl text-xs font-black shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+                  >
+                    <Key className="w-3.5 h-3.5" /> BOOK NOW
+                  </Button>
+                </div>
+              </div>
             </div>
           )}
         </DialogContent>

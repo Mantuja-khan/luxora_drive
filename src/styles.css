@@ -222,7 +222,7 @@
   }
 }
 
-/* Giant brand typography - 80% above car on desktop, shifted down behind car on small screens */
+/* Giant brand typography - 80% above car on desktop, clearly visible above car on small screens */
 .giant-brand-typography {
   font-family: var(--font-poster);
   font-weight: 900;
@@ -232,26 +232,26 @@
   color: #101216;
   white-space: nowrap;
   user-select: none;
-  font-size: clamp(82px, 18vw, 300px);
+  font-size: clamp(82px, 20vw, 345px);
   will-change: transform, opacity;
   top: clamp(8px, 2.5vh, 25px);
 }
 
 @media (max-width: 1024px) {
   .giant-brand-typography {
-    /* Lowered to sit behind the car body on tablet/mobile screens */
-    top: clamp(75px, 15vh, 140px);
-    font-size: clamp(74px, 21vw, 130px);
-    line-height: 0.84;
+    /* Anchored high so name shows prominently above the lowered car */
+    top: clamp(14px, 3vh, 45px);
+    font-size: clamp(68px, 21vw, 135px);
+    line-height: 0.82;
   }
 }
 
 @media (max-width: 640px) {
   .giant-brand-typography {
-    /* Increased font size & shifted down directly behind the car on small screens */
-    top: clamp(70px, 13vh, 120px);
-    font-size: clamp(78px, 24vw, 125px);
-    line-height: 0.84;
+    /* Positioned at top for small screen so letters show clearly above the car */
+    top: clamp(10px, 2.5vh, 32px);
+    font-size: clamp(70px, 23vw, 125px);
+    line-height: 0.82;
     letter-spacing: -0.03em;
   }
 }
@@ -341,7 +341,7 @@
   animation: d-fade-slide-up 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Smooth Dribbble-style car sliding transitions */
+/* Smooth Dribbble-style car sliding transitions: outgoing car sweeps out, incoming car rushes in from the right/left */
 @keyframes car-exit-to-left {
   0% {
     transform: translateX(0) scale(1);
@@ -349,21 +349,21 @@
     filter: blur(0px);
   }
   100% {
-    transform: translateX(-110px) translateY(6px) scale(0.9);
+    transform: translateX(-115%) translateY(4px) scale(0.92);
     opacity: 0;
-    filter: blur(5px);
+    filter: blur(4px);
   }
 }
 
 @keyframes car-enter-from-right {
   0% {
-    transform: translateX(120px) translateY(12px) scale(0.88);
-    opacity: 0;
-    filter: blur(6px);
+    transform: translateX(115%) translateY(4px) scale(0.92);
+    opacity: 0.7;
+    filter: blur(3px);
   }
-  65% {
-    transform: translateX(-6px) translateY(-2px) scale(1.015);
-    opacity: 0.95;
+  60% {
+    transform: translateX(-8px) translateY(-1px) scale(1.015);
+    opacity: 1;
     filter: blur(0px);
   }
   100% {
@@ -380,21 +380,21 @@
     filter: blur(0px);
   }
   100% {
-    transform: translateX(110px) translateY(6px) scale(0.9);
+    transform: translateX(115%) translateY(4px) scale(0.92);
     opacity: 0;
-    filter: blur(5px);
+    filter: blur(4px);
   }
 }
 
 @keyframes car-enter-from-left {
   0% {
-    transform: translateX(-120px) translateY(12px) scale(0.88);
-    opacity: 0;
-    filter: blur(6px);
+    transform: translateX(-115%) translateY(4px) scale(0.92);
+    opacity: 0.7;
+    filter: blur(3px);
   }
-  65% {
-    transform: translateX(6px) translateY(-2px) scale(1.015);
-    opacity: 0.95;
+  60% {
+    transform: translateX(8px) translateY(-1px) scale(1.015);
+    opacity: 1;
     filter: blur(0px);
   }
   100% {
@@ -405,19 +405,19 @@
 }
 
 .animate-car-exit-left {
-  animation: car-exit-to-left 550ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+  animation: car-exit-to-left 520ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
 .animate-car-enter-right {
-  animation: car-enter-from-right 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: car-enter-from-right 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-car-exit-right {
-  animation: car-exit-to-right 550ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+  animation: car-exit-to-right 520ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
 .animate-car-enter-left {
-  animation: car-enter-from-left 620ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: car-enter-from-left 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Realistic Ground Contact Shadow */
