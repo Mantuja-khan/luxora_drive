@@ -222,65 +222,71 @@
   }
 }
 
-/* Giant brand typography - 80% above car on desktop */
+/* Giant brand typography (Desktop): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography {
   font-family: var(--font-poster);
   font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 0.8;
+  line-height: 0.82;
   text-transform: uppercase;
   color: #101216;
   white-space: nowrap;
   user-select: none;
-  font-size: clamp(82px, 20vw, 345px);
+  position: absolute;
+  left: 50%;
+  bottom: 70%;
+  transform: translateX(-50%);
+  z-index: 10;
   will-change: transform, opacity;
-  top: clamp(8px, 2.5vh, 25px);
+  pointer-events: none;
 }
 
-/* Giant brand typography - Small Screen / Mobile: exactly 80% on top of car, 20% behind car */
+/* Giant brand typography (Mobile): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography-mobile {
   font-family: var(--font-poster);
   font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 0.8;
+  line-height: 0.82;
   text-transform: uppercase;
   color: #101216;
   white-space: nowrap;
   user-select: none;
-  font-size: clamp(58px, 20vw, 110px);
+  position: absolute;
+  left: 50%;
+  bottom: 80%;
+  transform: translateX(-50%);
+  z-index: 10;
   will-change: transform, opacity;
-  /* Anchored relative to the car container: 80% above car roof, 20% behind car */
-  top: -28%;
+  pointer-events: none;
 }
 
-@media (max-width: 640px) {
-  .giant-brand-typography-mobile {
-    font-size: clamp(52px, 21.5vw, 90px);
-    top: -26%;
-    letter-spacing: -0.03em;
+/* WhatsApp Blinking & Pulsing Animation */
+@keyframes whatsapp-pulse-blink {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7), 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0), 0 15px 30px rgba(0, 0, 0, 0.35);
   }
 }
 
-@media (max-width: 380px) {
-  .giant-brand-typography-mobile {
-    font-size: clamp(46px, 22vw, 75px);
-    top: -24%;
-  }
+.animate-whatsapp-pulse {
+  animation: whatsapp-pulse-blink 1.8s infinite ease-in-out;
 }
 
 /* Name entering from top side animation */
 @keyframes name-drop-from-top {
   0% {
     opacity: 0;
-    transform: translateY(-110px) scale(0.96);
+    transform: translate(-50%, -70px) scale(0.96);
   }
   60% {
     opacity: 0.9;
-    transform: translateY(8px) scale(1.008);
+    transform: translate(-50%, 5px) scale(1.006);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, 0) scale(1);
   }
 }
 
@@ -292,11 +298,11 @@
 @keyframes name-fade-out-disappear {
   0% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, 0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-50px) scale(0.95);
+    transform: translate(-50%, -40px) scale(0.96);
   }
 }
 
