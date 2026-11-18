@@ -222,7 +222,7 @@
   }
 }
 
-/* Giant brand typography - 80% above car, 20% behind car */
+/* Giant brand typography - 80% above car on desktop, shifted down behind car on small screens */
 .giant-brand-typography {
   font-family: var(--font-poster);
   font-weight: 900;
@@ -234,12 +234,24 @@
   user-select: none;
   font-size: clamp(82px, 18vw, 300px);
   will-change: transform, opacity;
+  top: clamp(8px, 2.5vh, 25px);
+}
+
+@media (max-width: 1024px) {
+  .giant-brand-typography {
+    /* Lowered to sit behind the car body on tablet/mobile screens */
+    top: clamp(75px, 15vh, 140px);
+    font-size: clamp(74px, 21vw, 130px);
+    line-height: 0.84;
+  }
 }
 
 @media (max-width: 640px) {
   .giant-brand-typography {
-    font-size: clamp(54px, 17vw, 92px);
-    line-height: 0.82;
+    /* Increased font size & shifted down directly behind the car on small screens */
+    top: clamp(70px, 13vh, 120px);
+    font-size: clamp(78px, 24vw, 125px);
+    line-height: 0.84;
     letter-spacing: -0.03em;
   }
 }

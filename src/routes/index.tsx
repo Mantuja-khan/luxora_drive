@@ -606,9 +606,6 @@ function CarShowcasePage() {
             <div
               key={`brand-name-exit-${exitingCar.id}-${animKey}`}
               className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-exit"
-              style={{
-                top: "clamp(8px, 2.5vh, 25px)",
-              }}
             >
               {exitingCar.make}
             </div>
@@ -618,7 +615,6 @@ function CarShowcasePage() {
             key={`brand-name-active-${car.id}-${animKey}`}
             className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-top"
             style={{
-              top: "clamp(8px, 2.5vh, 25px)",
               opacity: nameDragOpacity,
               transform: `translate(${dragOffsetX * 0.2}px, ${nameDragY}px)`,
               transition: isDragging ? "none" : "opacity 200ms ease, transform 200ms ease",
@@ -629,13 +625,13 @@ function CarShowcasePage() {
 
           {/* 
           3-Column Dribbble Showcase Stage:
-          - Left: Heading, Model name, short description, 4.9 rating, Daily rate & RENT NOW button
-          - Center: Centered car with idle floating animation, dynamic shadow, and bottom thumbnail carousel
-          - Right: Vertical timeline with connected glowing dots showing vehicle SPECS
+          - Left: Heading, Model name, short description, 4.9 rating, Daily rate & RENT NOW button (shifted lower)
+          - Center: Centered car with idle floating animation, dynamic shadow, and bottom thumbnail carousel (slightly larger car)
+          - Right: Vertical timeline with connected glowing dots showing vehicle SPECS (shifted further to the right)
         */}
           <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center relative z-20 my-auto pt-4 sm:pt-6 lg:pt-10">
-            {/* Left Column (Desktop): Badge, Heading, Short Description, Rating */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pr-4 select-none">
+            {/* Left Column (Desktop): Badge, Heading, Short Description, Rating - Shifted Lower */}
+            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pr-4 select-none translate-y-8 xl:translate-y-12">
               <div
                 key={`left-cat-${car.id}-${animKey}`}
                 className="animate-d-fade-up"
@@ -714,9 +710,9 @@ function CarShowcasePage() {
               </div>
             </div>
 
-            {/* Center Column: Centered Car with Breathing Idle Animation & Bottom Thumbnails */}
+            {/* Center Column: Centered Car with Breathing Idle Animation & Bottom Thumbnails - Slightly larger car size */}
             <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2">
-              <div className="relative w-full max-w-[620px] sm:max-w-[700px] lg:max-w-[760px] xl:max-w-[840px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-2 sm:px-4">
+              <div className="relative w-full max-w-[660px] sm:max-w-[740px] lg:max-w-[820px] xl:max-w-[900px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-1 sm:px-3">
                 {/* Ground Contact Shadow with Synchronous Breathing Animation */}
                 <div
                   className={`car-contact-shadow ${exitingCar ? "" : "animate-shadow-breathe"}`}
@@ -767,8 +763,53 @@ function CarShowcasePage() {
                 </div>
               </div>
 
-              {/* Dribbble Style Bottom Thumbnail Carousel: < [thumb 1] [thumb 2] [thumb 3] [thumb 4] > */}
-              <div className="flex items-center justify-center gap-2 sm:gap-3 mt-3 sm:mt-4 z-30">
+              {/* 
+                Under Center Car:
+                - On Small Screens (lg:hidden): Price section + RENT NOW button
+                - On Large Screens (hidden lg:flex): 4 cars thumbnail carousel shifted lower down
+              */}
+
+              {/* Small Screen: Price & RENT NOW button right below the main car */}
+              <div className="flex lg:hidden flex-col items-center justify-center gap-2 mt-3 sm:mt-5 z-30 w-full px-2">
+                <div className="flex items-center gap-2.5 sm:gap-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-neutral-200/80">
+                  <div className="flex flex-col items-start">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight leading-none">
+                        ${car.dailyRate}
+                      </span>
+                      <span className="text-[11px] font-semibold text-neutral-500">/ day</span>
+                      <span className="text-[11px] font-bold text-neutral-400 line-through">
+                        ${car.originalDailyRate}
+                      </span>
+                      <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
+                        {Math.round(
+                          ((car.originalDailyRate - car.dailyRate) / car.originalDailyRate) * 100,
+                        )}
+                        % OFF
+                      </span>
+                    </div>
+                    <div
+                      className="text-[11px] font-extrabold mt-0.5"
+                      style={{ color: car.themeColor }}
+                    >
+                      Weekly: ${car.weeklyRate}{" "}
+                      <span className="text-neutral-500 font-medium">/ week</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    size="sm"
+                    onClick={() => setBookingCar(car)}
+                    className="text-xs font-black text-white px-3.5 py-2 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0"
+                    style={{ backgroundColor: car.themeColor }}
+                  >
+                    <Key className="w-3.5 h-3.5" /> RENT NOW
+                  </Button>
+                </div>
+              </div>
+
+              {/* Large Screen: Dribbble Style Bottom 4-Car Thumbnail Carousel - Shifted lower down */}
+              <div className="hidden lg:flex items-center justify-center gap-2 sm:gap-3 mt-8 lg:mt-12 z-30 translate-y-3 lg:translate-y-5">
                 <button
                   type="button"
                   onClick={goToPrev}
@@ -811,9 +852,9 @@ function CarShowcasePage() {
               </div>
             </div>
 
-            {/* Right Column (Desktop): Vertical Connected Timeline with Glowing Dots for SPECS */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pl-4 xl:pl-8 select-none">
-              <div key={`right-specs-${car.id}-${animKey}`} className="flex flex-col items-start w-full">
+            {/* Right Column (Desktop): Vertical Connected Timeline with Glowing Dots for SPECS - Shifted Further Right */}
+            <div className="hidden lg:flex lg:col-span-3 flex-col items-end text-left z-30 lg:pl-10 xl:pl-16 pr-1 xl:pr-4 select-none ml-auto">
+              <div key={`right-specs-${car.id}-${animKey}`} className="flex flex-col items-start w-full max-w-[230px]">
                 <div className="mb-4 animate-d-fade-up" style={{ animationDelay: "50ms" }}>
                   <span className="text-[11px] font-black tracking-widest uppercase text-neutral-400 block">
                     PERFORMANCE
@@ -1037,41 +1078,47 @@ function CarShowcasePage() {
             </div>
           </div>
 
-          {/* Right Side: Car per day price with discount + RENT NOW button */}
-          <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-3 sm:gap-4">
-            <div className="flex flex-col items-start sm:items-end">
-              <div className="flex items-baseline gap-1.5 sm:gap-2">
-                <span className="text-2xl sm:text-4xl font-black text-neutral-900 tracking-tight leading-none">
-                  ${car.dailyRate}
-                </span>
-                <span className="text-xs sm:text-sm font-semibold text-neutral-500">/ day</span>
-                <span className="text-xs sm:text-sm font-bold text-neutral-400 line-through">
-                  ${car.originalDailyRate}
-                </span>
-                <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none shadow-xs">
-                  {Math.round(
-                    ((car.originalDailyRate - car.dailyRate) / car.originalDailyRate) * 100,
-                  )}
-                  % OFF
-                </span>
-              </div>
-              <div
-                className="text-xs sm:text-sm font-extrabold mt-0.5"
-                style={{ color: car.themeColor }}
-              >
-                Weekly: ${car.weeklyRate}{" "}
-                <span className="text-neutral-500 font-medium">/ week</span>
-              </div>
-            </div>
-
-            <Button
-              size="default"
-              onClick={() => setBookingCar(car)}
-              className="text-xs sm:text-sm font-black text-white px-5 sm:px-7 py-2 sm:py-2.5 rounded-xl shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
-              style={{ backgroundColor: car.themeColor }}
+          {/* Small Screen Bottom: 4-Car Preview Thumbnail Carousel (swapped to bottom for small screens only!) */}
+          <div className="flex lg:hidden items-center justify-center gap-1.5 sm:gap-2 z-30 w-full sm:w-auto py-1">
+            <button
+              type="button"
+              onClick={goToPrev}
+              aria-label="Previous Car"
+              className="w-7 h-7 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
             >
-              <Key className="w-3.5 h-3.5" /> RENT NOW
-            </Button>
+              <ChevronLeft className="w-3.5 h-3.5" />
+            </button>
+            <div className="flex items-center gap-1.5">
+              {fleet.map((item, idx) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => selectCar(idx)}
+                  className={`px-2 py-1 rounded-lg border transition-all duration-300 flex items-center justify-center bg-white/90 cursor-pointer ${
+                    idx === currentIndex
+                      ? "border-2 shadow-sm scale-105"
+                      : "border-neutral-200/80 hover:border-neutral-400 opacity-60 hover:opacity-100"
+                  }`}
+                  style={{
+                    borderColor: idx === currentIndex ? car.themeColor : undefined,
+                  }}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.model}
+                    className="h-5 sm:h-6 w-auto object-contain pointer-events-none"
+                  />
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={goToNext}
+              aria-label="Next Car"
+              className="w-7 h-7 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+            >
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
