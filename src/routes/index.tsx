@@ -46,6 +46,7 @@ import lamboEvoCoupe from "@/assets/lambo-evo-coupe.png";
 import lamboHuracanSto from "@/assets/lambo-huracan-sto.png";
 import mercedesG63Maybach from "@/assets/mercedes-g63-maybach.png";
 import mapGif from "@/assets/MAP.gif";
+import faqCarBg from "@/assets/faq-car-bg.webp";
 export interface CarItem {
   id: string;
   make: string;
@@ -458,24 +459,25 @@ export interface RentalCategory {
   id: string;
   title: string;
   count: string;
+  image: string;
   isFlash?: boolean;
 }
 
 const rentalCategories: RentalCategory[] = [
-  { id: "flash-sale", title: "FLASH SALE", count: "36 Cars", isFlash: true },
-  { id: "supercars", title: "RENT SUPERCARS", count: "50 Cars" },
-  { id: "monthly", title: "RENT MONTHLY", count: "163 Cars" },
-  { id: "luxury", title: "RENT LUXURY", count: "253 Cars" },
-  { id: "sports", title: "RENT SPORTS", count: "123 Cars" },
-  { id: "suv", title: "RENT SUV", count: "219 Cars" },
-  { id: "modified", title: "RENT MODIFIED", count: "109 Cars" },
-  { id: "7-seater", title: "RENT 7 SEATER", count: "63 Cars" },
-  { id: "economy", title: "RENT ECONOMY CAR", count: "18 Cars" },
-  { id: "luxury-van", title: "LUXURY VAN RENTAL", count: "9 Cars" },
-  { id: "convertible", title: "RENT CONVERTIBLE", count: "48 Cars" },
-  { id: "driver", title: "CAR WITH DRIVER", count: "10 Cars" },
-  { id: "patrol", title: "PATROL EXPERTS", count: "17 Cars" },
-  { id: "lease", title: "LEASE TO OWN", count: "25 Cars" },
+  { id: "supercars", title: "RENT SUPERCARS", count: "50 Cars", image: lamboEvoCoupe },
+  { id: "flash-sale", title: "FLASH SALE", count: "36 Cars", isFlash: true, image: lamboHuracanTiffany },
+  { id: "monthly", title: "RENT MONTHLY", count: "163 Cars", image: lamboHuracanWhite },
+  { id: "luxury", title: "RENT LUXURY", count: "253 Cars", image: mercedesG63Maybach },
+  { id: "sports", title: "RENT SPORTS", count: "123 Cars", image: lamboHuracanSto },
+  { id: "suv", title: "RENT SUV", count: "219 Cars", image: porscheRed },
+  { id: "modified", title: "RENT MODIFIED", count: "109 Cars", image: mercedesG63Maybach },
+  { id: "7-seater", title: "RENT 7 SEATER", count: "63 Cars", image: dubaiSuv },
+  { id: "economy", title: "RENT ECONOMY CAR", count: "18 Cars", image: porscheRed },
+  { id: "luxury-van", title: "LUXURY VAN RENTAL", count: "9 Cars", image: dubaiSuv },
+  { id: "convertible", title: "RENT CONVERTIBLE", count: "48 Cars", image: lamboHuracanTiffany },
+  { id: "driver", title: "CAR WITH DRIVER", count: "10 Cars", image: mercedesG63Maybach },
+  { id: "patrol", title: "PATROL EXPERTS", count: "17 Cars", image: dubaiSuv },
+  { id: "lease", title: "LEASE TO OWN", count: "25 Cars", image: porscheGt3Rs },
 ];
 
 export interface PorscheProductCard {
@@ -788,6 +790,50 @@ const dubaiLocations: RentalLocation[] = [
   { id: "deira", name: "Deira Dubai", subtitle: "Old Dubai & Gold Souk Waterfront", carsAvailable: 36, deliveryTime: "20 mins", x: 87, y: 74 },
 ];
 
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+const faqList: FaqItem[] = [
+  {
+    q: "What Are The Benefits Of Monthly Car Rental?",
+    a: "For long-term monthly car rental service in Dubai, Faster Rent a Car offers more attractive and discounted per-day prices. Also, for your long trip to Dubai or a business stay here in the city, you will not have to depend on local transport. Additionally, our fully maintained car will not need any extra effort from you. It will be like owning the car for a month but minus all the maintenance requirements.",
+  },
+  {
+    q: "Is There A Car Delivery Service Available In Dubai?",
+    a: "Yes, we provide free doorstep car delivery and pick-up services across all key locations in Dubai, including Dubai International Airport (DXB), your private hotel, residence, or office 24/7.",
+  },
+  {
+    q: "What Is The Deposit Policy?",
+    a: "We offer zero-deposit rental packages across many luxury, SUV, and sports models. For vehicles requiring a security deposit, it is processed securely via credit card and fully refunded within 14 to 21 working days after clearance of Salik tolls and traffic fines.",
+  },
+  {
+    q: "What Is The Policy If I Violate Any Traffic Rules?",
+    a: "Any traffic violations, speeding fines, or parking penalties incurred during your rental period will be settled by the renter according to official RTA and Dubai Police records, plus nominal administrative fees.",
+  },
+  {
+    q: "Is Salik Gate Crossing Covered In The Rental Fee?",
+    a: "Salik (Dubai toll gate) charges are recorded automatically as you pass through toll gates. A fee of 5 AED per gate crossing will be charged and billed at the conclusion of your rental duration.",
+  },
+  {
+    q: "Is It Possible To Extend The Length Of My Rent A Car In Dubai Agreement?",
+    a: "Yes, you can easily extend your rental agreement at any time by notifying our concierge team via WhatsApp or phone at least 24 hours prior to the contract expiration date.",
+  },
+  {
+    q: "What Documents Are Required To Rent A Car In Dubai?",
+    a: "UAE residents must provide a valid UAE Driving License and Emirates ID. Tourists and international visitors require a Passport, Entry Visit Visa with stamp, home country Driving License, and an International Driving Permit (IDP) where applicable.",
+  },
+  {
+    q: "Is There An Age Limit For Car Rental Service In Dubai?",
+    a: "The minimum legal age to rent standard vehicles is 21 years old. For select exotic supercars and high-horsepower luxury sports cars, the minimum required age is 23 or 25 years with valid driving experience.",
+  },
+  {
+    q: "What Happens In Case Of An Accident Or Breakdown?",
+    a: "In the unlikely event of an accident or mechanical failure, do not move the vehicle unless instructed, call Dubai Police (999) to obtain an official police report, and contact our 24/7 emergency dispatch line for instant roadside assistance and a replacement vehicle.",
+  },
+];
+
 function CarShowcasePage() {
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>("AED");
   const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
@@ -796,6 +842,7 @@ function CarShowcasePage() {
   const [activeLocationId, setActiveLocationId] = useState<string>("dubai-mall");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const currentCurrencyConfig =
     currencies.find((c) => c.code === selectedCurrency) || currencies[0];
@@ -1110,7 +1157,7 @@ function CarShowcasePage() {
 
               {isCategoriesDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-2 w-[480px] sm:w-[540px] bg-white rounded-xl shadow-2xl border border-neutral-200/90 py-4 px-6 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute left-0 top-full mt-0 w-[480px] sm:w-[540px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100"
                   onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
                   onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
                 >
@@ -1122,14 +1169,14 @@ function CarShowcasePage() {
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
                             idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-900" : ""
                           }`}
                         >
-                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
                             {name}
                           </span>
                         </a>
@@ -1143,14 +1190,14 @@ function CarShowcasePage() {
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
                             idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-900" : ""
                           }`}
                         >
-                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
                             {name}
                           </span>
                         </a>
@@ -1182,7 +1229,7 @@ function CarShowcasePage() {
 
               {isLocationsDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-2 w-[440px] sm:w-[480px] bg-white rounded-xl shadow-2xl border border-neutral-200/90 py-4 px-6 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute left-0 top-full mt-0 w-[440px] sm:w-[480px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100"
                   onMouseEnter={() => setIsLocationsDropdownOpen(true)}
                   onMouseLeave={() => setIsLocationsDropdownOpen(false)}
                 >
@@ -1197,14 +1244,14 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsLocationsDropdownOpen(false);
                           }}
-                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
                             idx < 5 ? "border-b border-neutral-900" : ""
                           }`}
                         >
-                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
                             {loc.name}
                           </span>
                         </a>
@@ -1221,14 +1268,14 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsLocationsDropdownOpen(false);
                           }}
-                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
                             idx < 5 ? "border-b border-neutral-900" : ""
                           }`}
                         >
-                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
                             {loc.name}
                           </span>
                         </a>
@@ -1242,7 +1289,7 @@ function CarShowcasePage() {
               BLOGS
             </a>
             <a
-              href="tel:+0008088888"
+              href="tel:0000000000"
               className="uppercase font-normal text-neutral-900 hover:opacity-80 transition-colors cursor-pointer"
             >
               CONTACT US
@@ -1256,7 +1303,7 @@ function CarShowcasePage() {
               <button
                 type="button"
                 onClick={() => setIsCurrencyDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 bg-white/90 hover:bg-white text-neutral-900 text-xs font-normal uppercase px-3 py-1.5 rounded-xl border border-neutral-300/80 shadow-xs cursor-pointer transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1.5 bg-white/90 hover:bg-white text-neutral-900 text-xs font-normal uppercase px-3 py-1.5 rounded-none border border-neutral-300 shadow-xs cursor-pointer transition-all hover:scale-105 active:scale-95"
               >
                 <span>{currentCurrencyConfig.flag}</span>
                 <span>{currentCurrencyConfig.code}</span>
@@ -1268,7 +1315,7 @@ function CarShowcasePage() {
 
               {isCurrencyDropdownOpen && (
                 <div
-                  className="absolute right-0 mt-1.5 w-44 bg-white rounded-xl shadow-xl border border-neutral-200 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute right-0 top-full mt-0 w-44 bg-white rounded-none shadow-xl border border-neutral-200 py-1.5 z-50 animate-in fade-in duration-100"
                   onMouseLeave={() => setIsCurrencyDropdownOpen(false)}
                 >
                   <div className="px-3 py-1 text-[10px] font-normal text-neutral-400 uppercase tracking-wider border-b border-neutral-100">
@@ -1282,8 +1329,8 @@ function CarShowcasePage() {
                         setSelectedCurrency(curr.code);
                         setIsCurrencyDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-normal text-left hover:bg-neutral-50 cursor-pointer transition-colors uppercase ${selectedCurrency === curr.code
-                          ? "text-neutral-950 font-medium bg-neutral-100/70"
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-normal text-left hover:bg-neutral-50 cursor-pointer transition-colors uppercase rounded-none ${selectedCurrency === curr.code
+                        ? "text-neutral-950 font-normal bg-neutral-100/70"
                           : "text-neutral-700"
                         }`}
                     >
@@ -1300,15 +1347,14 @@ function CarShowcasePage() {
               )}
             </div>
 
-            {/* Rent Now CTA (Desktop) */}
-            <Button
-              size="sm"
-              onClick={() => setBookingCar(car)}
-              className="hidden sm:inline-flex text-xs font-normal uppercase tracking-wider text-white shadow hover:opacity-90 transition-opacity cursor-pointer px-4 rounded-xl"
-              style={{ backgroundColor: car.themeColor }}
+            {/* Phone Number CTA (Desktop) */}
+            <a
+              href="tel:0000000000"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-normal tracking-wider text-neutral-900 bg-white/90 hover:bg-white px-3.5 py-1.5 rounded-none border border-neutral-300 shadow-xs transition-colors cursor-pointer"
             >
-              RENT NOW
-            </Button>
+              <Phone className="w-3.5 h-3.5 text-neutral-700" />
+              <span>0000000000</span>
+            </a>
 
             {/* Mobile Hamburger Toggle */}
             <button
@@ -1618,7 +1664,7 @@ function CarShowcasePage() {
                       src={exitingCar.image}
                       alt={exitingCar.alt}
                       draggable={false}
-                      className="w-full h-full object-contain p-2 relative z-20 drop-shadow-[0_20px_24px_rgba(0,0,0,0.22)] select-none pointer-events-none"
+                      className="w-full h-full object-contain p-2 relative z-20 select-none pointer-events-none"
                     />
                   </div>
                 )}
@@ -1644,7 +1690,7 @@ function CarShowcasePage() {
                     src={car.image}
                     alt={car.alt}
                     draggable={false}
-                    className="w-full h-full object-contain p-2 relative z-20 drop-shadow-[0_22px_26px_rgba(0,0,0,0.24)] select-none pointer-events-none"
+                    className="w-full h-full object-contain p-2 relative z-20 select-none pointer-events-none"
                   />
                 </div>
               </div>
@@ -1710,34 +1756,31 @@ function CarShowcasePage() {
               </div>
 
               {/* Large Screen: Dribbble Style Bottom 4-Car Thumbnail Carousel - Shifted lower down */}
-              <div className="hidden lg:flex items-center justify-center gap-2 sm:gap-3 mt-8 lg:mt-12 z-30 translate-y-3 lg:translate-y-5">
+              <div className="hidden lg:flex items-center justify-center gap-3 sm:gap-4 mt-8 lg:mt-12 z-30 translate-y-3 lg:translate-y-5">
                 <button
                   type="button"
                   onClick={goToPrev}
                   aria-label="Previous Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <div className="flex items-center gap-1.5 sm:gap-2">
+                <div className="flex items-center gap-3 sm:gap-5">
                   {fleet.map((item, idx) => (
                     <button
                       key={item.id}
                       type="button"
                       onClick={() => selectCar(idx)}
-                      className={`px-2 py-1 rounded-lg border transition-all duration-300 flex items-center justify-center bg-white/80 cursor-pointer ${
+                      className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
                         idx === currentIndex
-                          ? "border-2 shadow-sm scale-105"
-                          : "border-neutral-200/80 hover:border-neutral-400 opacity-60 hover:opacity-100"
-                      }`}
-                      style={{
-                        borderColor: idx === currentIndex ? car.themeColor : undefined,
-                      }}
+                        ? "scale-125 grayscale-0 opacity-100"
+                        : "grayscale opacity-50 hover:opacity-80 scale-95 hover:scale-100"
+                        }`}
                     >
                       <img
                         src={item.image}
                         alt={item.model}
-                        className="h-5 sm:h-7 w-auto object-contain pointer-events-none"
+                        className="h-6 sm:h-8 w-auto object-contain pointer-events-none"
                       />
                     </button>
                   ))}
@@ -1746,7 +1789,7 @@ function CarShowcasePage() {
                   type="button"
                   onClick={goToNext}
                   aria-label="Next Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -1980,34 +2023,31 @@ function CarShowcasePage() {
           </div>
 
           {/* Small Screen Bottom: 4-Car Preview Thumbnail Carousel (swapped to bottom for small screens only, shifted lower) */}
-          <div className="flex lg:hidden items-center justify-center gap-1.5 sm:gap-2 z-30 w-full sm:w-auto pt-3 pb-2 mt-1">
+          <div className="flex lg:hidden items-center justify-center gap-2 sm:gap-3 z-30 w-full sm:w-auto pt-3 pb-2 mt-1">
             <button
               type="button"
               onClick={goToPrev}
               aria-label="Previous Car"
-              className="w-7 h-7 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="w-7 h-7 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2 sm:gap-3">
               {fleet.map((item, idx) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => selectCar(idx)}
-                  className={`px-2 py-1 rounded-lg border transition-all duration-300 flex items-center justify-center bg-white/90 cursor-pointer ${
+                  className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
                     idx === currentIndex
-                      ? "border-2 shadow-sm scale-105"
-                      : "border-neutral-200/80 hover:border-neutral-400 opacity-60 hover:opacity-100"
-                  }`}
-                  style={{
-                    borderColor: idx === currentIndex ? car.themeColor : undefined,
-                  }}
+                    ? "scale-125 grayscale-0 opacity-100"
+                    : "grayscale opacity-50 hover:opacity-80 scale-95 hover:scale-100"
+                    }`}
                 >
                   <img
                     src={item.image}
                     alt={item.model}
-                    className="h-5 sm:h-6 w-auto object-contain pointer-events-none"
+                    className="h-5 sm:h-7 w-auto object-contain pointer-events-none"
                   />
                 </button>
               ))}
@@ -2016,7 +2056,7 @@ function CarShowcasePage() {
               type="button"
               onClick={goToNext}
               aria-label="Next Car"
-              className="w-7 h-7 rounded-full bg-white/90 hover:bg-white text-neutral-700 shadow-xs border border-neutral-200/80 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="w-7 h-7 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -2077,13 +2117,13 @@ function CarShowcasePage() {
                   </span>
                 )}
 
-                {/* Car Image - Porsche image on every category; shifts slightly to left on hover */}
+                {/* Car Image - shifts slightly to left on hover */}
                 <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center my-1">
                   <img
-                    src={porscheGt3Rs}
+                    src={cat.image || lamboEvoCoupe}
                     alt={cat.title}
                     loading="lazy"
-                    className="max-h-full max-w-full object-contain drop-shadow-[0_8px_12px_rgba(0,0,0,0.20)] transition-transform duration-300 group-hover:-translate-x-3 select-none pointer-events-none"
+                    className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:-translate-x-3 select-none pointer-events-none"
                   />
                 </div>
 
@@ -2159,6 +2199,16 @@ function CarShowcasePage() {
                     {item.discount}
                   </div>
 
+                  {/* Call Now Button with only Phone Icon at top right side corner (with gentle blink) */}
+                  <a
+                    href="tel:0000000000"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-2.5 right-3 w-7 h-7 rounded-full bg-[#D32F2F] hover:bg-[#B71C1C] text-white flex items-center justify-center shadow-md cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20 animate-pulse"
+                    title="Call Now"
+                  >
+                    <Phone className="w-3.5 h-3.5 fill-white" />
+                  </a>
+
                   {/* Car Image: Scales slightly on hover */}
                   <img
                     src={item.image}
@@ -2214,27 +2264,27 @@ function CarShowcasePage() {
                       Insurance Included
                     </span>
                   </div>
-                  {/* Action Buttons - No border line, no curved border */}
-                  <div className="grid grid-cols-3 gap-1.5 pt-2">
+                  {/* Action Buttons: WhatsApp & Claim Deal (sharp corners, Call Us moved to top-right phone icon) */}
+                  <div className="grid grid-cols-2 gap-2 pt-2">
                     <a
                       href={`https://wa.me/?text=Hi%2C%20I%20am%20interested%20in%20the%20Flash%20Sale%20deal%20for%20${encodeURIComponent(item.name)}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center justify-center gap-1 bg-[#128C7E] hover:bg-[#075E54] text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
+                      className="flex items-center justify-center gap-1.5 bg-[#128C7E] hover:bg-[#075E54] text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
                     >
-                      
-                      WhatsApp
-                    </a>
-                    <a
-                      href="tel:+0008088888"
-                      className="flex items-center justify-center gap-1 bg-[#D32F2F] hover:bg-[#B71C1C] text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
-                    >
-                      Call Us
+                      <svg
+                        viewBox="0 0 32 32"
+                        className="w-3.5 h-3.5 fill-white shrink-0"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M16.01 2.012c-7.72 0-14 6.277-14 14 0 2.47.644 4.88 1.87 7.01l-1.99 7.26 7.43-1.95c2.05 1.12 4.38 1.68 6.69 1.68 7.72 0 14-6.28 14-14s-6.28-14-14-14zm0 25.64c-2.11 0-4.17-.57-5.97-1.64l-.43-.25-4.43 1.16 1.18-4.32-.28-.44c-1.18-1.87-1.8-4.04-1.8-6.15 0-6.42 5.22-11.64 11.64-11.64 3.11 0 6.03 1.21 8.23 3.41s3.41 5.12 3.41 8.23c0 6.42-5.23 11.64-11.65 11.64zm6.39-8.73c-.35-.18-2.07-1.02-2.39-1.14-.32-.12-.55-.18-.78.18-.23.35-.9 1.14-1.1 1.38-.2.23-.4.26-.75.09-.35-.18-1.48-.54-2.81-1.73-1.04-.92-1.74-2.07-1.94-2.42-.2-.35-.02-.54.15-.71.16-.16.35-.4.53-.61.18-.2.23-.35.35-.59.12-.23.06-.44-.03-.61-.09-.18-.78-1.89-1.07-2.58-.28-.68-.57-.59-.78-.6-.2-.01-.43-.01-.67-.01-.23 0-.61.09-.93.44-.32.35-1.22 1.19-1.22 2.91s1.25 3.38 1.42 3.61c.18.23 2.46 3.75 5.96 5.26.83.36 1.48.58 1.99.74.84.27 1.61.23 2.21.14.68-.1 2.07-.85 2.36-1.66.29-.82.29-1.52.2-1.66-.09-.15-.32-.23-.67-.41z" />
+                      </svg>
+                      <span>WhatsApp</span>
                     </a>
                     <button
                       type="button"
                       onClick={() => setBookingCar(item.carRef)}
-                      className="flex items-center justify-center gap-1 bg-neutral-950 hover:bg-neutral-800 text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
+                      className="flex items-center justify-center gap-1.5 bg-neutral-950 hover:bg-neutral-800 text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
                     >
                       Claim Deal
                     </button>
@@ -2281,12 +2331,12 @@ function CarShowcasePage() {
                   onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
                   onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
                 >
-                  {/* Left & Right Yellow Chevrons */}
+                  {/* Left & Right Black Chevrons */}
                   <button
                     type="button"
                     onClick={(e) => handleCardPrevImage(card.id, e)}
                     aria-label="Previous view"
-                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#FFE600] hover:text-amber-500 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black hover:text-neutral-700 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
                     &lt;
                   </button>
@@ -2294,7 +2344,7 @@ function CarShowcasePage() {
                     type="button"
                     onClick={(e) => handleCardNextImage(card.id, e)}
                     aria-label="Next view"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#FFE600] hover:text-amber-500 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black hover:text-neutral-700 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
                     &gt;
                   </button>
@@ -2306,14 +2356,14 @@ function CarShowcasePage() {
                     </div>
                   </div>
 
-                  {/* Carousel 3 Pagination Dots: Active yellow bar, inactive round dots */}
+                  {/* Carousel 3 Pagination Dots: Active black bar, inactive round dots */}
                   <div className="absolute bottom-3 inset-x-0 flex justify-center items-center gap-1.5 z-10 pointer-events-none">
                     {[0, 1, 2].map((dotIdx) => {
                       const isCurrent = (cardImageIndices[card.id] || 0) === dotIdx;
                       return isCurrent ? (
                         <span
                           key={dotIdx}
-                          className="w-5 h-2 rounded-none bg-[#FFE600]"
+                          className="w-5 h-2 rounded-none bg-black"
                         />
                       ) : (
                         <span
@@ -2324,18 +2374,27 @@ function CarShowcasePage() {
                     })}
                   </div>
 
-                  {/* Yellow Circular Play Action Button -> Opens Detailed Car Page */}
+                  {/* Call Now Button with only Phone Icon at top-right corner (with gentle blink) */}
+                  <a
+                    href="tel:0000000000"
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute right-3 top-3 w-8 h-8 rounded-full bg-[#B30006] hover:bg-[#8f0005] text-white flex items-center justify-center shadow-md cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20 animate-pulse"
+                    title="Call Now"
+                  >
+                    <Phone className="w-4 h-4 fill-white" />
+                  </a>
+
+                  {/* Black Circular Play Action Button with White Play Icon -> Opens Detailed Car Page */}
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedCarDetails(card);
                     }}
-                    className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-[#FFE600] hover:bg-amber-400 text-neutral-950 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
+                    className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-black hover:bg-neutral-800 text-white flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
                     title="View Car Details & Full Specs"
                   >
-                    <Play className="w-3.5 h-3.5 fill-neutral-950 text-neutral-950 ml-0.5" />
+                    <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
                   </div>
-
                   {/* Car Image with smooth hover scale */}
                   <img
                     src={card.images[cardImageIndices[card.id] || 0]}
@@ -2346,7 +2405,6 @@ function CarShowcasePage() {
                     key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
-
                 {/* Card Body with sharp square styling (no curved borders anywhere) */}
                 <div className="p-4 space-y-3 flex-1 flex flex-col justify-between rounded-none">
                   <div>
@@ -2375,7 +2433,6 @@ function CarShowcasePage() {
                         <span className="font-bold text-emerald-600">{card.dailyDiscount}</span>
                       </div>
                     </div>
-
                     {/* Monthly Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
@@ -2403,26 +2460,27 @@ function CarShowcasePage() {
                     </span>
                   </div>
 
-                  {/* 3 Action Buttons: WhatsApp, Call Us, Inquire Now (sharp corners) */}
-                  <div className="grid grid-cols-3 gap-1.5 pt-2">
+                  {/* Action Buttons: WhatsApp & Inquire Now (sharp corners, Call Us moved to top-right phone icon) */}
+                  <div className="grid grid-cols-2 gap-2 pt-2">
                     <a
                       href={`https://wa.me/?text=Hi%2C%20I%20am%20interested%20in%20renting%20the%20${encodeURIComponent(card.name)}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center justify-center gap-1 bg-[#1E7E34] hover:bg-[#186429] text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1.5 bg-[#1E7E34] hover:bg-[#186429] text-white py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
-                      <MessageCircle className="w-3.5 h-3.5 fill-white" /> WhatsApp
-                    </a>
-                    <a
-                      href="tel:+971542116317"
-                      className="flex items-center justify-center gap-1 bg-[#B30006] hover:bg-[#8f0005] text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
-                    >
-                      <Phone className="w-3.5 h-3.5" /> Call Us
+                      <svg
+                        viewBox="0 0 32 32"
+                        className="w-4 h-4 fill-white shrink-0"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M16.01 2.012c-7.72 0-14 6.277-14 14 0 2.47.644 4.88 1.87 7.01l-1.99 7.26 7.43-1.95c2.05 1.12 4.38 1.68 6.69 1.68 7.72 0 14-6.28 14-14s-6.28-14-14-14zm0 25.64c-2.11 0-4.17-.57-5.97-1.64l-.43-.25-4.43 1.16 1.18-4.32-.28-.44c-1.18-1.87-1.8-4.04-1.8-6.15 0-6.42 5.22-11.64 11.64-11.64 3.11 0 6.03 1.21 8.23 3.41s3.41 5.12 3.41 8.23c0 6.42-5.23 11.64-11.65 11.64zm6.39-8.73c-.35-.18-2.07-1.02-2.39-1.14-.32-.12-.55-.18-.78.18-.23.35-.9 1.14-1.1 1.38-.2.23-.4.26-.75.09-.35-.18-1.48-.54-2.81-1.73-1.04-.92-1.74-2.07-1.94-2.42-.2-.35-.02-.54.15-.71.16-.16.35-.4.53-.61.18-.2.23-.35.35-.59.12-.23.06-.44-.03-.61-.09-.18-.78-1.89-1.07-2.58-.28-.68-.57-.59-.78-.6-.2-.01-.43-.01-.67-.01-.23 0-.61.09-.93.44-.32.35-1.22 1.19-1.22 2.91s1.25 3.38 1.42 3.61c.18.23 2.46 3.75 5.96 5.26.83.36 1.48.58 1.99.74.84.27 1.61.23 2.21.14.68-.1 2.07-.85 2.36-1.66.29-.82.29-1.52.2-1.66-.09-.15-.32-.23-.67-.41z" />
+                      </svg>
+                      <span>WhatsApp</span>
                     </a>
                     <button
                       type="button"
                       onClick={() => handleBookProductCard(card)}
-                      className="flex items-center justify-center gap-1 bg-black hover:bg-neutral-800 text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1.5 bg-black hover:bg-neutral-800 text-white py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" /> Inquire Now
                     </button>
@@ -2511,16 +2569,16 @@ function CarShowcasePage() {
                     </p>
 
                     {/* Contact & Phone */}
-                    <div className="mt-2 sm:mt-3 pt-2 border-t border-red-300/30 flex items-center justify-between gap-2">
+                    <div className="mt-2 sm:mt-3 pt-2 border-t border-red-300/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                       <div>
                         <span className="text-[9px] uppercase font-bold text-red-200 block leading-tight">
                           Contact
                         </span>
                         <a
-                          href="tel:+0008088888"
+                          href="tel:0000000000"
                           className="text-sm sm:text-lg font-black text-white hover:underline leading-tight block"
                         >
-                          +00 080 888 88
+                          0000000000
                         </a>
                         <span className="text-[9px] text-red-200 block">www.luxoradrive.com</span>
                       </div>
@@ -2528,7 +2586,7 @@ function CarShowcasePage() {
                       <Button
                         size="sm"
                         onClick={() => setBookingCar(fleet[3])}
-                        className="bg-white hover:bg-neutral-100 text-[#D1121E] font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-none border-0 border-none shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                        className="bg-white hover:bg-neutral-100 text-[#D1121E] font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-none border-0 border-none shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto"
                       >
                         RENT NOW
                       </Button>
@@ -2591,16 +2649,16 @@ function CarShowcasePage() {
                     </p>
 
                     {/* Contact & Phone */}
-                    <div className="mt-2 sm:mt-3 pt-2 border-t border-orange-300/30 flex items-center justify-between gap-2">
+                    <div className="mt-2 sm:mt-3 pt-2 border-t border-orange-300/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                       <div>
                         <span className="text-[9px] uppercase font-bold text-orange-200 block leading-tight">
                           Hotline
                         </span>
                         <a
-                          href="tel:+0008088888"
+                          href="tel:0000000000"
                           className="text-sm sm:text-lg font-black text-white hover:underline leading-tight block"
                         >
-                          +00 080 888 88
+                          0000000000
                         </a>
                         <span className="text-[9px] text-orange-200 block">
                           www.luxoradrive.com
@@ -2610,7 +2668,7 @@ function CarShowcasePage() {
                       <Button
                         size="sm"
                         onClick={() => setBookingCar(fleet[0])}
-                        className="bg-neutral-950 hover:bg-neutral-800 text-white font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-none border-0 border-none shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                        className="bg-neutral-950 hover:bg-neutral-800 text-white font-black text-[10px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-none border-0 border-none shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto"
                       >
                         CLAIM 20% OFF
                       </Button>
@@ -2624,66 +2682,57 @@ function CarShowcasePage() {
       </section>
 
       {/* 
-        Tailor Your Car Rental in Dubai Section (Image 2):
-        - Dark luxury charcoal background with distressed torn/brush borders.
+        Tailor Your Car Rental in Dubai Section:
+        - Pure white background as requested.
         - Two-tone custom yellow & black luxury SUV on the left.
-        - Exact copy and bullet points with amber checkmarks on the right.
+        - Clear copy and bullet points with dark checkmarks on the right.
       */}
       <section
         id="tailor-dubai"
-        className="w-full bg-[#18191B] text-white py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
+        className="w-full bg-white text-neutral-900 py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
       >
-        {/* Subtle Dubai Skyline Silhouette Watermark */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 75% 50%, rgba(255, 230, 0, 0.08) 0%, transparent 60%)",
-          }}
-        />
-
         <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-12 relative z-10">
-          {/* Left Column: Yellow/Black Luxury Custom SUV (Increased image size) */}
+          {/* Left Column: Yellow/Black Luxury Custom SUV */}
           <div className="lg:col-span-6 flex items-center justify-center">
             <div className="relative w-full max-w-[580px] lg:max-w-[650px] flex items-center justify-center group">
-              {/* Radial glow */}
-              <div className="absolute inset-0 bg-[#FFE600]/15 rounded-full blur-3xl group-hover:bg-[#FFE600]/20 transition-all" />
+              {/* Subtle radial glow */}
+              <div className="absolute inset-0 bg-[#FFE600]/10 rounded-full blur-3xl group-hover:bg-[#FFE600]/15 transition-all" />
               <img
                 src={dubaiSuv}
                 alt="Custom Two-Tone Luxury SUV in Dubai"
                 loading="lazy"
-                className="w-full h-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.65)] relative z-10 transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.18)] relative z-10 transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           </div>
 
           {/* Right Column: Tailor Your Rental Copy & Bullet Points */}
           <div className="lg:col-span-6 space-y-4">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight leading-tight">
               Tailor Your Car Rental In Dubai Plan To Your Specific Requirement
             </h2>
 
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
               Faster Rent a Car is a professional rent a car in Dubai service provider for all
               requirements. We offer tailored rental plans and services for specific preferences.
               Our business, private, wedding, and desert safari car rental in Dubai services are
               available tailored to your requirements.{" "}
-              <span className="font-extrabold text-white">We offer:</span>
+              <span className="font-extrabold text-neutral-900">We offer:</span>
             </p>
 
-            {/* Checklist with Golden Checkmarks */}
-            <ul className="space-y-2 text-xs sm:text-sm text-neutral-200 pt-1">
+            {/* Checklist with Checkmarks */}
+            <ul className="space-y-2 text-xs sm:text-sm text-neutral-700 pt-1">
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
-                  <strong className="text-white">Hourly car rental</strong> and chauffeur service
+                  <strong className="text-neutral-950">Hourly car rental</strong> and chauffeur service
                   for airport connections and desert safari
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
@@ -2691,22 +2740,22 @@ function CarShowcasePage() {
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
                   Full weekend and also full week{" "}
-                  <strong className="text-white">exotic car rental in Dubai</strong> services
+                  <strong className="text-neutral-950">exotic car rental in Dubai</strong> services
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>Long-term monthly sports car</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
@@ -2714,7 +2763,7 @@ function CarShowcasePage() {
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="text-[#FFE600] font-bold text-sm leading-tight flex-shrink-0">
+                <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
@@ -2734,6 +2783,69 @@ function CarShowcasePage() {
       </section>
 
       {/* 
+        Frequently Asked Questions Section:
+        - Positioned directly above Our Locations / Map section
+        - Visual styling exactly matching reference image (media_1795000920280_b1488734.png)
+        - Sharp simple edges (rounded-none), prominent FAQ questions with square [?] badge
+        - Active item features bright yellow (#FFE600) highlight, black text, and expanded description
+      */}
+      <section
+        id="faq"
+        className="w-full bg-white py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
+      >
+        {/* Background Vintage Porsche Illustration covering full screen of FAQ area */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-15 select-none z-0 overflow-hidden flex items-center justify-center">
+          <img
+            src={faqCarBg}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+
+        <div className="w-full max-w-5xl mx-auto relative z-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-center text-neutral-900 mb-8 sm:mb-12 tracking-tight">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="flex flex-col space-y-2.5">
+            {faqList.map((item, idx) => {
+              const isOpen = openFaqIndex === idx;
+              return (
+                <div key={item.q} className="w-full">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                    className={`w-full flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 text-left transition-colors cursor-pointer rounded-none border-none outline-none ${isOpen
+                        ? "bg-[#FFE600] text-neutral-950 font-medium"
+                        : "bg-[#1c1c1c] text-white hover:bg-[#282828] font-normal"
+                      }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 border border-current text-[10px] sm:text-[11px] font-bold shrink-0 leading-none">
+                        ?
+                      </span>
+                      <span className="text-xs sm:text-sm tracking-tight">{item.q}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-4 h-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                        }`}
+                    />
+                  </button>
+
+                  {isOpen && (
+                    <div className="bg-white text-neutral-700 text-xs sm:text-sm leading-relaxed py-4 px-2 sm:px-3 font-normal">
+                      <p>{item.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 
         Our Locations Section:
         - Layout & Content directly matching user's uploaded reference (media_1794988104568_24beaa4d.png)
         - Left: "Our Locations" heading, description, interactive location selection pills
@@ -2743,7 +2855,17 @@ function CarShowcasePage() {
         id="locations"
         className="w-full bg-white border-none py-16 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
       >
-        <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Background Vintage Porsche Illustration covering full screen of Map / Locations area */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-15 select-none z-0 overflow-hidden flex items-center justify-center">
+          <img
+            src={faqCarBg}
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+
+        <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
           {/* Left Column: Heading & Description Only */}
           <div className="lg:col-span-5 flex flex-col items-start space-y-5">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-neutral-900 tracking-tight leading-tight">
@@ -2825,7 +2947,10 @@ function CarShowcasePage() {
                   "Sitemap",
                 ].map((item) => (
                   <li key={item}>
-                    <a href="#home" className="flex items-center gap-2 hover:text-[#FFE600] transition-colors">
+                    <a
+                      href={item === "FAQ'S" ? "#faq" : "#home"}
+                      className="flex items-center gap-2 hover:text-[#FFE600] transition-colors"
+                    >
                       <span className="text-[#FFE600] font-black text-xs">◎</span>
                       <span>{item}</span>
                     </a>
@@ -2893,14 +3018,14 @@ function CarShowcasePage() {
                 </li>
                 <li className="flex items-center gap-2.5">
                   <Phone className="w-4 h-4 text-[#FFE600] shrink-0" />
-                  <a href="tel:+971542116317" className="hover:text-[#FFE600] font-bold text-white">
-                    +971 54 211 6317
+                  <a href="tel:0000000000" className="hover:text-[#FFE600] font-normal text-white">
+                    0000000000
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <MessageCircle className="w-4 h-4 text-[#FFE600] shrink-0" />
-                  <a href="https://wa.me/971542116317" className="hover:text-[#FFE600] font-bold text-white">
-                    971 54 211 6317
+                  <a href="https://wa.me/0000000000" className="hover:text-[#FFE600] font-normal text-white">
+                    0000000000
                   </a>
                 </li>
                 <li className="flex items-center gap-2.5">
@@ -2921,7 +3046,7 @@ function CarShowcasePage() {
 
         {/* Floating WhatsApp Action Button in Bottom-Right Corner (Actual WhatsApp icon + Blinking Pulse) */}
         <a
-          href="https://wa.me/971542116317"
+          href="https://wa.me/0000000000"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp"
