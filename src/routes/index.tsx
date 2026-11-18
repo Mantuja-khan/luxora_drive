@@ -23,6 +23,7 @@ import {
   X,
   Globe,
   Menu,
+  Play,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +40,11 @@ import audiRsQ8 from "@/assets/audi-rs-q8.png";
 import porscheGt3Rs from "@/assets/porsche-gt3-rs.png";
 import porscheRed from "@/assets/porsche-red.png";
 import dubaiSuv from "@/assets/dubai_custom_suv.webp";
-
+import lamboHuracanTiffany from "@/assets/lambo-huracan-tiffany.png";
+import lamboHuracanWhite from "@/assets/lambo-huracan-white.png";
+import lamboEvoCoupe from "@/assets/lambo-evo-coupe.png";
+import lamboHuracanSto from "@/assets/lambo-huracan-sto.png";
+import mercedesG63Maybach from "@/assets/mercedes-g63-maybach.png";
 export interface CarItem {
   id: string;
   make: string;
@@ -79,7 +84,217 @@ export interface CarItem {
   };
 }
 
+const getCarFirstTwoWords = (make: string, model: string): string => {
+  const full = `${make} ${model}`.trim();
+  const words = full.split(/\s+/);
+  return words.slice(0, 2).join(" ").toUpperCase();
+};
+
+const getCarTitleBreakdown = (make: string, model: string): { firstTwo: string; rest: string } => {
+  const full = `${make} ${model}`.trim();
+  const words = full.split(/\s+/);
+  return {
+    firstTwo: words.slice(0, 2).join(" "),
+    rest: words.slice(2).join(" "),
+  };
+};
+
 const fleet: CarItem[] = [
+  {
+    id: "lambo-huracan-tiffany",
+    make: "Lamborghini",
+    model: "Huracan EVO Tiffany",
+    badge: "HURACAN EVO",
+    category: "SUPERCAR",
+    tagline: "TIFFANY BLUE. OPEN TOP THRILL.",
+    description:
+      "Striking Tiffany Blue bespoke edition. Naturally aspirated 5.2L V10 screaming to 8,500 RPM with open-top driving thrill.",
+    cardShortDesc: "Bespoke Tiffany Cyan livery with 640 PS naturally aspirated V10 power.",
+    builtFor: "PURE THRILL & EXOTIC PRESTIGE.",
+    themeColor: "#00E5D0", // Tiffany Teal
+    accentRgb: "0, 229, 208",
+    image: lamboHuracanTiffany,
+    alt: "Tiffany Blue Lamborghini Huracan EVO",
+    number: "01",
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    weeklyRate: 8999,
+    securityDeposit: 3000,
+    minAge: 25,
+    includedMileage: "150 mi / day included",
+    practicalSpecs: {
+      make: "Lamborghini",
+      carType: "Supercar",
+      doors: 2,
+      passengers: 2,
+      gear: "Auto (7-Speed LDF)",
+      luggages: 2,
+    },
+    specs: {
+      engine: { label: "ENGINE", value: "5.2L V10", subvalue: "NATURALLY ASP." },
+      power: { label: "POWER", value: "640 PS", subvalue: "470 kW" },
+      torque: { label: "TORQUE", value: "600 Nm", subvalue: "443 lb-ft" },
+      weight: { label: "WEIGHT", value: "1,422 kg", subvalue: "CARBON SPEC" },
+      topSpeed: { label: "TOP SPEED", value: "325 km/h", subvalue: "202 mph" },
+      acceleration: { label: "0-100 KM/H", value: "3.1 s", subvalue: "0-60 in 2.9s" },
+    },
+  },
+  {
+    id: "lambo-huracan-white",
+    make: "Lamborghini",
+    model: "Huracan Evo",
+    badge: "HURACAN EVO",
+    category: "SUPERCAR",
+    tagline: "ITALIAN EXCELLENCE IN WHITE.",
+    description:
+      "Pure Italian performance in pristine pearl white. Uncompromising handling with all-wheel drive and magnetic suspension.",
+    cardShortDesc: "Bianco Monocerus White with naturally aspirated 5.2L V10 and AWD.",
+    builtFor: "PERFECT AGILITY.",
+    themeColor: "#9CA3AF",
+    accentRgb: "156, 163, 175",
+    image: lamboHuracanWhite,
+    alt: "White Lamborghini Huracan EVO",
+    number: "02",
+    dailyRate: 1399,
+    originalDailyRate: 1850,
+    weeklyRate: 8500,
+    securityDeposit: 2500,
+    minAge: 25,
+    includedMileage: "150 mi / day included",
+    practicalSpecs: {
+      make: "Lamborghini",
+      carType: "Supercar",
+      doors: 2,
+      passengers: 2,
+      gear: "Auto (7-Speed LDF)",
+      luggages: 2,
+    },
+    specs: {
+      engine: { label: "ENGINE", value: "5.2L V10", subvalue: "NATURALLY ASP." },
+      power: { label: "POWER", value: "640 PS", subvalue: "470 kW" },
+      torque: { label: "TORQUE", value: "600 Nm", subvalue: "443 lb-ft" },
+      weight: { label: "WEIGHT", value: "1,422 kg", subvalue: "ALL-WHEEL DRIVE" },
+      topSpeed: { label: "TOP SPEED", value: "325 km/h", subvalue: "202 mph" },
+      acceleration: { label: "0-100 KM/H", value: "2.9 s", subvalue: "0-60 in 2.8s" },
+    },
+  },
+  {
+    id: "lambo-evo-coupe",
+    make: "Lamborghini",
+    model: "Evo Coupe",
+    badge: "EVO COUPE",
+    category: "SUPERCAR",
+    tagline: "STEALTH GRIGIO WITH GOLD ACCENTS.",
+    description:
+      "Stealth Grigio finish accented by forged gold alloy wheels. Blistering acceleration and breathtaking visual appeal.",
+    cardShortDesc: "Grigio Titans metallic with bronze forged alloys and V10 symphony.",
+    builtFor: "EXOTIC DISTINCTION.",
+    themeColor: "#EAB308",
+    accentRgb: "234, 179, 8",
+    image: lamboEvoCoupe,
+    alt: "Grigio Grey Lamborghini Evo Coupe",
+    number: "03",
+    dailyRate: 1450,
+    originalDailyRate: 1900,
+    weeklyRate: 8800,
+    securityDeposit: 2500,
+    minAge: 25,
+    includedMileage: "150 mi / day included",
+    practicalSpecs: {
+      make: "Lamborghini",
+      carType: "Supercar",
+      doors: 2,
+      passengers: 2,
+      gear: "Auto (7-Speed Dual-Clutch)",
+      luggages: 2,
+    },
+    specs: {
+      engine: { label: "ENGINE", value: "5.2L V10", subvalue: "HIGH-REV" },
+      power: { label: "POWER", value: "640 PS", subvalue: "470 kW" },
+      torque: { label: "TORQUE", value: "600 Nm", subvalue: "443 lb-ft" },
+      weight: { label: "WEIGHT", value: "1,422 kg", subvalue: "FORGED WHEELS" },
+      topSpeed: { label: "TOP SPEED", value: "325 km/h", subvalue: "202 mph" },
+      acceleration: { label: "0-100 KM/H", value: "3.0 s", subvalue: "Dynamic Steer" },
+    },
+  },
+  {
+    id: "lambo-huracan-sto",
+    make: "Lamborghini",
+    model: "Huracan STO",
+    badge: "HURACAN STO",
+    category: "SUPERCAR",
+    tagline: "HOMOLOGATED FOR THE ROAD.",
+    description:
+      "Direct road-homologated Squadra Corse racecar with extreme aerodynamic downforce and pure motorsport DNA.",
+    cardShortDesc: "Squadra Corse heritage with radical carbon aero and 640 PS V10.",
+    builtFor: "TRACK EXTREMITY.",
+    themeColor: "#A3E635",
+    accentRgb: "163, 230, 53",
+    image: lamboHuracanSto,
+    alt: "Verde Scandal Lamborghini Huracan STO",
+    number: "04",
+    dailyRate: 1799,
+    originalDailyRate: 2400,
+    weeklyRate: 10500,
+    securityDeposit: 3500,
+    minAge: 25,
+    includedMileage: "120 mi / day included",
+    practicalSpecs: {
+      make: "Lamborghini",
+      carType: "Supercar",
+      doors: 2,
+      passengers: 2,
+      gear: "Auto (7-Speed Dual-Clutch)",
+      luggages: 1,
+    },
+    specs: {
+      engine: { label: "ENGINE", value: "5.2L V10", subvalue: "SQUADRA CORSE" },
+      power: { label: "POWER", value: "640 PS", subvalue: "470 kW" },
+      torque: { label: "TORQUE", value: "565 Nm", subvalue: "417 lb-ft" },
+      weight: { label: "WEIGHT", value: "1,339 kg", subvalue: "DRY" },
+      topSpeed: { label: "TOP SPEED", value: "310 km/h", subvalue: "193 mph" },
+      acceleration: { label: "0-100 KM/H", value: "3.0 s", subvalue: "Rear-Wheel Drive" },
+    },
+  },
+  {
+    id: "mercedes-g63-maybach",
+    make: "Mercedes",
+    model: "G63 Maybach",
+    badge: "G63 MAYBACH",
+    category: "LUXURY SUV",
+    tagline: "COMMANDING LUXURY & POWER.",
+    description:
+      "Handcrafted Maybach bespoke leather, twin-turbo V8 rumble, and commanding presence across Dubai's highways.",
+    cardShortDesc: "Handcrafted Maybach edition with 4.0L V8 Biturbo and commanding stance.",
+    builtFor: "UNRIVALED DOMINANCE.",
+    themeColor: "#B7B09E",
+    accentRgb: "183, 176, 158",
+    image: mercedesG63Maybach,
+    alt: "White Mercedes-AMG G63 Maybach",
+    number: "05",
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    weeklyRate: 8999,
+    securityDeposit: 2500,
+    minAge: 23,
+    includedMileage: "200 mi / day included",
+    practicalSpecs: {
+      make: "Mercedes",
+      carType: "Luxury SUV",
+      doors: 5,
+      passengers: 5,
+      gear: "Auto (9G-TRONIC)",
+      luggages: 4,
+    },
+    specs: {
+      engine: { label: "ENGINE", value: "4.0L V8", subvalue: "BITURBO" },
+      power: { label: "POWER", value: "585 PS", subvalue: "430 kW" },
+      torque: { label: "TORQUE", value: "850 Nm", subvalue: "627 lb-ft" },
+      weight: { label: "WEIGHT", value: "2,560 kg", subvalue: "4MATIC" },
+      topSpeed: { label: "TOP SPEED", value: "240 km/h", subvalue: "149 mph" },
+      acceleration: { label: "0-100 KM/H", value: "4.5 s", subvalue: "AMG 4MATIC+" },
+    },
+  },
   {
     id: "mclaren-765lt",
     make: "McLAREN",
@@ -342,18 +557,156 @@ export interface PorscheProductCard {
 
 const porscheProductCards: PorscheProductCard[] = [
   {
+    id: "mercedes-g63-maybach-card",
+    category: "Rent Modified",
+    name: "Mercedes-AMG G63",
+    images: [mercedesG63Maybach, mercedesG63Maybach, mercedesG63Maybach],
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
+    specs: {
+      engine: "4.0L V8 Biturbo",
+      power: "585 PS / 430 kW",
+      speed: "240 km/h",
+      accel: "0-100 km/h in 4.5s",
+      gear: "9G-TRONIC AMG",
+      weight: "2,560 kg",
+    },
+    features: [
+      "Maybach Handcrafted Leather",
+      "AMG Night Styling Package",
+      "Burmester 3D Surround Audio",
+      "Active Dual Side-Exhausts",
+    ],
+    description:
+      "The undisputed king of luxury performance SUVs in Dubai. Handcrafted Maybach leather, twin-turbo V8 rumble, and unmatched commanding road presence.",
+  },
+  {
+    id: "lambo-huracan-tiffany-card",
+    category: "Rent Supercars",
+    name: "Lamborghini Huracan EVO Tiffany",
+    images: [lamboHuracanTiffany, lamboHuracanTiffany, lamboHuracanTiffany],
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
+    specs: {
+      engine: "5.2L Naturally Aspirated V10",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed LDF Dual-Clutch",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Tiffany Blue Bespoke Livery",
+      "LDVI Predictive Dynamics",
+      "Dual Sport Exhaust System",
+      "Bespoke Yellow Contrast Stitching",
+    ],
+    description:
+      "Exclusive Tiffany Blue custom livery with open-top driving thrill. Naturally aspirated 5.2L V10 revving to an exhilarating 8,500 RPM.",
+  },
+  {
+    id: "lambo-huracan-sto-card",
+    category: "Rent Modified",
+    name: "Lamborghini Huracan STO",
+    images: [lamboHuracanSto, lamboHuracanSto, lamboHuracanSto],
+    dailyRate: 1799,
+    originalDailyRate: 2400,
+    dailyDiscount: "25%",
+    monthlyRate: 34999,
+    originalMonthlyRate: 55000,
+    monthlyDiscount: "36%",
+    specs: {
+      engine: "5.2L V10 Squadra Corse",
+      power: "640 PS / 470 kW",
+      speed: "310 km/h",
+      accel: "0-100 km/h in 3.0s",
+      gear: "7-Speed Dual-Clutch",
+      weight: "1,339 kg Dry Track",
+    },
+    features: [
+      "Carbon Fiber 'Cofango' Aero",
+      "Shark Fin & Adjustable Wing",
+      "Brembo CCM-R Carbon Ceramic Brakes",
+      "Lightweight Forged Magnesium Wheels",
+    ],
+    description:
+      "Direct road-homologated Squadra Corse racecar. Extreme aerodynamic downforce, magnesium wheels, and pure motorsport DNA on Dubai roads.",
+  },
+  {
+    id: "lambo-huracan-white-card",
+    category: "Rent Sports",
+    name: "Lamborghini Huracan Evo",
+    images: [lamboHuracanWhite, lamboHuracanWhite, lamboHuracanWhite],
+    dailyRate: 1399,
+    originalDailyRate: 1850,
+    dailyDiscount: "24%",
+    monthlyRate: 27999,
+    originalMonthlyRate: 44500,
+    monthlyDiscount: "37%",
+    specs: {
+      engine: "5.2L V10 Naturally Aspirated",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed LDF",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Bianco Monocerus Pearl White",
+      "All-Wheel Steering & Torque Vectoring",
+      "Lamborghini Dynamic Steering (LDS)",
+      "Red Performance Brake Calipers",
+    ],
+    description:
+      "Pure Italian performance in pristine pearl white. Uncompromising handling with all-wheel drive and magnetic suspension.",
+  },
+  {
+    id: "lambo-evo-coupe-card",
+    category: "Rent Supercars",
+    name: "Lamborghini Evo Coupe",
+    images: [lamboEvoCoupe, lamboEvoCoupe, lamboEvoCoupe],
+    dailyRate: 1450,
+    originalDailyRate: 1900,
+    dailyDiscount: "24%",
+    monthlyRate: 28500,
+    originalMonthlyRate: 46000,
+    monthlyDiscount: "38%",
+    specs: {
+      engine: "5.2L High-Rev V10",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 3.0s",
+      gear: "7-Speed Dual-Clutch",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Grigio Titans Stealth Metallic",
+      "Bronze Forged Lightweight Alloys",
+      "Carbon Ceramic Composite Brakes",
+      "Alcantara Sport Seats & Cockpit",
+    ],
+    description:
+      "Stealth Grigio finish accented by forged gold alloy wheels. Blistering acceleration and breathtaking visual appeal.",
+  },
+  {
     id: "porsche-gt3-clubsport",
-    topBadge: "RENT 4 DAYS , GET 1 DAY FREE ⚡",
-    topBadgeTheme: "dark",
     category: "Rent Sports",
     name: "Porsche 911 GT3 RS Clubsport",
     images: [porscheGt3Rs, porscheRed, porscheGt3Rs],
-    dailyRate: 499,
-    originalDailyRate: 799,
-    dailyDiscount: "38%",
-    monthlyRate: 8599,
-    originalMonthlyRate: 15999,
-    monthlyDiscount: "46%",
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
     specs: {
       engine: "4.0L Naturally Aspirated Flat-6",
       power: "525 PS / 386 kW",
@@ -371,186 +724,125 @@ const porscheProductCards: PorscheProductCard[] = [
     description:
       "Motorsport aerodynamic downforce combined with a 9,000 RPM naturally aspirated engine. Tuned for peak racetrack connection and open Dubai highway cruising.",
   },
-  {
-    id: "porsche-gt3-weissach",
-    topBadge: "RENT 4 DAYS , GET 1 DAY FREE ⚡",
-    topBadgeTheme: "dark",
-    category: "Rent Convertible",
-    name: "Porsche 911 GT3 RS Weissach Package",
-    images: [porscheRed, porscheGt3Rs, porscheRed],
-    dailyRate: 399,
-    originalDailyRate: 900,
-    dailyDiscount: "56%",
-    monthlyRate: 6499,
-    originalMonthlyRate: 12999,
-    monthlyDiscount: "50%",
-    hasFlashTimer: true,
-    timerString: "02:10:40",
-    specs: {
-      engine: "4.0L High-Rev Boxer Flat-6",
-      power: "525 PS / 386 kW",
-      speed: "296 km/h (184 mph)",
-      accel: "0-100 km/h in 3.1s",
-      gear: "7-Speed PDK Dual-Clutch",
-      weight: "1,430 kg Weissach Spec",
-    },
-    features: [
-      "Carbon-Weave Front Lid & Roof",
-      "Magnesium Forged Lightweight Wheels",
-      "Titanium Roll Cage Structure",
-      "Bespoke Alcantara Interior & Stitching",
-    ],
-    description:
-      "The Weissach Package optimizes weight reduction with exposed carbon-fiber components, magnesium wheels, and pure motorsport heritage.",
-  },
-  {
-    id: "porsche-gt3-carbon",
-    topBadge: "RENT 4 DAYS , GET 1 DAY FREE ⚡",
-    topBadgeTheme: "dark",
-    category: "Rent Modified",
-    name: "Porsche 911 GT3 RS Carbon Spec",
-    images: [porscheGt3Rs, porscheRed, porscheGt3Rs],
-    dayMonthRate: 282,
-    dailyRate: 439,
-    originalDailyRate: 600,
-    dailyDiscount: "27%",
-    monthlyRate: 7499,
-    originalMonthlyRate: 12500,
-    monthlyDiscount: "40%",
-    specs: {
-      engine: "4.0L GT-Sport Flat-6",
-      power: "530 PS / 390 kW",
-      speed: "300 km/h (186 mph)",
-      accel: "0-100 km/h in 3.1s",
-      gear: "7-Speed PDK Dual-Clutch",
-      weight: "1,440 kg Carbon Spec",
-    },
-    features: [
-      "Full Carbon Fiber Aero Diffusers",
-      "Sport Chrono Package with Lap Trigger",
-      "Akrapovič Titanium Exhaust System",
-      "Dynamic Engine & Transmission Mounts",
-    ],
-    description:
-      "Upgraded with custom carbon fiber aero blades and tuned titanium exhaust for an acoustic and physical driving experience like no other.",
-  },
-  {
-    id: "porsche-gt3-brabus",
-    topBadge: "MINIMUM 2 DAYS RENTAL ⚡",
-    topBadgeTheme: "blue",
-    category: "Rent Modified",
-    name: "Porsche 911 GT3 RS Brabus 1 of 1",
-    images: [porscheRed, porscheGt3Rs, porscheRed],
-    dailyRate: 425,
-    originalDailyRate: 999,
-    dailyDiscount: "57%",
-    monthlyRate: 7999,
-    originalMonthlyRate: 18999,
-    monthlyDiscount: "58%",
-    specs: {
-      engine: "4.0L Brabus Tuned Flat-6",
-      power: "540 PS / 397 kW",
-      speed: "302 km/h (188 mph)",
-      accel: "0-100 km/h in 3.0s",
-      gear: "7-Speed Dual-Clutch Brabus",
-      weight: "1,425 kg Custom Build",
-    },
-    features: [
-      "Exclusive 1 of 1 Brabus Styling Kit",
-      "Custom Monoblock Forged Wheels",
-      "Brabus Fine Leather Mastik Interior",
-      "Illuminated Carbon Door Sills",
-    ],
-    description:
-      "A bespoke 1 of 1 custom masterpiece crafted by Brabus. Combines unmatched German engineering with tailored ultra-luxury bespoke appointments.",
-  },
 ];
 
 const flashSaleItems: FlashSaleItem[] = [
   {
-    id: "flash-porsche-weissach",
-    badge: "56% OFF FLASH DEAL",
-    name: "Porsche 911 GT3 RS Weissach",
-    category: "Supercar / Track",
-    image: porscheRed,
-    dailyRate: 399,
-    originalDailyRate: 900,
-    discount: "56% OFF",
-    monthlyRate: 6499,
+    id: "flash-lambo-tiffany",
+    badge: "24% OFF FLASH DEAL",
+    name: "Lamborghini Huracan EVO Tiffany",
+    category: "Supercar / Exotic",
+    image: lamboHuracanTiffany,
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    discount: "24% OFF",
+    monthlyRate: 29999,
     timerString: "02:10:40",
-    specs: { power: "525 PS", speed: "296 km/h", accel: "3.2s" },
-    carRef: fleet[3],
-  },
-  {
-    id: "flash-mclaren-765lt",
-    badge: "52% OFF EXCLUSIVE",
-    name: "McLaren 765LT Longtail",
-    category: "Hypercar",
-    image: mclaren765lt,
-    dailyRate: 799,
-    originalDailyRate: 1650,
-    discount: "52% OFF",
-    monthlyRate: 11999,
-    timerString: "04:45:15",
-    specs: { power: "765 PS", speed: "330 km/h", accel: "2.8s" },
+    specs: { power: "640 PS", speed: "325 km/h", accel: "3.1s" },
     carRef: fleet[0],
   },
   {
-    id: "flash-bmw-m5-cs",
-    badge: "48% OFF SPECIAL",
-    name: "BMW M5 CS Competition",
-    category: "Super Sedan",
-    image: bmwM5Cs,
-    dailyRate: 549,
-    originalDailyRate: 1050,
-    discount: "48% OFF",
-    monthlyRate: 8999,
-    timerString: "01:25:00",
-    specs: { power: "635 PS", speed: "305 km/h", accel: "3.0s" },
+    id: "flash-mercedes-g63",
+    badge: "24% OFF EXCLUSIVE",
+    name: "Mercedes-AMG G63 Maybach",
+    category: "Luxury SUV",
+    image: mercedesG63Maybach,
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    discount: "24% OFF",
+    monthlyRate: 29999,
+    timerString: "04:45:15",
+    specs: { power: "585 PS", speed: "240 km/h", accel: "4.5s" },
     carRef: fleet[1],
   },
   {
-    id: "flash-audi-rs-q8",
-    badge: "46% OFF LUXURY SUV",
-    name: "Audi RS Q8 Performance",
-    category: "Super SUV",
-    image: audiRsQ8,
-    dailyRate: 480,
-    originalDailyRate: 890,
-    discount: "46% OFF",
-    monthlyRate: 7800,
-    timerString: "03:12:30",
-    specs: { power: "600 PS", speed: "305 km/h", accel: "3.8s" },
+    id: "flash-lambo-sto",
+    badge: "25% OFF SPECIAL",
+    name: "Lamborghini Huracan STO",
+    category: "Track Supercar",
+    image: lamboHuracanSto,
+    dailyRate: 1799,
+    originalDailyRate: 2400,
+    discount: "25% OFF",
+    monthlyRate: 34999,
+    timerString: "01:25:00",
+    specs: { power: "640 PS", speed: "310 km/h", accel: "3.0s" },
     carRef: fleet[2],
+  },
+  {
+    id: "flash-lambo-white",
+    badge: "24% OFF EXOTIC",
+    name: "Lamborghini Huracan Evo",
+    category: "Supercar",
+    image: lamboHuracanWhite,
+    dailyRate: 1399,
+    originalDailyRate: 1850,
+    discount: "24% OFF",
+    monthlyRate: 27999,
+    timerString: "03:12:30",
+    specs: { power: "640 PS", speed: "325 km/h", accel: "2.9s" },
+    carRef: fleet[3],
   },
 ];
 
-const categoryDropdownRow1 = [
-  "RENT SUPER CAR",
-  "RENT LUXURY",
-  "RENT SUV",
-  "RENT 7 SEATER",
-  "WEEKLY CAR RENTAL",
-  "LONG TERM CAR RENTAL",
-  "AIRPORT CAR RENTAL",
-  "RENT ELECTRIC",
+const categoryDropdownCol1 = [
+  "Rent Supercars",
+  "Rent Luxury",
+  "Rent SUV",
+  "Rent 7 Seater",
+  "Weekly Car Rental",
+  "Long Term Car Rental",
+  "Airport Car Rental",
+  "Rent Electric",
+  "Rent Convertible",
+  "Wedding Car Rental",
+  "Lease To Own",
 ];
 
-const categoryDropdownRow2 = [
-  "WEDDING CAR RENTAL",
-  "RENT MONTHLY",
-  "RENT SPORTS",
-  "RENT MODIFIED",
-  "RENT ECONOMY CAR",
-  "BUSINESS CAR RENTAL",
-  "LUXURY VAN RENTAL",
-  "CAR WITH DRIVER",
+const categoryDropdownCol2 = [
+  "Rent Monthly",
+  "Rent Sports",
+  "Rent Modified",
+  "Rent Economy Car",
+  "Daily Car Rental",
+  "Rent Muscle Car",
+  "Business Car Rental",
+  "Luxury Van Rental",
+  "Car With Driver",
+  "Patrol Experts",
+];
+
+export interface RentalLocation {
+  id: string;
+  name: string;
+  subtitle: string;
+  carsAvailable: number;
+  deliveryTime: string;
+  x: number; // percentage X on map
+  y: number; // percentage Y on map
+}
+
+const dubaiLocations: RentalLocation[] = [
+  { id: "al-barsha", name: "Al Barsha", subtitle: "Hub near Mall of the Emirates", carsAvailable: 48, deliveryTime: "15 mins", x: 50, y: 22 },
+  { id: "dubai-mall", name: "Dubai Mall", subtitle: "Downtown & Burj Khalifa Strip", carsAvailable: 65, deliveryTime: "10 mins", x: 62, y: 15 },
+  { id: "mall-of-emirates", name: "Mall of Emirates", subtitle: "Al Barsha 1 VIP Drop-off", carsAvailable: 42, deliveryTime: "15 mins", x: 72, y: 28 },
+  { id: "business-bay", name: "Business Bay", subtitle: "Financial & Corporate Towers", carsAvailable: 55, deliveryTime: "12 mins", x: 84, y: 24 },
+  { id: "dubai-marina", name: "Dubai Marina", subtitle: "Marina Walk & JBR Waterfront", carsAvailable: 58, deliveryTime: "15 mins", x: 58, y: 39 },
+  { id: "international-city", name: "International City", subtitle: "Warsan & Dragon Mart Zone", carsAvailable: 32, deliveryTime: "25 mins", x: 67, y: 48 },
+  { id: "sheikh-zayed-road", name: "Shaikh Zayed Road", subtitle: "Main Luxury Highway Strip", carsAvailable: 70, deliveryTime: "10 mins", x: 81, y: 44 },
+  { id: "palm-jumeirah", name: "Palm Jumeriah", subtitle: "Atlantis & Luxury Coastal Villas", carsAvailable: 50, deliveryTime: "20 mins", x: 54, y: 58 },
+  { id: "dubai-airport", name: "Dubai Airport", subtitle: "Terminal 1, 2, 3 VIP Handover", carsAvailable: 80, deliveryTime: "Instant VIP", x: 72, y: 64 },
+  { id: "jumeirah-lake-towers", name: "Jumeirah Lake Towers", subtitle: "JLT Cluster Delivery Hub", carsAvailable: 38, deliveryTime: "15 mins", x: 81, y: 58 },
+  { id: "al-quoz", name: "Al Quoz", subtitle: "Creative Arts & Performance Hub", carsAvailable: 40, deliveryTime: "15 mins", x: 60, y: 69 },
+  { id: "deira", name: "Deira Dubai", subtitle: "Old Dubai & Gold Souk Waterfront", carsAvailable: 36, deliveryTime: "20 mins", x: 87, y: 74 },
 ];
 
 function CarShowcasePage() {
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>("AED");
   const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
+  const [isLocationsDropdownOpen, setIsLocationsDropdownOpen] = useState(false);
+  const [activeLocationId, setActiveLocationId] = useState<string>("dubai-mall");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
 
@@ -839,35 +1131,49 @@ function CarShowcasePage() {
 
               {isCategoriesDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-2 w-80 sm:w-[480px] bg-white rounded-2xl shadow-2xl border border-neutral-200/90 py-4 px-5 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute left-0 top-full mt-2 w-[480px] sm:w-[540px] bg-white rounded-xl shadow-2xl border border-neutral-200/90 py-4 px-6 z-50 animate-in fade-in zoom-in-95 duration-150"
                   onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
                   onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
                 >
-                  <div className="grid grid-cols-2 gap-x-5 gap-y-1">
-                    {/* Vertical Column 1 */}
-                    <div className="flex flex-col gap-1">
-                      {categoryDropdownRow1.map((name) => (
+                  <div className="grid grid-cols-2 gap-x-8">
+                    {/* Column 1 */}
+                    <div className="flex flex-col">
+                      {categoryDropdownCol1.map((name, idx) => (
                         <a
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className="uppercase font-normal text-[11px] sm:text-xs text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100/80 px-2.5 py-1.5 rounded-md transition-colors tracking-wider block"
+                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-900" : ""
+                          }`}
                         >
-                          {name}
+                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                            &gt;
+                          </span>
+                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                            {name}
+                          </span>
                         </a>
                       ))}
                     </div>
 
-                    {/* Vertical Column 2 */}
-                    <div className="flex flex-col gap-1">
-                      {categoryDropdownRow2.map((name) => (
+                    {/* Column 2 */}
+                    <div className="flex flex-col">
+                      {categoryDropdownCol2.map((name, idx) => (
                         <a
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className="uppercase font-normal text-[11px] sm:text-xs text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100/80 px-2.5 py-1.5 rounded-md transition-colors tracking-wider block"
+                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-900" : ""
+                          }`}
                         >
-                          {name}
+                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                            &gt;
+                          </span>
+                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                            {name}
+                          </span>
                         </a>
                       ))}
                     </div>
@@ -876,9 +1182,83 @@ function CarShowcasePage() {
               )}
             </div>
 
-            <a href="#tailor-dubai" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
-              LOCATIONS
-            </a>
+            {/* Locations Dropdown in Two Columns */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsLocationsDropdownOpen(true)}
+              onMouseLeave={() => setIsLocationsDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setIsLocationsDropdownOpen((prev) => !prev)}
+                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+              >
+                <span>LOCATIONS</span>
+                <ChevronDown
+                  className={`w-3 h-3 text-neutral-400 transition-transform duration-200 ${
+                    isLocationsDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isLocationsDropdownOpen && (
+                <div
+                  className="absolute left-0 top-full mt-2 w-[440px] sm:w-[480px] bg-white rounded-xl shadow-2xl border border-neutral-200/90 py-4 px-6 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  onMouseEnter={() => setIsLocationsDropdownOpen(true)}
+                  onMouseLeave={() => setIsLocationsDropdownOpen(false)}
+                >
+                  <div className="grid grid-cols-2 gap-x-8">
+                    {/* Column 1 */}
+                    <div className="flex flex-col">
+                      {dubaiLocations.slice(0, 6).map((loc, idx) => (
+                        <a
+                          key={loc.id}
+                          href="#locations"
+                          onClick={() => {
+                            setActiveLocationId(loc.id);
+                            setIsLocationsDropdownOpen(false);
+                          }}
+                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                            idx < 5 ? "border-b border-neutral-900" : ""
+                          }`}
+                        >
+                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                            &gt;
+                          </span>
+                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                            {loc.name}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+
+                    {/* Column 2 */}
+                    <div className="flex flex-col">
+                      {dubaiLocations.slice(6, 12).map((loc, idx) => (
+                        <a
+                          key={loc.id}
+                          href="#locations"
+                          onClick={() => {
+                            setActiveLocationId(loc.id);
+                            setIsLocationsDropdownOpen(false);
+                          }}
+                          className={`group flex items-center gap-2 py-2 text-neutral-900 hover:text-amber-600 transition-colors cursor-pointer ${
+                            idx < 5 ? "border-b border-neutral-900" : ""
+                          }`}
+                        >
+                          <span className="font-black text-sm text-neutral-900 group-hover:text-amber-600 transition-colors select-none">
+                            &gt;
+                          </span>
+                          <span className="font-bold text-xs sm:text-[13px] tracking-tight">
+                            {loc.name}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <a href="#blogs" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
               BLOGS
             </a>
@@ -994,39 +1374,83 @@ function CarShowcasePage() {
                 >
                   CATEGORIES
                 </a>
-                <div className="py-2 pl-2 grid grid-cols-2 gap-2 border-b border-neutral-100">
-                  <div className="flex flex-col gap-1">
-                    {categoryDropdownRow1.map((item) => (
+                <div className="py-2 grid grid-cols-2 gap-x-3 border-b border-neutral-100">
+                  <div className="flex flex-col">
+                    {categoryDropdownCol1.map((item, idx) => (
                       <a
                         key={item}
                         href="#categories"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-[10px] text-neutral-600 uppercase font-normal px-2 py-1 rounded-md bg-neutral-100/70 block"
+                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
+                          idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-900" : ""
+                        }`}
                       >
-                        {item}
+                        <span className="font-black text-xs text-neutral-900">&gt;</span>
+                        <span className="truncate">{item}</span>
                       </a>
                     ))}
                   </div>
-                  <div className="flex flex-col gap-1">
-                    {categoryDropdownRow2.map((item) => (
+                  <div className="flex flex-col">
+                    {categoryDropdownCol2.map((item, idx) => (
                       <a
                         key={item}
                         href="#categories"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-[10px] text-neutral-600 uppercase font-normal px-2 py-1 rounded-md bg-neutral-100/70 block"
+                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
+                          idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-900" : ""
+                        }`}
                       >
-                        {item}
+                        <span className="font-black text-xs text-neutral-900">&gt;</span>
+                        <span className="truncate">{item}</span>
                       </a>
                     ))}
                   </div>
                 </div>
                 <a
-                  href="#tailor-dubai"
+                  href="#locations"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100 uppercase"
                 >
                   LOCATIONS
                 </a>
+                <div className="py-2 grid grid-cols-2 gap-x-3 border-b border-neutral-100">
+                  <div className="flex flex-col">
+                    {dubaiLocations.slice(0, 6).map((loc, idx) => (
+                      <a
+                        key={loc.id}
+                        href="#locations"
+                        onClick={() => {
+                          setActiveLocationId(loc.id);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
+                          idx < 5 ? "border-b border-neutral-900" : ""
+                        }`}
+                      >
+                        <span className="font-black text-xs text-neutral-900">&gt;</span>
+                        <span className="truncate">{loc.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                  <div className="flex flex-col">
+                    {dubaiLocations.slice(6, 12).map((loc, idx) => (
+                      <a
+                        key={loc.id}
+                        href="#locations"
+                        onClick={() => {
+                          setActiveLocationId(loc.id);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
+                          idx < 5 ? "border-b border-neutral-900" : ""
+                        }`}
+                      >
+                        <span className="font-black text-xs text-neutral-900">&gt;</span>
+                        <span className="truncate">{loc.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
                 <a
                   href="#blogs"
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -1075,7 +1499,8 @@ function CarShowcasePage() {
         {/* Main Feature Stage Area */}
         <div className="relative z-20 flex-1 flex flex-col justify-center items-center w-full px-4 sm:px-8 lg:px-12 py-1 lg:py-2 overflow-hidden">
           {/* 
-          Giant Brand Typography:
+          Giant Brand Typography (Desktop):
+          - Displays 1st and 2nd word of car name (e.g. LAMBORGHINI HURACAN)
           - Positioned high at top: clamp(8px, 2vh, 25px)
           - 80% font visible on top, only 20% behind car!
           - Fades out on drag, drops down from top on transition.
@@ -1083,29 +1508,29 @@ function CarShowcasePage() {
           {exitingCar && (
             <div
               key={`brand-name-exit-${exitingCar.id}-${animKey}`}
-              className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-exit"
+              className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-exit hidden lg:block"
             >
-              {exitingCar.make}
+              {getCarFirstTwoWords(exitingCar.make, exitingCar.model)}
             </div>
           )}
 
           <div
             key={`brand-name-active-${car.id}-${animKey}`}
-            className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-top"
+            className="giant-brand-typography absolute z-10 text-center pointer-events-none animate-name-top hidden lg:block"
             style={{
               opacity: nameDragOpacity,
               transform: `translate(${dragOffsetX * 0.2}px, ${nameDragY}px)`,
               transition: isDragging ? "none" : "opacity 200ms ease, transform 200ms ease",
             }}
           >
-            {car.make}
+            {getCarFirstTwoWords(car.make, car.model)}
           </div>
 
           {/* 
           3-Column Dribbble Showcase Stage:
-          - Left: Heading, Model name, short description, 4.9 rating, Daily rate & RENT NOW button (shifted lower)
-          - Center: Centered car with idle floating animation, dynamic shadow, and bottom thumbnail carousel (slightly larger car)
-          - Right: Vertical timeline with connected glowing dots showing vehicle SPECS (shifted further to the right)
+          - Left: Heading (1st and 2nd word), Model details, short description, Daily & weekly rates, RENT NOW button
+          - Center: Centered car with idle floating animation, dynamic shadow, and bottom thumbnail carousel
+          - Right: Vertical timeline with connected glowing dots showing vehicle SPECS
         */}
           <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center relative z-20 my-auto pt-4 sm:pt-6 lg:pt-10">
             {/* Left Column (Desktop): Badge, Heading, Short Description, Rating - Shifted Further Down for Large Screen */}
@@ -1128,7 +1553,10 @@ function CarShowcasePage() {
                 className="text-3xl xl:text-4xl font-black text-neutral-900 tracking-tight uppercase leading-tight mt-3 animate-d-fade-up"
                 style={{ animationDelay: "120ms" }}
               >
-                {car.make} <span style={{ color: car.themeColor }}>{car.model}</span>
+                {getCarTitleBreakdown(car.make, car.model).firstTwo}{" "}
+                <span style={{ color: car.themeColor }}>
+                  {getCarTitleBreakdown(car.make, car.model).rest}
+                </span>
               </h1>
 
               <p
@@ -1139,31 +1567,31 @@ function CarShowcasePage() {
                 {car.description}
               </p>
 
-              {/* Left Column Daily Pricing & Rent Button */}
+              {/* Left Column Daily Pricing & Rent Button - Show only weekly and per day, no % OFF */}
               <div
                 key={`left-cta-${car.id}-${animKey}`}
-                className="mt-6 flex flex-col items-start gap-3 animate-d-fade-up"
+                className="mt-6 flex flex-col items-start gap-2.5 animate-d-fade-up"
                 style={{ animationDelay: "260ms" }}
               >
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
-                    {formatPrice(car.dailyRate)}
-                  </span>
-                  <span className="text-xs text-neutral-500 font-semibold">/ day</span>
-                  <span className="text-xs text-neutral-400 line-through font-bold">
-                    {formatPrice(car.originalDailyRate)}
-                  </span>
-                  <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
-                    {Math.round(
-                      ((car.originalDailyRate - car.dailyRate) / car.originalDailyRate) * 100,
-                    )}
-                    % OFF
-                  </span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
+                      {formatPrice(car.dailyRate)}
+                    </span>
+                    <span className="text-xs text-neutral-500 font-semibold">/ day</span>
+                  </div>
+                  <div
+                    className="text-xs font-bold"
+                    style={{ color: car.themeColor }}
+                  >
+                    Weekly: {formatPrice(car.weeklyRate)}{" "}
+                    <span className="text-neutral-500 font-medium">/ week</span>
+                  </div>
                 </div>
                 <Button
                   size="sm"
                   onClick={() => setBookingCar(car)}
-                  className="text-xs font-black text-white px-5 py-2.5 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+                  className="text-xs font-black text-white px-5 py-2.5 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 mt-1"
                   style={{ backgroundColor: car.themeColor }}
                 >
                   <Key className="w-3.5 h-3.5" /> RENT NOW
@@ -1172,8 +1600,29 @@ function CarShowcasePage() {
             </div>
 
             {/* Center Column: Increased Car Size on Large Screen, Shifted Down on Small Screen */}
-            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2 translate-y-10 sm:translate-y-14 lg:translate-y-0 pt-4 sm:pt-6 lg:pt-0">
+            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2 pt-10 sm:pt-12 lg:pt-0">
               <div className="relative w-full max-w-[660px] sm:max-w-[740px] lg:max-w-[960px] xl:max-w-[1080px] 2xl:max-w-[1180px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-1 sm:px-3">
+                {/* Mobile Giant Brand Typography: Exactly 80% on top of car, 20% behind car */}
+                {exitingCar && (
+                  <div
+                    key={`brand-name-exit-mob-${exitingCar.id}-${animKey}`}
+                    className="lg:hidden absolute z-10 left-1/2 -translate-x-1/2 text-center pointer-events-none select-none giant-brand-typography-mobile animate-name-exit"
+                  >
+                    {getCarFirstTwoWords(exitingCar.make, exitingCar.model)}
+                  </div>
+                )}
+                <div
+                  key={`brand-name-active-mob-${car.id}-${animKey}`}
+                  className="lg:hidden absolute z-10 left-1/2 -translate-x-1/2 text-center pointer-events-none select-none giant-brand-typography-mobile animate-name-top"
+                  style={{
+                    opacity: nameDragOpacity,
+                    transform: `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`,
+                    transition: isDragging ? "none" : "opacity 200ms ease, transform 200ms ease",
+                  }}
+                >
+                  {getCarFirstTwoWords(car.make, car.model)}
+                </div>
+
                 {/* Ground Contact Shadow with Synchronous Breathing Animation */}
                 <div
                   className={`car-contact-shadow ${exitingCar ? "" : "animate-shadow-breathe"}`}
@@ -1204,8 +1653,8 @@ function CarShowcasePage() {
                   className={`w-full h-full flex items-center justify-center ${
                     exitingCar
                       ? transitionDirection === "next"
-                        ? "animate-car-enter-right"
-                        : "animate-car-enter-left"
+                      ? "animate-car-enter-right"
+                      : "animate-car-enter-left"
                       : isDragging
                         ? ""
                         : "animate-car-breathe"
@@ -1226,31 +1675,22 @@ function CarShowcasePage() {
 
               {/* 
                 Under Center Car:
-                - On Small Screens (lg:hidden): Price section + RENT NOW button without background, details removed!
+                - On Small Screens (lg:hidden): Price section + RENT NOW button without background, show ONLY weekly and per day (no % OFF)
                 - On Large Screens (hidden lg:flex): 4 cars thumbnail carousel shifted lower down
               */}
 
-              {/* Small Screen: Price & RENT NOW button without background, details text removed */}
+              {/* Small Screen: Price & RENT NOW button without background, show only weekly and per day */}
               <div className="flex lg:hidden flex-col items-center justify-center gap-2 mt-6 sm:mt-8 z-30 w-full px-2">
-                <div className="flex items-center gap-3 bg-transparent border-none shadow-none backdrop-blur-none px-2 py-1">
+                <div className="flex items-center gap-4 bg-transparent border-none shadow-none backdrop-blur-none px-2 py-1">
                   <div className="flex flex-col items-start">
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight leading-none">
                         {formatPrice(car.dailyRate)}
                       </span>
                       <span className="text-[11px] font-semibold text-neutral-500">/ day</span>
-                      <span className="text-[11px] font-bold text-neutral-400 line-through">
-                        {formatPrice(car.originalDailyRate)}
-                      </span>
-                      <span className="text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
-                        {Math.round(
-                          ((car.originalDailyRate - car.dailyRate) / car.originalDailyRate) * 100,
-                        )}
-                        % OFF
-                      </span>
                     </div>
                     <div
-                      className="text-[11px] font-extrabold mt-0.5"
+                      className="text-[11px] font-bold mt-0.5"
                       style={{ color: car.themeColor }}
                     >
                       Weekly: {formatPrice(car.weeklyRate)}{" "}
@@ -1828,133 +2268,107 @@ function CarShowcasePage() {
             </h2>
           </div>
 
-          {/* 4-Card Grid matching Image 2 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Product Cards Grid: Exactly matching user reference (media_1794989490058_abdd045b.png) with zero curved borders (rounded-none everywhere) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
             {porscheProductCards.map((card) => (
               <div
                 key={card.id}
-                className="bg-white rounded-xl border border-neutral-200/80 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                className="bg-white rounded-none border border-neutral-300 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
-                {/* Top Badge Banner (clean text, no icons) */}
+                {/* Car Preview Box with 3-Image Slider (Drag & Left/Right yellow arrow buttons) */}
                 <div
-                  className={`px-3.5 py-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider flex items-center justify-center ${
-                    card.topBadgeTheme === "dark"
-                      ? "bg-neutral-950 text-amber-300"
-                      : "bg-[#0B1B3D] text-amber-300"
-                  }`}
-                >
-                  <span>{card.topBadge}</span>
-                </div>
-
-                {/* Car Preview Box with 3-Image Slider (Drag & Left/Right buttons) */}
-                <div
-                  className="relative w-full h-44 sm:h-48 bg-gradient-to-b from-neutral-50 to-neutral-100/70 p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none"
+                  className="relative w-full h-48 sm:h-52 bg-[#ECECEC] p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none rounded-none"
                   onTouchStart={(e) => handleCardTouchStart(card.id, e.touches[0].clientX)}
                   onTouchEnd={(e) => handleCardTouchEnd(card.id, e.changedTouches[0].clientX)}
                   onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
                   onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
                 >
-                  {/* Left & Right Slider Arrows */}
+                  {/* Left & Right Yellow Chevrons */}
                   <button
                     type="button"
                     onClick={(e) => handleCardPrevImage(card.id, e)}
                     aria-label="Previous view"
-                    className="absolute left-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-xs flex items-center justify-center opacity-80 hover:opacity-100 transition-all hover:scale-110 active:scale-95 cursor-pointer z-20"
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#FFE600] hover:text-amber-500 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
-                    <ChevronLeft className="w-3.5 h-3.5" />
+                    &lt;
                   </button>
                   <button
                     type="button"
                     onClick={(e) => handleCardNextImage(card.id, e)}
                     aria-label="Next view"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-xs flex items-center justify-center opacity-80 hover:opacity-100 transition-all hover:scale-110 active:scale-95 cursor-pointer z-20"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#FFE600] hover:text-amber-500 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    &gt;
                   </button>
 
-                  {/* Left Brand Badge */}
-                  <div className="absolute left-3 bottom-2 text-[10px] font-black uppercase tracking-wider text-neutral-400 z-10 pointer-events-none">
-                    PORSCHE • {(cardImageIndices[card.id] || 0) + 1}/3
+                  {/* Brand Logo in bottom-left */}
+                  <div className="absolute left-3 bottom-2.5 z-10 pointer-events-none opacity-70">
+                    <div className="w-6 h-6 rounded-full border border-neutral-400 flex items-center justify-center text-[11px] font-bold text-neutral-600">
+                      {card.name.includes("Mercedes") ? "⨂" : "⚡"}
+                    </div>
                   </div>
 
-                  {/* Carousel 3 Pagination Dots */}
-                  <div className="absolute bottom-2.5 inset-x-0 flex justify-center items-center gap-1.5 z-10">
-                    {[0, 1, 2].map((dotIdx) => (
-                      <span
-                        key={dotIdx}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCardImageIndices((prev) => ({ ...prev, [card.id]: dotIdx }));
-                        }}
-                        className={`rounded-full transition-all duration-300 cursor-pointer ${(cardImageIndices[card.id] || 0) === dotIdx
-                          ? "w-4 h-1.5 bg-[#FFE600]"
-                          : "w-1.5 h-1.5 bg-neutral-300 hover:bg-neutral-400"
-                          }`}
-                      />
-                    ))}
+                  {/* Carousel 3 Pagination Dots: Active yellow bar, inactive round dots */}
+                  <div className="absolute bottom-3 inset-x-0 flex justify-center items-center gap-1.5 z-10 pointer-events-none">
+                    {[0, 1, 2].map((dotIdx) => {
+                      const isCurrent = (cardImageIndices[card.id] || 0) === dotIdx;
+                      return isCurrent ? (
+                        <span
+                          key={dotIdx}
+                          className="w-5 h-2 rounded-none bg-[#FFE600]"
+                        />
+                      ) : (
+                        <span
+                          key={dotIdx}
+                          className="w-2 h-2 rounded-full bg-neutral-400"
+                        />
+                      );
+                    })}
                   </div>
 
-                  {/* Yellow Circular Action Button -> Opens Detailed Car Page */}
+                  {/* Yellow Circular Play Action Button -> Opens Detailed Car Page */}
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedCarDetails(card);
                     }}
-                    className="absolute right-2.5 bottom-2.5 w-7 h-7 rounded-full bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
+                    className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-[#FFE600] hover:bg-amber-400 text-neutral-950 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
                     title="View Car Details & Full Specs"
                   >
-                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                    <Play className="w-3.5 h-3.5 fill-neutral-950 text-neutral-950 ml-0.5" />
                   </div>
 
-                  {/* Porsche Image from 3 images with hover scale */}
+                  {/* Car Image with smooth hover scale */}
                   <img
                     src={card.images[cardImageIndices[card.id] || 0]}
                     alt={`${card.name} - View ${(cardImageIndices[card.id] || 0) + 1}`}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-32 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    className="max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
                     key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
 
-                {/* Flash Sale Bar (for Card 2) */}
-                {card.hasFlashTimer && (
-                  <div className="w-full bg-[#FFE600] px-3.5 py-1.5 flex items-center justify-between text-neutral-950 text-xs font-black uppercase tracking-wider">
-                    <span className="flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 fill-current" /> FLASH SALE
-                    </span>
-                    <span className="font-mono tracking-widest text-[11px] font-extrabold">
-                      {card.timerString || "02:10:40"}
-                    </span>
-                  </div>
-                )}
-
-                {/* Card Body */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                {/* Card Body with sharp square styling (no curved borders anywhere) */}
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between rounded-none">
                   <div>
-                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
+                    <span className="text-xs text-neutral-500 font-medium block">
                       {card.category}
                     </span>
-                    <h3 className="text-base font-black text-neutral-900 leading-snug mt-0.5">
+                    <h3 className="text-base sm:text-lg font-black text-neutral-900 leading-tight mt-1">
                       {card.name}
                     </h3>
                   </div>
 
-                  {/* Price Row (Formatted with dynamic currency) */}
+                  {/* Price Rows: Daily & Monthly Rates with strikethrough & discount */}
                   <div className="space-y-1.5 pt-1">
-                    {card.dayMonthRate && (
-                      <div className="flex items-baseline justify-between text-xs font-bold text-neutral-500">
-                        <span>{formatPrice(card.dayMonthRate)} / Day-Month</span>
-                      </div>
-                    )}
-
                     {/* Daily Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-lg font-black text-neutral-900 leading-none">
+                        <span className="text-base sm:text-lg font-black text-neutral-900 leading-none">
                           {formatPrice(card.dailyRate)}
                         </span>
-                        <span className="text-xs font-semibold text-neutral-500">/ Day</span>
+                        <span className="text-xs text-neutral-500 font-normal">/ Day</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
                         <span className="text-neutral-400 line-through">
@@ -1967,10 +2381,10 @@ function CarShowcasePage() {
                     {/* Monthly Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-base font-black text-neutral-900 leading-none">
+                        <span className="text-base sm:text-lg font-black text-neutral-900 leading-none">
                           {formatPrice(card.monthlyRate)}
                         </span>
-                        <span className="text-xs font-semibold text-neutral-500">/ Monthly</span>
+                        <span className="text-xs text-neutral-500 font-normal">/ Monthly</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
                         <span className="text-neutral-400 line-through">
@@ -1981,38 +2395,38 @@ function CarShowcasePage() {
                     </div>
                   </div>
 
-                  {/* Free Delivery & Insurance */}
-                  <div className="flex items-center gap-3 text-[11px] font-bold text-neutral-700 pt-2 border-t border-neutral-100">
-                    <span className="flex items-center gap-1 text-emerald-600">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" /> Free Delivery
+                  {/* Free Delivery & Insurance Included */}
+                  <div className="flex items-center gap-4 text-xs font-bold text-neutral-800 pt-1">
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-600 text-white" /> Free Delivery
                     </span>
-                    <span className="flex items-center gap-1 text-emerald-600">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" /> Insurance Included
+                    <span className="flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-600 text-white" /> Insurance Included
                     </span>
                   </div>
 
-                  {/* 3 Action Buttons */}
+                  {/* 3 Action Buttons: WhatsApp, Call Us, Inquire Now (sharp corners) */}
                   <div className="grid grid-cols-3 gap-1.5 pt-2">
                     <a
                       href={`https://wa.me/?text=Hi%2C%20I%20am%20interested%20in%20renting%20the%20${encodeURIComponent(card.name)}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center justify-center gap-1 bg-[#128C7E] hover:bg-[#075E54] text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1 bg-[#1E7E34] hover:bg-[#186429] text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" /> WhatsApp
+                      <MessageCircle className="w-3.5 h-3.5 fill-white" /> WhatsApp
                     </a>
                     <a
-                      href="tel:+18005550199"
-                      className="flex items-center justify-center gap-1 bg-[#D32F2F] hover:bg-[#B71C1C] text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer"
+                      href="tel:+971542116317"
+                      className="flex items-center justify-center gap-1 bg-[#B30006] hover:bg-[#8f0005] text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
                       <Phone className="w-3.5 h-3.5" /> Call Us
                     </a>
                     <button
                       type="button"
                       onClick={() => handleBookProductCard(card)}
-                      className="flex items-center justify-center gap-1 bg-neutral-950 hover:bg-neutral-800 text-white py-2 px-1 rounded-md text-[11px] font-bold transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1 bg-black hover:bg-neutral-800 text-white py-2 px-1 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
-                      <Key className="w-3.5 h-3.5" /> Inquire Now
+                      <Calendar className="w-3.5 h-3.5" /> Inquire Now
                     </button>
                   </div>
                 </div>
@@ -2310,12 +2724,10 @@ function CarShowcasePage() {
                 </span>
               </li>
             </ul>
-
             <div className="pt-2">
               <Button
                 onClick={() => setBookingCar(fleet[2])}
-                className="bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 font-black text-xs sm:text-sm px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
-              >
+                className="bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 font-black text-xs sm:text-sm px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95">
                 <Key className="w-4 h-4 mr-1.5" /> CUSTOMIZE MY RENTAL PLAN
               </Button>
             </div>
@@ -2324,223 +2736,304 @@ function CarShowcasePage() {
       </section>
 
       {/* 
-        Blogs & Editorial Guides Section:
-        - Linked from Navbar (#blogs)
-        - Main heading centered, right side content removed
+        Our Locations Section:
+        - Layout & Content directly matching user's uploaded reference (media_1794988104568_24beaa4d.png)
+        - Left: "Our Locations" heading, description, interactive location selection pills
+        - Right: Dubai & UAE Regional Map with 12 interactive lime/yellow pins with pulse/radar glow & tooltips
       */}
+      <section
+        id="locations"
+        className="w-full bg-white border-t border-neutral-200/80 py-16 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
+      >
+        <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Left Column: Heading & Paragraph */}
+          <div className="lg:col-span-5 flex flex-col items-start space-y-5">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-neutral-900 tracking-tight leading-tight">
+              Our Locations
+            </h2>
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal max-w-lg">
+              Partnered with the major car hire companies, Faster Rent A Car is your one-stop-solution to find a cheap car rental facility anywhere in Dubai.
+            </p>
 
-      {/* 
-        Professional Luxury Automotive Footer:
-        - 5 Structured columns + Newsletter + Trust Badges + Copyright & Legal.
-      */}
-      <footer className="w-full bg-[#0D0E11] text-neutral-400 pt-16 pb-10 px-4 sm:px-8 lg:px-12 border-t border-neutral-800 relative z-20">
-        <div className="w-full max-w-[1720px] mx-auto space-y-12">
-          {/* Main Footer Columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10">
-            {/* Column 1: Brand & Mission */}
-            <div className="space-y-4 lg:col-span-1">
-              <a href="#home" className="flex items-center gap-2.5">
-                <span className="w-8 h-8 rounded-lg bg-amber-500 text-white font-black grid place-items-center text-sm shadow-md">
-                  L
-                </span>
-                <span className="font-black text-lg tracking-wider text-white">
-                  LUXORA <span className="text-amber-500">DRIVE</span>
-                </span>
-              </a>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Premier exotic supercar and luxury vehicle rentals in Dubai & worldwide. 24/7 VIP
-                doorstep delivery, zero deposit options, and showroom condition.
-              </p>
-              <div className="flex items-center gap-3 pt-1 text-neutral-300">
-                <a
-                  href="#instagram"
-                  className="w-8 h-8 rounded-full bg-neutral-900 hover:bg-amber-500 hover:text-white grid place-items-center transition-colors"
-                >
-                  <Instagram className="w-4 h-4" />
-                </a>
-                <a
-                  href="#facebook"
-                  className="w-8 h-8 rounded-full bg-neutral-900 hover:bg-amber-500 hover:text-white grid place-items-center transition-colors"
-                >
-                  <Facebook className="w-4 h-4" />
-                </a>
-                <a
-                  href="#twitter"
-                  className="w-8 h-8 rounded-full bg-neutral-900 hover:bg-amber-500 hover:text-white grid place-items-center transition-colors"
-                >
-                  <Twitter className="w-4 h-4" />
-                </a>
-                <a
-                  href="#youtube"
-                  className="w-8 h-8 rounded-full bg-neutral-900 hover:bg-amber-500 hover:text-white grid place-items-center transition-colors"
-                >
-                  <Youtube className="w-4 h-4" />
-                </a>
+            {/* Interactive Location Chips */}
+            <div className="w-full pt-2">
+              <span className="text-[11px] font-black text-neutral-400 uppercase tracking-wider block mb-2.5">
+                CLICK ANY LOCATION TO HIGHLIGHT
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {dubaiLocations.map((loc) => {
+                  const isActive = activeLocationId === loc.id;
+                  return (
+                    <button
+                      key={loc.id}
+                      type="button"
+                      onClick={() => setActiveLocationId(loc.id)}
+                      className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isActive
+                          ? "bg-[#C4D600] text-neutral-950 border-[#C4D600] shadow-md scale-105"
+                          : "bg-neutral-50 text-neutral-700 border-neutral-200/80 hover:bg-neutral-100 hover:text-neutral-950"
+                      }`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${isActive ? "bg-neutral-950" : "bg-[#B5C91A]"}`} />
+                      <span>{loc.name}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Column 2: Our Fleet */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-white">OUR FLEET</h4>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    McLaren 765LT Longtail
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    Porsche 911 GT3 RS
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    BMW M5 CS Competition
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    Audi RS Q8 Performance
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    Lamborghini Huracán Evo
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet" className="hover:text-white transition-colors">
-                    Mansory Luxury Patrol SUV
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Rental Services */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-white">
-                RENTAL SERVICES
-              </h4>
-              <ul className="space-y-2 text-xs">
-                <li>
-                  <a href="#tailor-dubai" className="hover:text-white transition-colors">
-                    Hourly & Safari Rental
-                  </a>
-                </li>
-                <li>
-                  <a href="#tailor-dubai" className="hover:text-white transition-colors">
-                    Full-Day Wedding & Events
-                  </a>
-                </li>
-                <li>
-                  <a href="#fleet-deals" className="hover:text-white transition-colors">
-                    Weekend Flash Specials
-                  </a>
-                </li>
-                <li>
-                  <a href="#tailor-dubai" className="hover:text-white transition-colors">
-                    Monthly Long-Term Lease
-                  </a>
-                </li>
-                <li>
-                  <a href="#categories" className="hover:text-white transition-colors">
-                    VIP Airport Terminal Handover
-                  </a>
-                </li>
-                <li>
-                  <a href="#categories" className="hover:text-white transition-colors">
-                    Chauffeur Driven Cars
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Contact & Showrooms */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-white">
-                SHOWROOMS & SUPPORT
-              </h4>
-              <ul className="space-y-2 text-xs">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                  <a href="tel:+0008088888" className="hover:text-white font-bold text-white">
-                    +00 080 888 88
-                  </a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <MessageCircle className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
-                  <a href="https://wa.me/" className="hover:text-white font-bold text-emerald-400">
-                    WhatsApp Concierge
-                  </a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                  <span>concierge@luxoradrive.com</span>
-                </li>
-                <li className="flex items-start gap-2 pt-1">
-                  <MapPin className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
-                  <span>Downtown Dubai Boulevard & Dubai Airport VIP Lounge</span>
-                </li>
-                <li className="flex items-center gap-2 text-amber-400 font-bold pt-1">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Open 24 Hours / 7 Days</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 5: VIP Membership Club & Newsletter */}
-            <div className="space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-white">
-                VIP PRIVILEGE CLUB
-              </h4>
-              <p className="text-xs text-neutral-400">
-                Subscribe for private invitations, flash weekend rates, and priority vehicle
-                allocation.
-              </p>
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-2 pt-1">
-                <div className="flex items-center bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden p-1">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                    className="w-full bg-transparent px-2.5 py-1 text-xs text-white placeholder-neutral-500 outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs px-3 py-1.5 rounded-md cursor-pointer transition-colors"
+            {/* Active Location Info Card */}
+            {(() => {
+              const selectedLoc = dubaiLocations.find((l) => l.id === activeLocationId) || dubaiLocations[0];
+              return (
+                <div className="w-full mt-2 p-4 rounded-2xl bg-neutral-50 border border-neutral-200/90 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#B5C91A] shadow-xs" />
+                      <h4 className="text-base font-black text-neutral-900 uppercase">
+                        {selectedLoc.name}
+                      </h4>
+                    </div>
+                    <p className="text-xs text-neutral-500 font-medium">
+                      {selectedLoc.subtitle} • {selectedLoc.carsAvailable} Supercars & Luxury SUVs Onsite
+                    </p>
+                    <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                      ✓ Free VIP Delivery in {selectedLoc.deliveryTime}
+                    </span>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => setBookingCar(fleet[0])}
+                    className="bg-neutral-900 hover:bg-neutral-800 text-white font-black text-xs px-4 py-2 rounded-xl shrink-0 cursor-pointer"
                   >
-                    JOIN
-                  </button>
+                    BOOK AT THIS LOCATION
+                  </Button>
                 </div>
-              </form>
-              <div className="flex items-center gap-2 text-[11px] text-neutral-500 pt-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span>100% Comprehensive Coverage Included</span>
-              </div>
-            </div>
+              );
+            })()}
           </div>
 
-          {/* Bottom Bar: Copyright & Legal */}
-          <div className="pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-            <div>
-              © 2026 Luxora Drive LLC. All rights reserved. Registered luxury vehicle operator.
-            </div>
-            <div className="flex items-center gap-6">
-              <a href="#privacy" className="hover:text-neutral-400 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#terms" className="hover:text-neutral-400 transition-colors">
-                Terms of Rental
-              </a>
-              <a href="#security" className="hover:text-neutral-400 transition-colors">
-                Security Guarantee
-              </a>
-              <a href="#insurance" className="hover:text-neutral-400 transition-colors">
-                Insurance Policy
-              </a>
-            </div>
+          {/* Right Column: World / Regional Map Silhouette with 12 Glowing Pins */}
+          <div className="lg:col-span-7 relative w-full aspect-[16/10] sm:aspect-[16/9] bg-white rounded-3xl border border-neutral-200/80 p-2 sm:p-6 flex items-center justify-center overflow-hidden shadow-xs">
+            {/* World Map Vector Silhouette SVG */}
+            <svg
+              className="w-full h-full text-neutral-200/90 pointer-events-none select-none"
+              viewBox="0 0 1000 550"
+              fill="currentColor"
+            >
+              <path d="M120 70 Q180 50 250 80 Q290 120 270 180 Q240 210 210 260 Q170 240 140 180 Q100 130 120 70 Z" opacity="0.85" />
+              <path d="M220 280 Q270 290 290 350 Q280 430 250 490 Q220 450 210 380 Q200 320 220 280 Z" opacity="0.85" />
+              <path d="M460 70 Q540 60 560 110 Q540 160 490 170 Q450 140 460 70 Z" opacity="0.85" />
+              <path d="M470 190 Q560 180 580 260 Q560 360 520 420 Q460 350 450 270 Q450 220 470 190 Z" opacity="0.85" />
+              <path d="M570 70 Q750 50 850 110 Q920 190 870 260 Q790 280 720 240 Q650 260 590 180 Q560 120 570 70 Z" opacity="0.85" />
+              <path d="M780 340 Q860 330 890 380 Q870 440 810 440 Q760 410 780 340 Z" opacity="0.85" />
+              <path d="M580 180 Q620 170 650 210 Q630 250 590 240 Z" opacity="0.95" />
+            </svg>
+
+            {/* 12 Interactive Location Pins with Exact Coordinates from reference image */}
+            {dubaiLocations.map((loc) => {
+              const isActive = activeLocationId === loc.id;
+              return (
+                <div
+                  key={loc.id}
+                  style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
+                  onClick={() => setActiveLocationId(loc.id)}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 cursor-pointer group z-20 transition-all duration-300 ${
+                    isActive ? "scale-110 z-30" : "hover:scale-105"
+                  }`}
+                >
+                  <div className="relative">
+                    <div
+                      className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#C4D600] ring-4 ring-[#C4D600]/40 shadow-[0_0_14px_#C4D600]"
+                          : "bg-[#B5C91A] group-hover:bg-[#C4D600] group-hover:ring-2 group-hover:ring-[#C4D600]/30"
+                      }`}
+                    />
+                    {isActive && (
+                      <div className="absolute inset-0 rounded-full bg-[#C4D600] animate-ping opacity-75" />
+                    )}
+                  </div>
+                  <span
+                    className={`text-[10px] sm:text-xs whitespace-nowrap transition-all duration-200 select-none ${
+                      isActive
+                        ? "font-black text-neutral-950 bg-white/95 px-2 py-0.5 rounded-md shadow-md border border-neutral-200"
+                        : "font-semibold text-neutral-700 group-hover:text-neutral-950 group-hover:font-bold"
+                    }`}
+                  >
+                    {loc.name}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
+      </section>
+
+      {/* 
+        Footer matching uploaded reference image (media_1794988083086_85d99c5b.png):
+        - Pure black background (bg-black)
+        - Neon yellow headers and accent bullets (text-[#FFE600])
+        - Left brand description + CONTINUE READING button with yellow bottom bar
+        - 4 Columns of categorized links with yellow bullseye target icon (◎)
+        - Right Support column with address, phone, whatsapp, email
+        - Red vehicle image in bottom-right corner
+        - Centered bottom copyright bar
+        - Floating WhatsApp icon button in bottom left
+      */}
+      <footer className="w-full bg-black text-white pt-16 sm:pt-20 pb-12 px-4 sm:px-8 lg:px-12 border-t border-neutral-900 relative z-20 overflow-hidden">
+        {/* Red Vehicle Accent in bottom-right corner matching screenshot */}
+        <div className="hidden lg:block absolute -right-10 bottom-6 w-72 xl:w-80 pointer-events-none select-none opacity-90 z-0">
+          <img
+            src={porscheRed}
+            alt="Faster Luxury Fleet"
+            className="w-full h-auto object-contain drop-shadow-[0_20px_24px_rgba(0,0,0,0.8)]"
+          />
+        </div>
+
+        <div className="w-full max-w-[1720px] mx-auto space-y-14 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 items-start">
+            {/* Column 1: Brand & CONTINUE READING Button */}
+            <div className="flex flex-col items-start space-y-5">
+              {/* Yellow stylized aerodynamic emblem matching reference */}
+              <div className="flex items-center gap-2">
+                <svg className="w-14 h-12 text-[#FFE600]" viewBox="0 0 100 80" fill="currentColor">
+                  <path d="M12 25 Q35 15 75 10 Q60 25 45 32 Q70 28 92 22 Q65 50 32 68 Q48 48 52 42 Q30 50 12 25 Z" />
+                </svg>
+              </div>
+              <p className="text-xs sm:text-[13px] text-neutral-300 leading-relaxed font-normal">
+                Faster Luxury Car Rental Dubai professional Sports Car Rental Service. Customer well-being, satisfaction and choice are our extreme priority.
+              </p>
+              <a
+                href="#tailor-dubai"
+                className="inline-block bg-[#2A2B2D] hover:bg-[#383A3D] text-white font-black text-xs uppercase px-7 py-3 tracking-wider transition-all border-b-4 border-[#FFE600] shadow-[0_4px_0_#FFE600] cursor-pointer"
+              >
+                CONTINUE READING
+              </a>
+            </div>
+
+            {/* Column 2: USEFUL LINKS */}
+            <div className="space-y-4">
+              <h4 className="text-sm sm:text-base font-black uppercase tracking-wider text-[#FFE600]">
+                USEFUL LINKS
+              </h4>
+              <ul className="space-y-2.5 text-xs sm:text-[13px] text-neutral-300">
+                {[
+                  "About Us",
+                  "Special Offers",
+                  "Blogs",
+                  "Events & News",
+                  "Terms and Conditions",
+                  "Privacy Policy",
+                  "FAQ'S",
+                  "Contact Us",
+                  "Sitemap",
+                ].map((item) => (
+                  <li key={item}>
+                    <a href="#home" className="flex items-center gap-2 hover:text-[#FFE600] transition-colors">
+                      <span className="text-[#FFE600] font-black text-xs">◎</span>
+                      <span>{item}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: CATEGORIES */}
+            <div className="space-y-4">
+              <h4 className="text-sm sm:text-base font-black uppercase tracking-wider text-[#FFE600]">
+                CATEGORIES
+              </h4>
+              <ul className="space-y-2.5 text-xs sm:text-[13px] text-neutral-300">
+                {[
+                  "Rent Supercars",
+                  "Rent Monthly",
+                  "Rent Luxury",
+                  "Rent Sports",
+                  "Rent SUV",
+                  "Rent Modified",
+                  "Rent 7 Seater",
+                ].map((item) => (
+                  <li key={item}>
+                    <a href="#categories" className="flex items-center gap-2 hover:text-[#FFE600] transition-colors">
+                      <span className="text-[#FFE600] font-black text-xs">◎</span>
+                      <span>{item}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 4: OUR SERVICES */}
+            <div className="space-y-4">
+              <h4 className="text-sm sm:text-base font-black uppercase tracking-wider text-[#FFE600]">
+                OUR SERVICES
+              </h4>
+              <ul className="space-y-2.5 text-xs sm:text-[13px] text-neutral-300">
+                {[
+                  "Yacht Charter Service",
+                  "Limousine Service",
+                  "Helicopter Tour Service",
+                  "Desert Safari Service",
+                ].map((item) => (
+                  <li key={item}>
+                    <a href="#tailor-dubai" className="flex items-center gap-2 hover:text-[#FFE600] transition-colors">
+                      <span className="text-[#FFE600] font-black text-xs">◎</span>
+                      <span>{item}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 5: SUPPORT */}
+            <div className="space-y-4">
+              <h4 className="text-sm sm:text-base font-black uppercase tracking-wider text-[#FFE600]">
+                SUPPORT
+              </h4>
+              <ul className="space-y-3 text-xs sm:text-[13px] text-neutral-300">
+                <li className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-[#FFE600] shrink-0 mt-0.5" />
+                  <span>Rose 2 - 17a St - Dubai, Al Barsha, Sheikh Zayed Road, United Arab Emirates.</span>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <Phone className="w-4 h-4 text-[#FFE600] shrink-0" />
+                  <a href="tel:+971542116317" className="hover:text-[#FFE600] font-bold text-white">
+                    +971 54 211 6317
+                  </a>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <MessageCircle className="w-4 h-4 text-[#FFE600] shrink-0" />
+                  <a href="https://wa.me/971542116317" className="hover:text-[#FFE600] font-bold text-white">
+                    971 54 211 6317
+                  </a>
+                </li>
+                <li className="flex items-center gap-2.5">
+                  <Mail className="w-4 h-4 text-[#FFE600] shrink-0" />
+                  <a href="mailto:info@fastercars.ae" className="hover:text-[#FFE600]">
+                    info@fastercars.ae
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar: Copyright */}
+          <div className="pt-8 border-t border-neutral-900 text-center text-xs text-neutral-400">
+            © 2026 Faster Rent A Car LLC. All Rights Reserved.
+          </div>
+        </div>
+
+        {/* Floating WhatsApp Quick Action Button (as shown in screenshot bottom-left) */}
+        <a
+          href="https://wa.me/971542116317"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contact WhatsApp Concierge"
+          className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] text-white shadow-2xl flex items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+        >
+          <MessageCircle className="w-6 h-6 fill-white text-white" />
+        </a>
       </footer>
 
       {/* Luxury Rental Booking Dialog */}
