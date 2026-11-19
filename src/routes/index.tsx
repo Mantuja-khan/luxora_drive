@@ -908,6 +908,18 @@ function CarShowcasePage() {
     setMobileOpenSection((prev) => (prev === section ? null : section));
   };
 
+  // Prevent background scroll and bleed-through when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const currentCurrencyConfig =
     currencies.find((c) => c.code === selectedCurrency) || currencies[0];
 
@@ -1162,6 +1174,270 @@ function CarShowcasePage() {
                 introPhase === "flying" ? "max-h-8 sm:max-h-10" : "max-h-64 sm:max-h-80"
               }`}
             />
+          </div>
+        </div>
+      )}
+
+      {/* 
+        Full-Screen Mobile Menu Drawer:
+        - Covers 100% of viewport (inset-0, 100dvh) with pure opaque white background
+        - Completely blocks and hides all background content (hero section, cars, etc.)
+        - Dedicated top bar with Luxora Drive Logo and Close (X) button
+      */}
+      {isMobileMenuOpen && (
+        <div className="xl:hidden fixed inset-0 w-full h-full h-[100dvh] min-h-[100dvh] bg-white z-[99999] flex flex-col overflow-hidden select-auto animate-in fade-in duration-150">
+          {/* Mobile Drawer Top Bar */}
+          <div className="w-full px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-neutral-100 bg-white shrink-0">
+            <a
+              href="#home"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center cursor-pointer"
+              aria-label="Luxora Drive Home"
+            >
+              <img
+                src={luxoraLogo}
+                alt="Luxora Drive"
+                className="h-8 sm:h-10 w-auto object-contain"
+              />
+            </a>
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close Navigation Menu"
+              className="w-10 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 flex items-center justify-center cursor-pointer transition-colors"
+            >
+              <X className="w-5 h-5 text-neutral-900" />
+            </button>
+          </div>
+
+          {/* Mobile Drawer Scrollable Navigation */}
+          <div className="flex-1 overflow-y-auto px-6 py-6 bg-white overscroll-contain">
+            <nav className="flex flex-col gap-2 text-sm font-normal uppercase tracking-wider text-neutral-800 pb-20">
+              <a
+                href="#home"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+              >
+                HOME
+              </a>
+
+              {/* ALL BRANDS Accordion */}
+              <div className="border-b border-neutral-100">
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSection("brands")}
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                >
+                  <span>ALL BRANDS</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                      mobileOpenSection === "brands" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileOpenSection === "brands" && (
+                  <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 gap-y-1.5 animate-in fade-in duration-150">
+                    {allCarBrands.map((brand) => (
+                      <a
+                        key={brand.id}
+                        href="#brands"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
+                      >
+                        <span className="font-medium text-xs text-neutral-900 hover:text-amber-600 transition-colors">
+                          {brand.name}
+                        </span>
+                        <span className="text-[9px] text-neutral-400 font-normal">
+                          {brand.count}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <a
+                href="#flash-sale"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-amber-600 hover:text-amber-700 py-2.5 border-b border-neutral-100"
+              >
+                FLASH SALE
+              </a>
+
+              {/* CATEGORIES Accordion */}
+              <div className="border-b border-neutral-100">
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSection("categories")}
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                >
+                  <span>CATEGORIES</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                      mobileOpenSection === "categories" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileOpenSection === "categories" && (
+                  <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
+                    <div className="flex flex-col">
+                      {categoryDropdownCol1.map((item, idx) => (
+                        <a
+                          key={item}
+                          href="#categories"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
+                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-200" : ""
+                          }`}
+                        >
+                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="truncate">{item}</span>
+                        </a>
+                      ))}
+                    </div>
+                    <div className="flex flex-col">
+                      {categoryDropdownCol2.map((item, idx) => (
+                        <a
+                          key={item}
+                          href="#categories"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
+                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-200" : ""
+                          }`}
+                        >
+                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="truncate">{item}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* LOCATIONS Accordion */}
+              <div className="border-b border-neutral-100">
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSection("locations")}
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                >
+                  <span>LOCATIONS</span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                      mobileOpenSection === "locations" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileOpenSection === "locations" && (
+                  <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
+                    <div className="flex flex-col">
+                      {dubaiLocations.slice(0, 6).map((loc, idx) => (
+                        <a
+                          key={loc.id}
+                          href="#locations"
+                          onClick={() => {
+                            setActiveLocationId(loc.id);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
+                            idx < 5 ? "border-b border-neutral-200" : ""
+                          }`}
+                        >
+                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="truncate">{loc.name}</span>
+                        </a>
+                      ))}
+                    </div>
+                    <div className="flex flex-col">
+                      {dubaiLocations.slice(6, 12).map((loc, idx) => (
+                        <a
+                          key={loc.id}
+                          href="#locations"
+                          onClick={() => {
+                            setActiveLocationId(loc.id);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
+                            idx < 5 ? "border-b border-neutral-200" : ""
+                          }`}
+                        >
+                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="truncate">{loc.name}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* CURRENCY Accordion */}
+              <div className="border-b border-neutral-100">
+                <button
+                  type="button"
+                  onClick={() => toggleMobileSection("currency")}
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span>CURRENCY</span>
+                    <span className="text-xs font-normal text-neutral-500 lowercase">
+                      ({currentCurrencyConfig.code} - {currentCurrencyConfig.symbol})
+                    </span>
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                      mobileOpenSection === "currency" ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {mobileOpenSection === "currency" && (
+                  <div className="pb-3 pt-2 grid grid-cols-3 gap-2 animate-in fade-in duration-150">
+                    {currencies.map((curr) => (
+                      <button
+                        key={curr.code}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCurrency(curr.code);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-none text-xs font-normal uppercase border transition-all ${
+                          selectedCurrency === curr.code
+                            ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
+                            : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                        }`}
+                      >
+                        <span>{curr.flag}</span>
+                        <span>{curr.code}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <a
+                href="#services"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+              >
+                OUR SERVICES
+              </a>
+
+              <a
+                href="#blogs"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+              >
+                BLOGS
+              </a>
+
+              <a
+                href="tel:0000000000"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-neutral-900 py-2.5 flex items-center gap-2"
+              >
+                <Phone className="w-3.5 h-3.5 text-neutral-700" />
+                <span>CONTACT US: 0000000000</span>
+              </a>
+            </nav>
           </div>
         </div>
       )}
@@ -1505,229 +1781,6 @@ function CarShowcasePage() {
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-
-          {/* Mobile Menu Dropdown / Drawer (Full Screen to avoid hero bleed through) */}
-          {isMobileMenuOpen && (
-            <div className="xl:hidden fixed inset-x-0 top-[60px] sm:top-[72px] bottom-0 w-full h-[calc(100vh-60px)] sm:h-[calc(100vh-72px)] bg-white z-[999] overflow-y-auto px-6 py-6 shadow-2xl animate-in slide-in-from-top-4 duration-200">
-              <nav className="flex flex-col gap-2 text-sm font-normal uppercase tracking-wider text-neutral-800">
-                <a
-                  href="#home"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
-                >
-                  HOME
-                </a>
-
-                {/* ALL BRANDS Accordion */}
-                <div className="border-b border-neutral-100">
-                  <button
-                    type="button"
-                    onClick={() => toggleMobileSection("brands")}
-                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
-                  >
-                    <span>ALL BRANDS</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "brands" ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-                  {mobileOpenSection === "brands" && (
-                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 gap-y-1.5 animate-in fade-in duration-150">
-                      {allCarBrands.map((brand) => (
-                        <a
-                          key={brand.id}
-                          href="#brands"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
-                        >
-                          <span className="font-medium text-xs text-neutral-900 hover:text-amber-600 transition-colors">
-                            {brand.name}
-                          </span>
-                          <span className="text-[9px] text-neutral-400 font-normal">
-                            {brand.count}
-                          </span>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <a
-                  href="#flash-sale"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-amber-600 hover:text-amber-700 py-2.5 border-b border-neutral-100"
-                >
-                  FLASH SALE
-                </a>
-
-                {/* CATEGORIES Accordion */}
-                <div className="border-b border-neutral-100">
-                  <button
-                    type="button"
-                    onClick={() => toggleMobileSection("categories")}
-                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
-                  >
-                    <span>CATEGORIES</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "categories" ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-                  {mobileOpenSection === "categories" && (
-                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
-                      <div className="flex flex-col">
-                        {categoryDropdownCol1.map((item, idx) => (
-                          <a
-                            key={item}
-                            href="#categories"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-200" : ""
-                              }`}
-                          >
-                            <span className="text-xs text-neutral-400">&gt;</span>
-                            <span className="truncate">{item}</span>
-                          </a>
-                        ))}
-                      </div>
-                      <div className="flex flex-col">
-                        {categoryDropdownCol2.map((item, idx) => (
-                          <a
-                            key={item}
-                            href="#categories"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-200" : ""
-                              }`}
-                          >
-                            <span className="text-xs text-neutral-400">&gt;</span>
-                            <span className="truncate">{item}</span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* LOCATIONS Accordion */}
-                <div className="border-b border-neutral-100">
-                  <button
-                    type="button"
-                    onClick={() => toggleMobileSection("locations")}
-                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
-                  >
-                    <span>LOCATIONS</span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "locations" ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-                  {mobileOpenSection === "locations" && (
-                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
-                      <div className="flex flex-col">
-                        {dubaiLocations.slice(0, 6).map((loc, idx) => (
-                          <a
-                            key={loc.id}
-                            href="#locations"
-                            onClick={() => {
-                              setActiveLocationId(loc.id);
-                              setIsMobileMenuOpen(false);
-                            }}
-                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < 5 ? "border-b border-neutral-200" : ""
-                              }`}
-                          >
-                            <span className="text-xs text-neutral-400">&gt;</span>
-                            <span className="truncate">{loc.name}</span>
-                          </a>
-                        ))}
-                      </div>
-                      <div className="flex flex-col">
-                        {dubaiLocations.slice(6, 12).map((loc, idx) => (
-                          <a
-                            key={loc.id}
-                            href="#locations"
-                            onClick={() => {
-                              setActiveLocationId(loc.id);
-                              setIsMobileMenuOpen(false);
-                            }}
-                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < 5 ? "border-b border-neutral-200" : ""
-                              }`}
-                          >
-                            <span className="text-xs text-neutral-400">&gt;</span>
-                            <span className="truncate">{loc.name}</span>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* CURRENCY Accordion */}
-                <div className="border-b border-neutral-100">
-                  <button
-                    type="button"
-                    onClick={() => toggleMobileSection("currency")}
-                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
-                  >
-                    <span className="flex items-center gap-2">
-                      <span>CURRENCY</span>
-                      <span className="text-xs font-normal text-neutral-500 lowercase">
-                        ({currentCurrencyConfig.code} - {currentCurrencyConfig.symbol})
-                      </span>
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "currency" ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-                  {mobileOpenSection === "currency" && (
-                    <div className="pb-3 pt-2 grid grid-cols-3 gap-2 animate-in fade-in duration-150">
-                      {currencies.map((curr) => (
-                        <button
-                          key={curr.code}
-                          type="button"
-                          onClick={() => {
-                            setSelectedCurrency(curr.code);
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-none text-xs font-normal uppercase border transition-all ${selectedCurrency === curr.code
-                            ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
-                            : "bg-neutral-50 text-neutral-700 border-neutral-200"
-                            }`}
-                        >
-                          <span>{curr.flag}</span>
-                          <span>{curr.code}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <a
-                  href="#services"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
-                >
-                  OUR SERVICES
-                </a>
-
-                <a
-                  href="#blogs"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
-                >
-                  BLOGS
-                </a>
-
-                <a
-                  href="tel:0000000000"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-neutral-900 py-2.5 flex items-center gap-2"
-                >
-                  <Phone className="w-3.5 h-3.5 text-neutral-700" />
-                  <span>CONTACT US: 0000000000</span>
-                </a>
-              </nav>
-            </div>
-          )}
         </header>
 
         {/* Main Feature Stage Area */}
