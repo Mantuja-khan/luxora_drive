@@ -47,6 +47,9 @@ import lamboHuracanSto from "@/assets/lambo-huracan-sto.png";
 import mercedesG63Maybach from "@/assets/mercedes-g63-maybach.png";
 import mapGif from "@/assets/MAP.gif";
 import faqCarBg from "@/assets/faq-car-bg.webp";
+import luxoraLogo from "@/assets/luxora-logo.png";
+import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
+import luxoraLoaderGif from "@/assets/luxora-drive-loader.gif";
 export interface CarItem {
   id: string;
   make: string;
@@ -482,8 +485,8 @@ const rentalCategories: RentalCategory[] = [
 
 export interface PorscheProductCard {
   id: string;
-  topBadge: string;
-  topBadgeTheme: "dark" | "blue";
+  topBadge?: string;
+  topBadgeTheme?: "dark" | "blue";
   category: string;
   name: string;
   images: string[];
@@ -678,7 +681,6 @@ const porscheProductCards: PorscheProductCard[] = [
       "Motorsport aerodynamic downforce combined with a 9,000 RPM naturally aspirated engine. Tuned for peak racetrack connection and open Dubai highway cruising.",
   },
 ];
-
 const flashSaleItems: FlashSaleItem[] = [
   {
     id: "flash-lambo-tiffany",
@@ -834,15 +836,77 @@ const faqList: FaqItem[] = [
   },
 ];
 
+export interface CarBrandItem {
+  id: string;
+  name: string;
+  count: string;
+}
+
+const allCarBrands: CarBrandItem[] = [
+  { id: "nissan", name: "NISSAN", count: "54 CARS" },
+  { id: "chevrolet", name: "CHEVROLET", count: "30 CARS" },
+  { id: "ford", name: "FORD", count: "22 CARS" },
+  { id: "dodge", name: "DODGE", count: "17 CARS" },
+  { id: "mercedes", name: "MERCEDES", count: "60 CARS" },
+  { id: "mini-cooper", name: "MINI COOPER", count: "4 CARS" },
+  { id: "bmw", name: "BMW", count: "25 CARS" },
+  { id: "audi", name: "AUDI", count: "23 CARS" },
+  { id: "infiniti", name: "INFINITI", count: "5 CARS" },
+  { id: "range-rover", name: "RANGE ROVER", count: "34 CARS" },
+  { id: "lamborghini", name: "LAMBORGHINI", count: "28 CARS" },
+  { id: "ferrari", name: "FERRARI", count: "8 CARS" },
+  { id: "rolls-royce", name: "ROLLS ROYCE", count: "15 CARS" },
+  { id: "porsche", name: "PORSCHE", count: "7 CARS" },
+  { id: "bentley", name: "BENTLEY", count: "8 CARS" },
+  { id: "cadillac", name: "CADILLAC", count: "3 CARS" },
+  { id: "mclaren", name: "MCLAREN", count: "3 CARS" },
+  { id: "corvette", name: "CORVETTE", count: "5 CARS" },
+  { id: "chrysler", name: "CHRYSLER", count: "4 CARS" },
+  { id: "jeep", name: "JEEP", count: "6 CARS" },
+  { id: "jaguar", name: "JAGUAR", count: "9 CARS" },
+  { id: "gmc", name: "GMC", count: "9 CARS" },
+  { id: "maserati", name: "MASERATI", count: "3 CARS" },
+  { id: "kia", name: "KIA", count: "1 CARS" },
+  { id: "toyota", name: "TOYOTA", count: "1 CARS" },
+  { id: "tesla", name: "TESLA", count: "2 CARS" },
+  { id: "lincoln", name: "LINCOLN", count: "1 CARS" },
+  { id: "citroen", name: "CITROEN", count: "4 CARS" },
+  { id: "brabus", name: "BRABUS", count: "11 CARS" },
+];
+
 function CarShowcasePage() {
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>("AED");
   const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
+  const [isBrandsDropdownOpen, setIsBrandsDropdownOpen] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const [isLocationsDropdownOpen, setIsLocationsDropdownOpen] = useState(false);
   const [activeLocationId, setActiveLocationId] = useState<string>("dubai-mall");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileOpenSection, setMobileOpenSection] = useState<"brands" | "categories" | "locations" | "currency" | null>(null);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  // Intro Loading Animation Phase: "loading" -> "flying" -> "done"
+  const [introPhase, setIntroPhase] = useState<"loading" | "flying" | "done">("loading");
+
+  useEffect(() => {
+    const flyTimer = setTimeout(() => {
+      setIntroPhase("flying");
+    }, 2800);
+
+    const doneTimer = setTimeout(() => {
+      setIntroPhase("done");
+    }, 3650);
+
+    return () => {
+      clearTimeout(flyTimer);
+      clearTimeout(doneTimer);
+    };
+  }, []);
+
+  const toggleMobileSection = (section: "brands" | "categories" | "locations" | "currency") => {
+    setMobileOpenSection((prev) => (prev === section ? null : section));
+  };
 
   const currentCurrencyConfig =
     currencies.find((c) => c.code === selectedCurrency) || currencies[0];
@@ -1033,7 +1097,7 @@ function CarShowcasePage() {
       model: card.name.replace("Porsche ", ""),
       badge: "GT3 RS",
       category: card.category,
-      tagline: card.topBadge,
+      tagline: card.topBadge || "PREMIUM FLEET",
       description:
         "The Porsche 911 GT3 RS features motorsport aerodynamic downforce and a 9,000 RPM high-revving naturally aspirated engine.",
       cardShortDesc: "Clubsport roll-cage, carbon-ceramic brakes, and active DRS rear wing.",
@@ -1071,6 +1135,38 @@ function CarShowcasePage() {
   return (
     <main className="w-full bg-white select-none relative overflow-x-hidden">
       {/* 
+        Intro Loading Animation:
+        - Fullscreen pure white background with animated LUXORA DRIVE GIF in center
+        - When loading completes, logo smoothly flies & scales into the navbar logo spot
+      */}
+      {introPhase !== "done" && (
+        <div
+          onClick={() => setIntroPhase("done")}
+          className={`fixed inset-0 z-[9998] transition-opacity duration-700 ease-out cursor-pointer ${
+            introPhase === "flying" ? "opacity-0 pointer-events-none" : "opacity-100 bg-white"
+          }`}
+          aria-hidden={introPhase === "done"}
+        >
+          {/* Animated Logo Container: Starts centered, then flies to the navbar logo coordinates */}
+          <div
+            className={`fixed z-[9999] pointer-events-none transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center ${
+              introPhase === "loading"
+                ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 max-w-[85vw]"
+                : "top-4 sm:top-5 left-4 sm:left-8 lg:left-12 translate-x-0 translate-y-0 w-28 sm:w-36 h-8 sm:h-10 justify-start"
+            }`}
+          >
+            <img
+              src={luxoraLoaderGif}
+              alt="Luxora Drive"
+              className={`w-full h-auto object-contain transition-all duration-800 ease-in-out ${
+                introPhase === "flying" ? "max-h-8 sm:max-h-10" : "max-h-64 sm:max-h-80"
+              }`}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 
         Hero Showcase Section:
         - Full viewport studio with dynamic car-matched diagonal patti
         - Centered car with brand name partially behind
@@ -1104,22 +1200,19 @@ function CarShowcasePage() {
         Currency Dropdown: AED, USD, EUR (updates all prices across the site)
       */}
         <header className="relative z-30 w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-5 flex items-center justify-between bg-transparent border-none shadow-none backdrop-blur-none">
-          {/* Brand Logo & Name: LUXORA DRIVE */}
-          <a href="#home" className="flex items-center gap-2.5 cursor-pointer group shrink-0">
-            <span
-              className="w-9 h-9 rounded-lg grid place-items-center font-black text-white text-base shadow-sm transition-colors duration-500"
-              style={{ backgroundColor: car.themeColor }}
-            >
-              L
-            </span>
-            <div className="flex flex-col">
-              <span className="font-black text-lg sm:text-xl tracking-wider text-neutral-900 leading-none">
-                LUXORA <span style={{ color: car.themeColor }}>DRIVE</span>
-              </span>
-              <span className="text-[9px] font-bold tracking-[0.24em] text-neutral-500 uppercase mt-0.5">
-                EXOTIC & SUPERCAR FLEET
-              </span>
-            </div>
+          {/* Brand Logo: Clean logo without extra text */}
+          <a
+            href="#home"
+            className={`flex items-center cursor-pointer group shrink-0 transition-opacity duration-300 ${
+              introPhase === "done" ? "opacity-100" : "opacity-0"
+            }`}
+            aria-label="Luxora Drive Home"
+          >
+            <img
+              src={luxoraLogo}
+              alt="Luxora Drive"
+              className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+            />
           </a>
 
           {/* Full Desktop Navigation: ALL CAPITAL, NOT BOLD, NO ICONS */}
@@ -1127,9 +1220,52 @@ function CarShowcasePage() {
             <a href="#home" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
               HOME
             </a>
-            <a href="#categories" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
-              ALL BRANDS
-            </a>
+
+            {/* All Brands Dropdown in Mega Grid */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsBrandsDropdownOpen(true)}
+              onMouseLeave={() => setIsBrandsDropdownOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setIsBrandsDropdownOpen((prev) => !prev)}
+                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+              >
+                <span>ALL BRANDS</span>
+                <ChevronDown
+                  className={`w-3 h-3 text-neutral-400 transition-transform duration-200 ${isBrandsDropdownOpen ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {isBrandsDropdownOpen && (
+                <div
+                  className="absolute left-0 top-full mt-0 w-[640px] sm:w-[780px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100 max-h-[80vh] overflow-y-auto"
+                  onMouseEnter={() => setIsBrandsDropdownOpen(true)}
+                  onMouseLeave={() => setIsBrandsDropdownOpen(false)}
+                >
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-2.5">
+                    {allCarBrands.map((brand) => (
+                      <a
+                        key={brand.id}
+                        href="#brands"
+                        onClick={() => setIsBrandsDropdownOpen(false)}
+                        className="group flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
+                      >
+                        <span className="font-medium text-xs sm:text-[13px] text-neutral-900 group-hover:text-amber-600 transition-colors tracking-tight">
+                          {brand.name}
+                        </span>
+                        <span className="text-[10px] text-neutral-400 font-normal">
+                          {brand.count}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <a
               href="#flash-sale"
               className="uppercase font-normal text-amber-600 hover:text-amber-700 transition-colors cursor-pointer"
@@ -1285,6 +1421,9 @@ function CarShowcasePage() {
                 </div>
               )}
             </div>
+            <a href="#services" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+              SERVICES
+            </a>
             <a href="#blogs" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
               BLOGS
             </a>
@@ -1367,156 +1506,226 @@ function CarShowcasePage() {
             </button>
           </div>
 
-          {/* Mobile Menu Dropdown / Drawer */}
+          {/* Mobile Menu Dropdown / Drawer (Full Screen to avoid hero bleed through) */}
           {isMobileMenuOpen && (
-            <div className="xl:hidden absolute top-full left-0 right-0 bg-white/98 backdrop-blur-xl border-b border-neutral-200 shadow-2xl px-6 py-6 z-50 animate-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto">
-              <nav className="flex flex-col gap-3.5 text-sm font-normal uppercase tracking-wider text-neutral-800">
+            <div className="xl:hidden fixed inset-x-0 top-[60px] sm:top-[72px] bottom-0 w-full h-[calc(100vh-60px)] sm:h-[calc(100vh-72px)] bg-white z-[999] overflow-y-auto px-6 py-6 shadow-2xl animate-in slide-in-from-top-4 duration-200">
+              <nav className="flex flex-col gap-2 text-sm font-normal uppercase tracking-wider text-neutral-800">
                 <a
                   href="#home"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
                 >
                   HOME
                 </a>
-                <a
-                  href="#categories"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
-                >
-                  ALL BRANDS
-                </a>
+
+                {/* ALL BRANDS Accordion */}
+                <div className="border-b border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => toggleMobileSection("brands")}
+                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  >
+                    <span>ALL BRANDS</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "brands" ? "rotate-180" : ""
+                        }`}
+                    />
+                  </button>
+                  {mobileOpenSection === "brands" && (
+                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 gap-y-1.5 animate-in fade-in duration-150">
+                      {allCarBrands.map((brand) => (
+                        <a
+                          key={brand.id}
+                          href="#brands"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
+                        >
+                          <span className="font-medium text-xs text-neutral-900 hover:text-amber-600 transition-colors">
+                            {brand.name}
+                          </span>
+                          <span className="text-[9px] text-neutral-400 font-normal">
+                            {brand.count}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 <a
                   href="#flash-sale"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-amber-600 hover:text-amber-700 py-1 border-b border-neutral-100"
+                  className="text-amber-600 hover:text-amber-700 py-2.5 border-b border-neutral-100"
                 >
                   FLASH SALE
                 </a>
-                <a
-                  href="#categories"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
-                >
-                  CATEGORIES
-                </a>
-                <div className="py-2 grid grid-cols-2 gap-x-3 border-b border-neutral-100">
-                  <div className="flex flex-col">
-                    {categoryDropdownCol1.map((item, idx) => (
-                      <a
-                        key={item}
-                        href="#categories"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
-                          idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-900" : ""
+
+                {/* CATEGORIES Accordion */}
+                <div className="border-b border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => toggleMobileSection("categories")}
+                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  >
+                    <span>CATEGORIES</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "categories" ? "rotate-180" : ""
                         }`}
-                      >
-                        <span className="font-black text-xs text-neutral-900">&gt;</span>
-                        <span className="truncate">{item}</span>
-                      </a>
-                    ))}
-                  </div>
-                  <div className="flex flex-col">
-                    {categoryDropdownCol2.map((item, idx) => (
-                      <a
-                        key={item}
-                        href="#categories"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
-                          idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-900" : ""
-                        }`}
-                      >
-                        <span className="font-black text-xs text-neutral-900">&gt;</span>
-                        <span className="truncate">{item}</span>
-                      </a>
-                    ))}
-                  </div>
+                    />
+                  </button>
+                  {mobileOpenSection === "categories" && (
+                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
+                      <div className="flex flex-col">
+                        {categoryDropdownCol1.map((item, idx) => (
+                          <a
+                            key={item}
+                            href="#categories"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-200" : ""
+                              }`}
+                          >
+                            <span className="text-xs text-neutral-400">&gt;</span>
+                            <span className="truncate">{item}</span>
+                          </a>
+                        ))}
+                      </div>
+                      <div className="flex flex-col">
+                        {categoryDropdownCol2.map((item, idx) => (
+                          <a
+                            key={item}
+                            href="#categories"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-200" : ""
+                              }`}
+                          >
+                            <span className="text-xs text-neutral-400">&gt;</span>
+                            <span className="truncate">{item}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <a
-                  href="#locations"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100 uppercase"
-                >
-                  LOCATIONS
-                </a>
-                <div className="py-2 grid grid-cols-2 gap-x-3 border-b border-neutral-100">
-                  <div className="flex flex-col">
-                    {dubaiLocations.slice(0, 6).map((loc, idx) => (
-                      <a
-                        key={loc.id}
-                        href="#locations"
-                        onClick={() => {
-                          setActiveLocationId(loc.id);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
-                          idx < 5 ? "border-b border-neutral-900" : ""
+
+                {/* LOCATIONS Accordion */}
+                <div className="border-b border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => toggleMobileSection("locations")}
+                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  >
+                    <span>LOCATIONS</span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "locations" ? "rotate-180" : ""
                         }`}
-                      >
-                        <span className="font-black text-xs text-neutral-900">&gt;</span>
-                        <span className="truncate">{loc.name}</span>
-                      </a>
-                    ))}
-                  </div>
-                  <div className="flex flex-col">
-                    {dubaiLocations.slice(6, 12).map((loc, idx) => (
-                      <a
-                        key={loc.id}
-                        href="#locations"
-                        onClick={() => {
-                          setActiveLocationId(loc.id);
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className={`flex items-center gap-1.5 py-1.5 text-[11px] font-bold text-neutral-900 hover:text-amber-600 transition-colors ${
-                          idx < 5 ? "border-b border-neutral-900" : ""
-                        }`}
-                      >
-                        <span className="font-black text-xs text-neutral-900">&gt;</span>
-                        <span className="truncate">{loc.name}</span>
-                      </a>
-                    ))}
-                  </div>
+                    />
+                  </button>
+                  {mobileOpenSection === "locations" && (
+                    <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
+                      <div className="flex flex-col">
+                        {dubaiLocations.slice(0, 6).map((loc, idx) => (
+                          <a
+                            key={loc.id}
+                            href="#locations"
+                            onClick={() => {
+                              setActiveLocationId(loc.id);
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < 5 ? "border-b border-neutral-200" : ""
+                              }`}
+                          >
+                            <span className="text-xs text-neutral-400">&gt;</span>
+                            <span className="truncate">{loc.name}</span>
+                          </a>
+                        ))}
+                      </div>
+                      <div className="flex flex-col">
+                        {dubaiLocations.slice(6, 12).map((loc, idx) => (
+                          <a
+                            key={loc.id}
+                            href="#locations"
+                            onClick={() => {
+                              setActiveLocationId(loc.id);
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${idx < 5 ? "border-b border-neutral-200" : ""
+                              }`}
+                          >
+                            <span className="text-xs text-neutral-400">&gt;</span>
+                            <span className="truncate">{loc.name}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
+
+                {/* CURRENCY Accordion */}
+                <div className="border-b border-neutral-100">
+                  <button
+                    type="button"
+                    onClick={() => toggleMobileSection("currency")}
+                    className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span>CURRENCY</span>
+                      <span className="text-xs font-normal text-neutral-500 lowercase">
+                        ({currentCurrencyConfig.code} - {currentCurrencyConfig.symbol})
+                      </span>
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${mobileOpenSection === "currency" ? "rotate-180" : ""
+                        }`}
+                    />
+                  </button>
+                  {mobileOpenSection === "currency" && (
+                    <div className="pb-3 pt-2 grid grid-cols-3 gap-2 animate-in fade-in duration-150">
+                      {currencies.map((curr) => (
+                        <button
+                          key={curr.code}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCurrency(curr.code);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-none text-xs font-normal uppercase border transition-all ${selectedCurrency === curr.code
+                            ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
+                            : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                            }`}
+                        >
+                          <span>{curr.flag}</span>
+                          <span>{curr.code}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <a
+                  href="#services"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+                >
+                  OUR SERVICES
+                </a>
+
                 <a
                   href="#blogs"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="hover:text-amber-600 transition-colors py-1 border-b border-neutral-100"
+                  className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
                 >
                   BLOGS
                 </a>
+
                 <a
-                  href="tel:+0008088888"
+                  href="tel:0000000000"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-neutral-900 py-1"
+                  className="text-neutral-900 py-2.5 flex items-center gap-2"
                 >
-                  CONTACT US: +00 080 888 88
+                  <Phone className="w-3.5 h-3.5 text-neutral-700" />
+                  <span>CONTACT US: 0000000000</span>
                 </a>
               </nav>
-
-              {/* Mobile Currency Switcher */}
-              <div className="mt-5 pt-4 border-t border-neutral-200">
-                <span className="text-[11px] font-normal text-neutral-400 uppercase tracking-wider block mb-2">
-                  SELECT CURRENCY
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  {currencies.map((curr) => (
-                    <button
-                      key={curr.code}
-                      type="button"
-                      onClick={() => {
-                        setSelectedCurrency(curr.code);
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-xl text-xs font-normal uppercase border transition-all ${selectedCurrency === curr.code
-                          ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
-                          : "bg-neutral-50 text-neutral-700 border-neutral-200"
-                        }`}
-                    >
-                      <span>{curr.flag}</span>
-                      <span>{curr.code}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
         </header>
@@ -2783,6 +2992,110 @@ function CarShowcasePage() {
       </section>
 
       {/* 
+        Our Premium Services Section:
+        - Pure white background as requested
+        - Middle car replaced with Mercedes-AMG G63 Maybach
+        - 3 Premium Services in a clean 3-column layout
+        - 3 service cards with white background, centered text, and prominent yellow 3D offset shadow
+      */}
+      <section
+        id="services"
+        className="w-full bg-white text-neutral-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
+      >
+        <div className="w-full max-w-[1400px] mx-auto relative z-10 flex flex-col items-center">
+          {/* Section Header */}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-neutral-950 tracking-tight text-center mb-4">
+            Our <span className="text-[#FFE600] drop-shadow-xs" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>Premium Services</span>
+          </h2>
+          <p className="max-w-4xl text-center text-xs sm:text-sm text-neutral-600 leading-relaxed mb-8 sm:mb-12 font-normal">
+            At Faster Rent a Car, we specialize in fulfilling all{" "}
+            <strong className="text-neutral-900 italic font-bold">rent a car in Dubai</strong> requirements. Our
+            clients can call us or request their car rental Dubai service any day of the week. We will
+            ensure same-day delivery for private and business rent a car requirements. Also, chauffeur
+            service is available in the city for desert safari, business, and family road trip
+            preferences. Call us today and book your fast car rental service for any day of the week
+            with same-day delivery or pickup.
+          </p>
+
+          {/* 3-Car Showcase Lineup with Faster Car Rental Dubai Badge */}
+          <div className="relative w-full max-w-4xl flex flex-col items-center mb-12 sm:mb-16">
+            <div className="flex items-end justify-center -space-x-6 sm:-space-x-12 w-full px-2">
+              <div className="w-1/3 max-w-[280px] transition-transform duration-500 hover:scale-105 z-10">
+                <img
+                  src={porscheRed}
+                  alt="Private Rental Sports Car"
+                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)]"
+                  loading="lazy"
+                />
+              </div>
+              <div className="w-2/5 max-w-[380px] transition-transform duration-500 hover:scale-110 z-20 -mb-2">
+                <img
+                  src={mercedesG63Maybach}
+                  alt="Mercedes-AMG G63 Maybach Luxury SUV"
+                  className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.25)]"
+                  loading="lazy"
+                />
+              </div>
+              <div className="w-1/3 max-w-[280px] transition-transform duration-500 hover:scale-105 z-10">
+                <img
+                  src={lamboHuracanSto}
+                  alt="Yellow Exotic Supercar"
+                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            {/* Center Lineup Badge */}
+
+          </div>
+
+          {/* 3 Premium Service Cards */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {/* Service 1: Private & Chauffeur Driven Car Rental */}
+              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+                  Private & Chauffeur Driven Rental
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                  Experience ultimate privacy, luxury, and comfort with our bespoke{" "}
+                  <strong className="text-neutral-950 font-bold">private chauffeur hire in Dubai</strong>.
+                  Whether arriving at Dubai International Airport or attending high-profile events, our certified
+                  multilingual chauffeurs and prestige fleet guarantee punctual, first-class journeys 24/7.
+                </p>
+              </div>
+
+              {/* Service 2: Corporate & Business Car Rental */}
+              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+                  Corporate & Business Car Rental
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                  Command respect at every meeting with our dedicated{" "}
+                  <strong className="text-neutral-950 font-bold">business car rental in Dubai</strong>.
+                  Choose from prestigious Mercedes S-Class, BMW 7 Series, and Rolls-Royce models with flexible
+                  corporate invoicing, long-term leasing advantages, and priority doorstep delivery to your office or hotel.
+                </p>
+              </div>
+
+              {/* Service 3: Desert Safari & Luxury SUV Tours */}
+              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+                  Desert Safari & Luxury SUV Tours
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                  Embark on thrilling UAE desert adventures with our elite{" "}
+                  <strong className="text-neutral-950 font-bold">desert safari & SUV hire service</strong>.
+                  Command high-performance Mercedes-AMG G63s, Range Rover Autobiographies, and custom Nissan Patrols
+                  engineered for peerless desert dune exploration and luxurious cross-emirate road trips.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 
         Frequently Asked Questions Section:
         - Positioned directly above Our Locations / Map section
         - Visual styling exactly matching reference image (media_1795000920280_b1488734.png)
@@ -2876,12 +3189,12 @@ function CarShowcasePage() {
             </p>
           </div>
 
-          {/* Right Column: Uploaded Animated MAP.gif on pure white background without border line */}
-          <div className="lg:col-span-7 relative w-full flex items-center justify-center overflow-hidden bg-white rounded-none border-0 border-none shadow-none p-0">
+          {/* Right Column: Uploaded Animated MAP.gif without white background */}
+          <div className="lg:col-span-7 relative w-full flex items-center justify-center overflow-hidden bg-transparent rounded-none border-0 border-none shadow-none p-0">
             <img
               src={mapGif}
               alt="Dubai & Global Fleet Locations"
-              className="w-full h-auto max-h-[580px] object-contain select-none rounded-none border-0 border-none bg-white"
+              className="w-full h-auto max-h-[580px] object-contain select-none rounded-none border-0 border-none bg-transparent"
             />
           </div>
         </div>
@@ -2912,11 +3225,13 @@ function CarShowcasePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-10 items-start">
             {/* Column 1: Brand & CONTINUE READING Button */}
             <div className="flex flex-col items-start space-y-5">
-              {/* Yellow stylized aerodynamic emblem matching reference */}
-              <div className="flex items-center gap-2">
-                <svg className="w-14 h-12 text-[#FFE600]" viewBox="0 0 100 80" fill="currentColor">
-                  <path d="M12 25 Q35 15 75 10 Q60 25 45 32 Q70 28 92 22 Q65 50 32 68 Q48 48 52 42 Q30 50 12 25 Z" />
-                </svg>
+              {/* White Brand Logo without extra text */}
+              <div className="flex items-center">
+                <img
+                  src={luxoraLogoWhite}
+                  alt="Luxora Drive"
+                  className="h-9 sm:h-11 w-auto object-contain"
+                />
               </div>
               <p className="text-xs sm:text-[13px] text-neutral-300 leading-relaxed font-normal">
                 Faster Luxury Car Rental Dubai professional Sports Car Rental Service. Customer well-being, satisfaction and choice are our extreme priority.
@@ -3274,9 +3589,11 @@ function CarShowcasePage() {
                     <span className="bg-[#FFE600] text-neutral-950 text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
                       {selectedCarDetails.category}
                     </span>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
-                      {selectedCarDetails.topBadge}
-                    </span>
+                    {selectedCarDetails.topBadge && (
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-neutral-400">
+                        {selectedCarDetails.topBadge}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
                     {selectedCarDetails.name}
