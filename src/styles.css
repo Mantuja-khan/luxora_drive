@@ -280,24 +280,27 @@
   animation: whatsapp-pulse-blink 1.8s infinite ease-in-out;
 }
 
-/* Name entering from top side animation */
+/* Name entering from top side animation - High-impact fluid drop from top */
 @keyframes name-drop-from-top {
   0% {
     opacity: 0;
-    transform: translate(-50%, -70px) scale(0.96);
+    transform: translate(-50%, -180px) scale(0.92);
+    filter: blur(14px);
   }
-  60% {
-    opacity: 0.9;
-    transform: translate(-50%, 5px) scale(1.006);
+  65% {
+    opacity: 0.95;
+    transform: translate(-50%, 6px) scale(1.01);
+    filter: blur(0px);
   }
   100% {
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
+    filter: blur(0px);
   }
 }
 
 .animate-name-top {
-  animation: name-drop-from-top 650ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: name-drop-from-top 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Name disappearing / fading out animation */
@@ -305,15 +308,17 @@
   0% {
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
+    filter: blur(0px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -40px) scale(0.96);
+    transform: translate(-50%, 90px) scale(0.94);
+    filter: blur(10px);
   }
 }
 
 .animate-name-exit {
-  animation: name-fade-out-disappear 400ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
+  animation: name-fade-out-disappear 450ms cubic-bezier(0.3, 0, 0.8, 0.15) forwards;
 }
 
 /* Dribbble 3D Car Showcase Animations (Matching Harri's showcase GIF) */
@@ -365,7 +370,7 @@
   animation: d-fade-slide-up 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Smooth Dribbble-style car sliding transitions: outgoing car sweeps out, incoming car rushes in from the right/left */
+/* Ultra-smooth luxury automotive sliding transitions */
 @keyframes car-exit-to-left {
   0% {
     transform: translateX(0) scale(1);
@@ -373,25 +378,20 @@
     filter: blur(0px);
   }
   100% {
-    transform: translateX(-115%) translateY(4px) scale(0.92);
+    transform: translateX(-125%) scale(0.93);
     opacity: 0;
-    filter: blur(4px);
+    filter: blur(5px);
   }
 }
 
 @keyframes car-enter-from-right {
   0% {
-    transform: translateX(115%) translateY(4px) scale(0.92);
-    opacity: 0.7;
-    filter: blur(3px);
-  }
-  60% {
-    transform: translateX(-8px) translateY(-1px) scale(1.015);
-    opacity: 1;
-    filter: blur(0px);
+    transform: translateX(125%) scale(0.93);
+    opacity: 0;
+    filter: blur(5px);
   }
   100% {
-    transform: translateX(0) translateY(0) scale(1);
+    transform: translateX(0) scale(1);
     opacity: 1;
     filter: blur(0px);
   }
@@ -404,44 +404,39 @@
     filter: blur(0px);
   }
   100% {
-    transform: translateX(115%) translateY(4px) scale(0.92);
+    transform: translateX(125%) scale(0.93);
     opacity: 0;
-    filter: blur(4px);
+    filter: blur(5px);
   }
 }
 
 @keyframes car-enter-from-left {
   0% {
-    transform: translateX(-115%) translateY(4px) scale(0.92);
-    opacity: 0.7;
-    filter: blur(3px);
-  }
-  60% {
-    transform: translateX(8px) translateY(-1px) scale(1.015);
-    opacity: 1;
-    filter: blur(0px);
+    transform: translateX(-125%) scale(0.93);
+    opacity: 0;
+    filter: blur(5px);
   }
   100% {
-    transform: translateX(0) translateY(0) scale(1);
+    transform: translateX(0) scale(1);
     opacity: 1;
     filter: blur(0px);
   }
 }
 
 .animate-car-exit-left {
-  animation: car-exit-to-left 520ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  animation: car-exit-to-left 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-car-enter-right {
-  animation: car-enter-from-right 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: car-enter-from-right 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-car-exit-right {
-  animation: car-exit-to-right 520ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  animation: car-exit-to-right 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-car-enter-left {
-  animation: car-enter-from-left 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: car-enter-from-left 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Realistic Ground Contact Shadow */
@@ -640,126 +635,53 @@
 }
 
 /* =========================================================================
-   FLASH DEAL: RADIANT WHITE LIGHT BURST & CAR ENVELOPE EFFECT
+   FLASH DEAL: FULL PRODUCT CARD SHINE LIGHT SWEEP (LEFT TO RIGHT)
    ========================================================================= */
 
-@keyframes flash-center-white-burst {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.88;
-    filter: blur(10px) brightness(1.2);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.25);
-    opacity: 1;
-    filter: blur(14px) brightness(1.5);
-  }
-}
-
-@keyframes flash-ray-rotation {
+@keyframes flash-card-shine-sweep {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-@keyframes flash-white-shimmer-sweep {
-  0% {
-    transform: translateX(-150%) skewX(-30deg);
+    transform: translateX(-160%) skewX(-25deg);
     opacity: 0;
   }
-  35% {
-    opacity: 0.65;
+  15% {
+    opacity: 0.2;
   }
-  65% {
+  45% {
     opacity: 0.85;
   }
+  50% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.2;
+  }
   100% {
-    transform: translateX(200%) skewX(-30deg);
+    transform: translateX(240%) skewX(-25deg);
     opacity: 0;
   }
 }
 
-.flash-white-center-glow {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 200px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0.85) 22%,
-    rgba(255, 255, 255, 0.5) 45%,
-    rgba(255, 255, 255, 0.2) 70%,
-    transparent 100%
-  );
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 5;
-  animation: flash-center-white-burst 3.2s ease-in-out infinite;
-  mix-blend-mode: screen;
-}
-
-.flash-white-rays {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 360px;
-  height: 360px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    rgba(255, 255, 255, 0.5) 0deg,
-    transparent 20deg,
-    rgba(255, 255, 255, 0.35) 45deg,
-    transparent 70deg,
-    rgba(255, 255, 255, 0.5) 90deg,
-    transparent 110deg,
-    rgba(255, 255, 255, 0.35) 135deg,
-    transparent 160deg,
-    rgba(255, 255, 255, 0.5) 180deg,
-    transparent 200deg,
-    rgba(255, 255, 255, 0.35) 225deg,
-    transparent 250deg,
-    rgba(255, 255, 255, 0.5) 270deg,
-    transparent 290deg,
-    rgba(255, 255, 255, 0.35) 315deg,
-    transparent 340deg,
-    rgba(255, 255, 255, 0.5) 360deg
-  );
-  mask-image: radial-gradient(circle at center, black 0%, black 45%, transparent 75%);
-  -webkit-mask-image: radial-gradient(circle at center, black 0%, black 45%, transparent 75%);
-  pointer-events: none;
-  z-index: 4;
-  animation: flash-ray-rotation 28s linear infinite;
-  mix-blend-mode: screen;
-}
-
-.flash-car-white-envelope {
-  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.95))
-          drop-shadow(0 0 35px rgba(255, 255, 255, 0.65))
-          drop-shadow(0 0 60px rgba(255, 255, 255, 0.35)) !important;
-}
-
-.flash-white-shimmer {
+.flash-card-full-shine {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.15) 35%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(255, 255, 255, 0.15) 65%,
-    transparent 100%
+    105deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.25) 45%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.25) 55%,
+    rgba(255, 255, 255, 0.04) 70%,
+    transparent 85%
   );
-  mix-blend-mode: screen;
   pointer-events: none;
-  z-index: 12;
-  animation: flash-white-shimmer-sweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 35;
+  animation: flash-card-shine-sweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

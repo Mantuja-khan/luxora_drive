@@ -1006,10 +1006,10 @@ function CarShowcasePage() {
       setAnimKey((k) => k + 1);
       setProgress(0);
 
-      // Reset exiting car after 540ms animation finishes
+      // Reset exiting car after 680ms animation finishes
       transitionTimerRef.current = setTimeout(() => {
         setExitingIndex(null);
-      }, 540);
+      }, 680);
     },
     [currentIndex],
   );
@@ -1908,8 +1908,10 @@ function CarShowcasePage() {
                   style={{
                     ...getHeroTypographyStyle(getCarHeroBackdropName(car.id, car.make, car.model), false),
                     opacity: nameDragOpacity,
-                    transform: `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`,
-                    transition: isDragging ? "none" : "opacity 200ms ease, transform 200ms ease",
+                    transform: isDragging
+                      ? `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`
+                      : undefined,
+                    transition: isDragging ? "none" : "opacity 200ms ease",
                   }}
                 >
                   {getCarHeroBackdropName(car.id, car.make, car.model)}
@@ -1931,8 +1933,10 @@ function CarShowcasePage() {
                   style={{
                     ...getHeroTypographyStyle(getCarHeroBackdropName(car.id, car.make, car.model), true),
                     opacity: nameDragOpacity,
-                    transform: `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`,
-                    transition: isDragging ? "none" : "opacity 200ms ease, transform 200ms ease",
+                    transform: isDragging
+                      ? `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`
+                      : undefined,
+                    transition: isDragging ? "none" : "opacity 200ms ease",
                   }}
                 >
                   {getCarHeroBackdropName(car.id, car.make, car.model)}
@@ -2475,23 +2479,21 @@ function CarShowcasePage() {
             {flashSaleItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#141620] rounded-none border border-neutral-800 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                className="bg-[#141620] rounded-none border border-neutral-800 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group relative"
               >
+                {/* Full-card light shine sweeping from left to right */}
+                <div className="flash-card-full-shine" aria-hidden="true" />
+
                 {/* Countdown Timer Bar with Real-Time Live Clock */}
-                <div className="w-full bg-[#0e1015] px-3.5 py-1.5 flex items-center justify-between text-[#FFE600] text-xs font-bold uppercase tracking-wider rounded-none border-b border-neutral-800">
+                <div className="w-full bg-[#0e1015] px-3.5 py-1.5 flex items-center justify-between text-[#FFE600] text-xs font-bold uppercase tracking-wider rounded-none border-b border-neutral-800 relative z-10">
                   <span>FLASH SALE</span>
                   <span className="font-mono tracking-widest text-[11px] font-bold text-white">
                     {formatFlashTimer(flashSaleSeconds[item.id] ?? 7200)}
                   </span>
                 </div>
 
-                {/* Car Preview Container with hover scale & radiant white light burst */}
+                {/* Car Preview Container with clean, crisp car (no white halo on car itself) */}
                 <div className="relative w-full h-44 sm:h-48 bg-[#0b0c10] p-3 flex items-center justify-center overflow-hidden select-none rounded-none border-0 border-none">
-                  {/* Radiant White Light Emitting from Card Center & Enveloping Car */}
-                  <div className="flash-white-center-glow" aria-hidden="true" />
-                  <div className="flash-white-rays" aria-hidden="true" />
-                  <div className="flash-white-shimmer" aria-hidden="true" />
-
                   {/* Discount Badge */}
                   <div className="absolute top-2.5 left-3 bg-[#D1121E] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-none border-0 border-none shadow-xs z-10">
                     {item.discount}
@@ -2507,13 +2509,13 @@ function CarShowcasePage() {
                     <Phone className="w-3.5 h-3.5 fill-white" />
                   </a>
 
-                  {/* Car Image: Scales slightly on hover, completely bathed in radiant white light aura */}
+                  {/* Car Image: Scales slightly on hover, completely sharp, clean & natural */}
                   <img
                     src={item.image}
                     alt={item.name}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10 flash-car-white-envelope"
+                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
                   />
                 </div>
 
@@ -2630,6 +2632,9 @@ function CarShowcasePage() {
                         : "bg-[#12141c] border border-neutral-800 shadow-md hover:shadow-2xl"
                     }`}
                   >
+                    {/* Full-card light shine sweeping from left to right on Flash Deals */}
+                    {isFlash && <div className="flash-card-full-shine" aria-hidden="true" />}
+
                     {/* Distinctive Flash Sale Top Ribbon Badge */}
                     {isFlash && (
                       <div className="absolute top-0 left-0 z-30 bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white font-black text-[10px] tracking-widest uppercase px-3 py-1 flex items-center gap-1.5 shadow-md shadow-red-950/60">
@@ -2648,15 +2653,6 @@ function CarShowcasePage() {
                       onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
                       onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
                     >
-                      {/* Radiant White Light Emitting from Card Center & Enveloping Entire Car */}
-                      {isFlash && (
-                        <>
-                          <div className="flash-white-center-glow" aria-hidden="true" />
-                          <div className="flash-white-rays" aria-hidden="true" />
-                          <div className="flash-white-shimmer" aria-hidden="true" />
-                        </>
-                      )}
-
                       {/* Left & Right Chevrons */}
                   <button
                     type="button"
@@ -2727,9 +2723,7 @@ function CarShowcasePage() {
                     alt={`${card.name} - View ${(cardImageIndices[card.id] || 0) + 1}`}
                     loading="lazy"
                     draggable={false}
-                    className={`max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10 ${
-                      isFlash ? "flash-car-white-envelope" : ""
-                    }`}
+                    className="max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
                     key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
