@@ -49,7 +49,6 @@ import mapGif from "@/assets/MAP.gif";
 import faqCarBg from "@/assets/faq-car-bg.webp";
 import luxoraLogo from "@/assets/luxora-logo.png";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
-import luxoraLoaderGif from "@/assets/luxora-drive-loader.gif";
 export interface CarItem {
   id: string;
   make: string;
@@ -886,20 +885,28 @@ function CarShowcasePage() {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
-  // Intro Loading Animation Phase: "loading" -> "flying" -> "done"
-  const [introPhase, setIntroPhase] = useState<"loading" | "flying" | "done">("loading");
+  // Cinematic 3D Car Reveal Intro Animation Phase: "covered" -> "unveiling" -> "revealing" -> "done"
+  const [introPhase, setIntroPhase] = useState<"covered" | "unveiling" | "revealing" | "done">("covered");
 
   useEffect(() => {
-    const flyTimer = setTimeout(() => {
-      setIntroPhase("flying");
-    }, 2800);
+    // Phase 1: Lift & fly the silk cloth (parda) away into the air
+    const unveilTimer = setTimeout(() => {
+      setIntroPhase("unveiling");
+    }, 1100);
 
+    // Phase 2: Supercar 3D multi-angle rotation & dramatic zoom-in
+    const revealTimer = setTimeout(() => {
+      setIntroPhase("revealing");
+    }, 1700);
+
+    // Phase 3: Reveal completes, transition into the showroom
     const doneTimer = setTimeout(() => {
       setIntroPhase("done");
-    }, 3650);
+    }, 4500);
 
     return () => {
-      clearTimeout(flyTimer);
+      clearTimeout(unveilTimer);
+      clearTimeout(revealTimer);
       clearTimeout(doneTimer);
     };
   }, []);
@@ -1145,49 +1152,294 @@ function CarShowcasePage() {
   };
 
   return (
-    <main className="w-full bg-white select-none relative overflow-x-hidden">
+    <main className="w-full bg-[#0a0b0e] text-neutral-100 select-none relative overflow-x-hidden">
       {/* 
-        Intro Loading Animation:
-        - Fullscreen pure white background with animated LUXORA DRIVE GIF in center
-        - When loading completes, logo smoothly flies & scales into the navbar logo spot
+        Cinematic 3D Car Reveal & Silk Cloth (Parda) Loading Animation:
+        - Deep studio showroom with overhead spotlight & turntable floor
+        - Supercar draped under luxury silk satin cloth (parda)
+        - Cloth billows, pulls up, and dynamically flies away into the air
+        - The revealed supercar orbits in 3D across multiple angles with dramatic zoom-in
+        - Seamlessly transitions into the live showroom
       */}
       {introPhase !== "done" && (
         <div
           onClick={() => setIntroPhase("done")}
-          className={`fixed inset-0 z-[9998] transition-opacity duration-700 ease-out cursor-pointer ${
-            introPhase === "flying" ? "opacity-0 pointer-events-none" : "opacity-100 bg-white"
+          className={`fixed inset-0 z-[9998] bg-[#06070a] flex flex-col items-center justify-between py-6 sm:py-8 px-4 sm:px-8 transition-opacity duration-700 ease-out cursor-pointer overflow-hidden ${
+            introPhase === "done" ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
           aria-hidden={introPhase === "done"}
         >
-          {/* Animated Logo Container: Starts centered, then flies to the navbar logo coordinates */}
-          <div
-            className={`fixed z-[9999] pointer-events-none transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center ${
-              introPhase === "loading"
-                ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 max-w-[85vw]"
-                : "top-4 sm:top-5 left-4 sm:left-8 lg:left-12 translate-x-0 translate-y-0 w-28 sm:w-36 h-8 sm:h-10 justify-start"
-            }`}
-          >
-            <img
-              src={luxoraLoaderGif}
-              alt="Luxora Drive"
-              className={`w-full h-auto object-contain transition-all duration-800 ease-in-out ${
-                introPhase === "flying" ? "max-h-8 sm:max-h-10" : "max-h-64 sm:max-h-80"
-              }`}
-            />
+          {/* Ambient Lighting & Dramatic Studio Spotlight Cones */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] sm:w-[950px] lg:w-[1200px] h-[550px] bg-[radial-gradient(ellipse_60%_50%_at_50%_15%,rgba(255,230,0,0.14),rgba(56,189,248,0.05)_50%,transparent_75%)] blur-2xl" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[340px] sm:w-[480px] h-[360px] bg-gradient-to-b from-[#FFE600]/20 via-[#FFE600]/5 to-transparent blur-3xl opacity-70" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(14,16,24,0)_40%,#06070a_95%)]" />
+          </div>
+
+          {/* Top Intro Bar */}
+          <div className="relative z-20 w-full flex items-center justify-between max-w-7xl">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-[#FFE600] animate-ping" />
+              <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-neutral-300 uppercase">
+                Luxora World Premiere
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIntroPhase("done");
+              }}
+              className="px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase border border-neutral-700/80 bg-neutral-900/80 hover:bg-[#FFE600] text-neutral-300 hover:text-black transition-all duration-300 backdrop-blur-md shadow-lg"
+            >
+              Skip Intro &rarr;
+            </button>
+          </div>
+
+          {/* Central 3D Car Reveal & Flying Parda Studio */}
+          <div className="relative z-10 w-full max-w-5xl my-auto flex flex-col items-center justify-center cinematic-stage-3d">
+            {/* Turntable Floor Stage & Circular Radar Reflection Rings */}
+            <div className="relative w-full max-w-[720px] sm:max-w-[880px] lg:max-w-[1040px] aspect-[2.1/1] flex items-center justify-center">
+              {/* Elliptical Podium Floor */}
+              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 w-[85%] sm:w-[90%] h-[120px] sm:h-[160px] rounded-[100%] border border-[#FFE600]/25 bg-gradient-to-b from-neutral-800/40 via-neutral-950/90 to-black blur-[0.5px] pointer-events-none shadow-[0_0_50px_rgba(255,230,0,0.12)]">
+                {/* Concentric stage glow ring */}
+                <div className="absolute inset-3 rounded-[100%] border border-cyan-400/20" />
+                <div className="absolute inset-8 rounded-[100%] border border-white/10" />
+              </div>
+
+              {/* 
+                THE SUPERCAR (Porsche 911 GT3 RS):
+                - Hidden under silk cloth in "covered" phase
+                - In "unveiling" and "revealing", appears and rotates dynamically in 3D multi-angle orbit with zoom-in effect
+              */}
+              {(introPhase === "unveiling" || introPhase === "revealing") && (
+                <div className="relative w-full h-full flex items-center justify-center animate-car-3d-reveal z-10 pointer-events-none">
+                  {/* Car Cutout */}
+                  <img
+                    src={porscheGt3Rs}
+                    alt="Unveiled Porsche GT3 RS"
+                    className="w-[92%] sm:w-[94%] max-w-[860px] h-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
+                  />
+
+                  {/* Specular Glint Sweep across the Car Body */}
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-3xl">
+                    <div className="w-1/3 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-30deg] animate-glint-sweep" />
+                  </div>
+
+                  {/* Dual Front LED Headlights Projector Glow */}
+                  <div className="absolute left-[34%] top-[54%] w-3 h-3 rounded-full bg-cyan-200 blur-[1px] shadow-[0_0_24px_10px_rgba(56,189,248,0.9),0_0_50px_20px_rgba(255,255,255,0.8)]" />
+                  <div className="absolute right-[33%] top-[54%] w-3 h-3 rounded-full bg-cyan-200 blur-[1px] shadow-[0_0_24px_10px_rgba(56,189,248,0.9),0_0_50px_20px_rgba(255,255,255,0.8)]" />
+                </div>
+              )}
+
+              {/* 
+                THE SILK CLOTH / PARDA:
+                - In "covered" phase: Draped over the car with luxurious satin folds and gold trims, gently billowing
+                - In "unveiling" phase: Billows, ripples violently, lifts up, and flies away into the sky with wave distortion!
+              */}
+              {(introPhase === "covered" || introPhase === "unveiling") && (
+                <div
+                  className={`absolute inset-0 flex items-center justify-center z-20 pointer-events-none ${
+                    introPhase === "covered" ? "animate-silk-idle" : "animate-silk-fly"
+                  }`}
+                >
+                  <svg
+                    viewBox="0 0 960 520"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-[96%] sm:w-[98%] max-w-[920px] h-auto filter drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
+                  >
+                    <defs>
+                      {/* Silk Satin Body Gradient */}
+                      <linearGradient id="silkBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#1e2230" />
+                        <stop offset="25%" stopColor="#2c3345" />
+                        <stop offset="45%" stopColor="#131620" />
+                        <stop offset="70%" stopColor="#222838" />
+                        <stop offset="100%" stopColor="#0d0e14" />
+                      </linearGradient>
+
+                      {/* Silk Sheen Highlight Gradient */}
+                      <linearGradient id="silkSheenGrad" x1="0%" y1="30%" x2="100%" y2="70%">
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+                        <stop offset="20%" stopColor="rgba(255,255,255,0.05)" />
+                        <stop offset="50%" stopColor="rgba(255,230,0,0.25)" />
+                        <stop offset="80%" stopColor="rgba(255,255,255,0.03)" />
+                        <stop offset="100%" stopColor="rgba(255,255,255,0.2)" />
+                      </linearGradient>
+
+                      {/* Gold Hem Ribbon Gradient */}
+                      <linearGradient id="goldHemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#FFE600" />
+                        <stop offset="25%" stopColor="#FFF275" />
+                        <stop offset="50%" stopColor="#D4AF37" />
+                        <stop offset="75%" stopColor="#FFF275" />
+                        <stop offset="100%" stopColor="#FFE600" />
+                      </linearGradient>
+
+                      {/* Deep Fold Shadow Gradient */}
+                      <linearGradient id="foldShadowGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                        <stop offset="0%" stopColor="transparent" />
+                        <stop offset="100%" stopColor="rgba(0,0,0,0.75)" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Main Silky Drape Body Conforming to Supercar Silhouette with Roof, Spoiler & Splitter */}
+                    <path
+                      d="M 120 375 
+                         C 135 340, 160 300, 205 280 
+                         C 250 260, 290 250, 345 220 
+                         C 400 190, 440 148, 510 148 
+                         C 580 148, 640 185, 710 230 
+                         C 780 275, 835 315, 865 345 
+                         C 885 365, 895 385, 875 405 
+                         C 845 425, 785 435, 720 435 
+                         C 660 435, 590 445, 500 445 
+                         C 410 445, 330 438, 250 435 
+                         C 180 432, 130 415, 115 395 
+                         C 105 385, 110 380, 120 375 Z"
+                      fill="url(#silkBodyGrad)"
+                    />
+
+                    {/* Aerodynamic High-Gloss Specular Sheen Over Silk */}
+                    <path
+                      d="M 135 370 
+                         C 180 305, 260 265, 355 225 
+                         C 415 198, 455 155, 515 155 
+                         C 575 155, 635 190, 705 235 
+                         C 775 280, 830 320, 855 350 
+                         C 820 370, 750 380, 680 370 
+                         C 580 355, 480 330, 380 320 
+                         C 270 310, 190 335, 135 370 Z"
+                      fill="url(#silkSheenGrad)"
+                      opacity="0.85"
+                    />
+
+                    {/* Flowing Drape Folds & Creases (Parda Silky Waves) */}
+                    {/* Fold 1: Cabin Canopy Downwards */}
+                    <path
+                      d="M 505 152 Q 470 260 410 395"
+                      stroke="rgba(255,255,255,0.22)"
+                      strokeWidth="5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 508 152 Q 475 260 417 395"
+                      stroke="rgba(0,0,0,0.55)"
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Fold 2: Rear Haunch Contour */}
+                    <path
+                      d="M 630 195 Q 675 295 725 410"
+                      stroke="rgba(255,255,255,0.2)"
+                      strokeWidth="4.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 634 195 Q 680 295 732 410"
+                      stroke="rgba(0,0,0,0.5)"
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Fold 3: Front Hood Slope */}
+                    <path
+                      d="M 350 225 Q 300 310 240 405"
+                      stroke="rgba(255,255,255,0.22)"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 354 225 Q 305 310 246 405"
+                      stroke="rgba(0,0,0,0.48)"
+                      strokeWidth="5.5"
+                      strokeLinecap="round"
+                    />
+
+                    {/* Gold Silk Ribbon Hem Lining the Edge */}
+                    <path
+                      d="M 115 395 
+                         C 130 415, 180 432, 250 435 
+                         C 330 438, 410 445, 500 445 
+                         C 590 445, 660 435, 720 435 
+                         C 785 435, 845 425, 875 405"
+                      stroke="url(#goldHemGrad)"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      filter="drop-shadow(0 2px 8px rgba(255,230,0,0.6))"
+                    />
+
+                    {/* Embroidered Gold Crest in Center of Hood */}
+                    <g transform="translate(480, 260)">
+                      <circle cx="0" cy="0" r="24" fill="#0f1118" stroke="#FFE600" strokeWidth="2.5" />
+                      <path
+                        d="M -12 -5 L 0 -15 L 12 -5 L 7 12 L -7 12 Z"
+                        fill="#FFE600"
+                        opacity="0.9"
+                      />
+                      <text
+                        x="0"
+                        y="4"
+                        fill="#0c0d12"
+                        fontSize="7"
+                        fontWeight="900"
+                        textAnchor="middle"
+                        letterSpacing="1"
+                      >
+                        LUXORA
+                      </text>
+                    </g>
+                  </svg>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Reveal Status & Live Action Caption */}
+          <div className="relative z-20 w-full flex flex-col items-center text-center max-w-xl pb-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#FFE600]" />
+              <span className="text-[12px] sm:text-sm font-bold tracking-[0.3em] uppercase text-white drop-shadow-md">
+                {introPhase === "covered" && "Supercar Under Silk Drape"}
+                {introPhase === "unveiling" && "Unveiling The Hypercar..."}
+                {introPhase === "revealing" && "3D 360° Studio Reveal"}
+              </span>
+              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#FFE600]" />
+            </div>
+            <p className="text-[11px] sm:text-xs text-neutral-400 font-light tracking-wide">
+              {introPhase === "covered" && "Preparing the ceremonial curtain unveil..."}
+              {introPhase === "unveiling" && "Drape flying off • aerodynamics revealed"}
+              {introPhase === "revealing" && "Multi-angle inspection & camera zoom • Entering showroom..."}
+            </p>
+
+            {/* Glowing Progress Pulse Bar */}
+            <div className="w-48 sm:w-64 h-[3px] bg-neutral-800 rounded-full mt-4 overflow-hidden relative">
+              <div
+                className={`h-full bg-gradient-to-r from-[#FFE600] to-cyan-400 transition-all duration-700 ease-out ${
+                  introPhase === "covered"
+                    ? "w-1/4"
+                    : introPhase === "unveiling"
+                    ? "w-2/3"
+                    : "w-full"
+                }`}
+              />
+            </div>
           </div>
         </div>
       )}
 
       {/* 
         Full-Screen Mobile Menu Drawer:
-        - Covers 100% of viewport (inset-0, 100dvh) with pure opaque white background
+        - Covers 100% of viewport (inset-0, 100dvh) with deep sleek dark background
         - Completely blocks and hides all background content (hero section, cars, etc.)
         - Dedicated top bar with Luxora Drive Logo and Close (X) button
       */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden fixed inset-0 w-full h-full h-[100dvh] min-h-[100dvh] bg-white z-[99999] flex flex-col overflow-hidden select-auto animate-in fade-in duration-150">
+        <div className="xl:hidden fixed inset-0 w-full h-full h-[100dvh] min-h-[100dvh] bg-[#0c0d12] text-white z-[99999] flex flex-col overflow-hidden select-auto animate-in fade-in duration-150">
           {/* Mobile Drawer Top Bar */}
-          <div className="w-full px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-neutral-100 bg-white shrink-0">
+          <div className="w-full px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-neutral-800 bg-[#0c0d12] shrink-0">
             <a
               href="#home"
               onClick={() => setIsMobileMenuOpen(false)}
@@ -1195,7 +1447,7 @@ function CarShowcasePage() {
               aria-label="Luxora Drive Home"
             >
               <img
-                src={luxoraLogo}
+                src={luxoraLogoWhite}
                 alt="Luxora Drive"
                 className="h-8 sm:h-10 w-auto object-contain"
               />
@@ -1204,33 +1456,33 @@ function CarShowcasePage() {
               type="button"
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Close Navigation Menu"
-              className="w-10 h-10 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-800 flex items-center justify-center cursor-pointer transition-colors"
+              className="w-10 h-10 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-800 flex items-center justify-center cursor-pointer transition-colors"
             >
-              <X className="w-5 h-5 text-neutral-900" />
+              <X className="w-5 h-5 text-white" />
             </button>
           </div>
 
           {/* Mobile Drawer Scrollable Navigation */}
-          <div className="flex-1 overflow-y-auto px-6 py-6 bg-white overscroll-contain">
-            <nav className="flex flex-col gap-2 text-sm font-normal uppercase tracking-wider text-neutral-800 pb-20">
+          <div className="flex-1 overflow-y-auto px-6 py-6 bg-[#0c0d12] overscroll-contain">
+            <nav className="flex flex-col gap-2 text-sm font-normal uppercase tracking-wider text-neutral-200 pb-20">
               <a
                 href="#home"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+                className="hover:text-[#FFE600] transition-colors py-2.5 border-b border-neutral-800/80"
               >
                 HOME
               </a>
 
               {/* ALL BRANDS Accordion */}
-              <div className="border-b border-neutral-100">
+              <div className="border-b border-neutral-800/80">
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("brands")}
-                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-200 hover:text-[#FFE600] transition-colors cursor-pointer"
                 >
                   <span>ALL BRANDS</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
                       mobileOpenSection === "brands" ? "rotate-180" : ""
                     }`}
                   />
@@ -1242,12 +1494,12 @@ function CarShowcasePage() {
                         key={brand.id}
                         href="#brands"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
+                        className="flex flex-col py-1.5 px-2 hover:bg-neutral-900 transition-colors border-b border-neutral-800/60 cursor-pointer"
                       >
-                        <span className="font-medium text-xs text-neutral-900 hover:text-amber-600 transition-colors">
+                        <span className="font-medium text-xs text-neutral-200 hover:text-[#FFE600] transition-colors">
                           {brand.name}
                         </span>
-                        <span className="text-[9px] text-neutral-400 font-normal">
+                        <span className="text-[9px] text-neutral-500 font-normal">
                           {brand.count}
                         </span>
                       </a>
@@ -1259,21 +1511,21 @@ function CarShowcasePage() {
               <a
                 href="#flash-sale"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-amber-600 hover:text-amber-700 py-2.5 border-b border-neutral-100"
+                className="text-[#FFE600] hover:text-amber-400 py-2.5 border-b border-neutral-800/80"
               >
                 FLASH SALE
               </a>
 
               {/* CATEGORIES Accordion */}
-              <div className="border-b border-neutral-100">
+              <div className="border-b border-neutral-800/80">
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("categories")}
-                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-200 hover:text-[#FFE600] transition-colors cursor-pointer"
                 >
                   <span>CATEGORIES</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
                       mobileOpenSection === "categories" ? "rotate-180" : ""
                     }`}
                   />
@@ -1286,11 +1538,11 @@ function CarShowcasePage() {
                           key={item}
                           href="#categories"
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
-                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-200" : ""
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
+                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800/60" : ""
                           }`}
                         >
-                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{item}</span>
                         </a>
                       ))}
@@ -1301,11 +1553,11 @@ function CarShowcasePage() {
                           key={item}
                           href="#categories"
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
-                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-200" : ""
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
+                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800/60" : ""
                           }`}
                         >
-                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{item}</span>
                         </a>
                       ))}
@@ -1315,15 +1567,15 @@ function CarShowcasePage() {
               </div>
 
               {/* LOCATIONS Accordion */}
-              <div className="border-b border-neutral-100">
+              <div className="border-b border-neutral-800/80">
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("locations")}
-                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-200 hover:text-[#FFE600] transition-colors cursor-pointer"
                 >
                   <span>LOCATIONS</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
                       mobileOpenSection === "locations" ? "rotate-180" : ""
                     }`}
                   />
@@ -1339,11 +1591,11 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsMobileMenuOpen(false);
                           }}
-                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
-                            idx < 5 ? "border-b border-neutral-200" : ""
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
+                            idx < 5 ? "border-b border-neutral-800/60" : ""
                           }`}
                         >
-                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{loc.name}</span>
                         </a>
                       ))}
@@ -1357,11 +1609,11 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsMobileMenuOpen(false);
                           }}
-                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-900 hover:text-amber-600 transition-colors ${
-                            idx < 5 ? "border-b border-neutral-200" : ""
+                          className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
+                            idx < 5 ? "border-b border-neutral-800/60" : ""
                           }`}
                         >
-                          <span className="text-xs text-neutral-400">&gt;</span>
+                          <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{loc.name}</span>
                         </a>
                       ))}
@@ -1371,20 +1623,20 @@ function CarShowcasePage() {
               </div>
 
               {/* CURRENCY Accordion */}
-              <div className="border-b border-neutral-100">
+              <div className="border-b border-neutral-800/80">
                 <button
                   type="button"
                   onClick={() => toggleMobileSection("currency")}
-                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between py-2.5 text-left uppercase text-neutral-200 hover:text-[#FFE600] transition-colors cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
                     <span>CURRENCY</span>
-                    <span className="text-xs font-normal text-neutral-500 lowercase">
+                    <span className="text-xs font-normal text-neutral-400 lowercase">
                       ({currentCurrencyConfig.code} - {currentCurrencyConfig.symbol})
                     </span>
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-neutral-400 transition-transform duration-200 ${
                       mobileOpenSection === "currency" ? "rotate-180" : ""
                     }`}
                   />
@@ -1401,8 +1653,8 @@ function CarShowcasePage() {
                         }}
                         className={`flex items-center justify-center gap-1.5 py-2 px-2 rounded-none text-xs font-normal uppercase border transition-all ${
                           selectedCurrency === curr.code
-                            ? "bg-neutral-900 text-white border-neutral-900 shadow-sm"
-                            : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                            ? "bg-[#FFE600] text-black border-[#FFE600] font-bold"
+                            : "bg-neutral-900 text-neutral-300 border-neutral-800 hover:bg-neutral-800"
                         }`}
                       >
                         <span>{curr.flag}</span>
@@ -1416,7 +1668,7 @@ function CarShowcasePage() {
               <a
                 href="#services"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+                className="hover:text-[#FFE600] transition-colors py-2.5 border-b border-neutral-800/80"
               >
                 OUR SERVICES
               </a>
@@ -1424,7 +1676,7 @@ function CarShowcasePage() {
               <a
                 href="#blogs"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="hover:text-amber-600 transition-colors py-2.5 border-b border-neutral-100"
+                className="hover:text-[#FFE600] transition-colors py-2.5 border-b border-neutral-800/80"
               >
                 BLOGS
               </a>
@@ -1432,9 +1684,9 @@ function CarShowcasePage() {
               <a
                 href="tel:0000000000"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-neutral-900 py-2.5 flex items-center gap-2"
+                className="text-white py-2.5 flex items-center gap-2 hover:text-[#FFE600] transition-colors"
               >
-                <Phone className="w-3.5 h-3.5 text-neutral-700" />
+                <Phone className="w-3.5 h-3.5 text-[#FFE600]" />
                 <span>CONTACT US: 0000000000</span>
               </a>
             </nav>
@@ -1465,7 +1717,7 @@ function CarShowcasePage() {
           className="diagonal-patti opacity-90"
           style={{
             backgroundColor: car.themeColor,
-            filter: "drop-shadow(0 20px 45px rgba(0,0,0,0.06))",
+            filter: "drop-shadow(0 20px 45px rgba(0,0,0,0.25))",
           }}
           aria-hidden="true"
         />
@@ -1476,7 +1728,7 @@ function CarShowcasePage() {
         Currency Dropdown: AED, USD, EUR (updates all prices across the site)
       */}
         <header className="relative z-30 w-full px-4 sm:px-8 lg:px-12 py-4 sm:py-5 flex items-center justify-between bg-transparent border-none shadow-none backdrop-blur-none">
-          {/* Brand Logo: Clean logo without extra text */}
+          {/* Brand Logo: Clean white logo without extra text */}
           <a
             href="#home"
             className={`flex items-center cursor-pointer group shrink-0 transition-opacity duration-300 ${
@@ -1485,15 +1737,15 @@ function CarShowcasePage() {
             aria-label="Luxora Drive Home"
           >
             <img
-              src={luxoraLogo}
+              src={luxoraLogoWhite}
               alt="Luxora Drive"
               className="h-8 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </a>
 
           {/* Full Desktop Navigation: ALL CAPITAL, NOT BOLD, NO ICONS */}
-          <nav className="hidden xl:flex items-center gap-6 lg:gap-7 text-xs font-normal tracking-wider text-neutral-700">
-            <a href="#home" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+          <nav className="hidden xl:flex items-center gap-6 lg:gap-7 text-xs font-normal tracking-wider text-neutral-300">
+            <a href="#home" className="uppercase font-normal hover:text-white transition-colors cursor-pointer">
               HOME
             </a>
 
@@ -1506,7 +1758,7 @@ function CarShowcasePage() {
               <button
                 type="button"
                 onClick={() => setIsBrandsDropdownOpen((prev) => !prev)}
-                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+                className="uppercase font-normal hover:text-white transition-colors cursor-pointer flex items-center gap-1 py-1"
               >
                 <span>ALL BRANDS</span>
                 <ChevronDown
@@ -1517,7 +1769,7 @@ function CarShowcasePage() {
 
               {isBrandsDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-0 w-[640px] sm:w-[780px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100 max-h-[80vh] overflow-y-auto"
+                  className="absolute left-0 top-full mt-0 w-[640px] sm:w-[780px] bg-[#121319] rounded-none shadow-2xl border border-neutral-800 py-4 px-6 z-50 animate-in fade-in duration-100 max-h-[80vh] overflow-y-auto"
                   onMouseEnter={() => setIsBrandsDropdownOpen(true)}
                   onMouseLeave={() => setIsBrandsDropdownOpen(false)}
                 >
@@ -1527,12 +1779,12 @@ function CarShowcasePage() {
                         key={brand.id}
                         href="#brands"
                         onClick={() => setIsBrandsDropdownOpen(false)}
-                        className="group flex flex-col py-1.5 px-2 hover:bg-neutral-50 transition-colors border-b border-neutral-100 cursor-pointer"
+                        className="group flex flex-col py-1.5 px-2 hover:bg-neutral-800/70 transition-colors border-b border-neutral-800/60 cursor-pointer"
                       >
-                        <span className="font-medium text-xs sm:text-[13px] text-neutral-900 group-hover:text-amber-600 transition-colors tracking-tight">
+                        <span className="font-medium text-xs sm:text-[13px] text-neutral-200 group-hover:text-[#FFE600] transition-colors tracking-tight">
                           {brand.name}
                         </span>
-                        <span className="text-[10px] text-neutral-400 font-normal">
+                        <span className="text-[10px] text-neutral-500 font-normal">
                           {brand.count}
                         </span>
                       </a>
@@ -1544,7 +1796,7 @@ function CarShowcasePage() {
 
             <a
               href="#flash-sale"
-              className="uppercase font-normal text-amber-600 hover:text-amber-700 transition-colors cursor-pointer"
+              className="uppercase font-normal text-[#FFE600] hover:text-amber-400 transition-colors cursor-pointer"
             >
               FLASH SALE
             </a>
@@ -1558,7 +1810,7 @@ function CarShowcasePage() {
               <button
                 type="button"
                 onClick={() => setIsCategoriesDropdownOpen((prev) => !prev)}
-                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+                className="uppercase font-normal hover:text-white transition-colors cursor-pointer flex items-center gap-1 py-1"
               >
                 <span>CATEGORIES</span>
                 <ChevronDown
@@ -1569,7 +1821,7 @@ function CarShowcasePage() {
 
               {isCategoriesDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-0 w-[480px] sm:w-[540px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100"
+                  className="absolute left-0 top-full mt-0 w-[480px] sm:w-[540px] bg-[#121319] rounded-none shadow-2xl border border-neutral-800 py-4 px-6 z-50 animate-in fade-in duration-100"
                   onMouseEnter={() => setIsCategoriesDropdownOpen(true)}
                   onMouseLeave={() => setIsCategoriesDropdownOpen(false)}
                 >
@@ -1581,11 +1833,11 @@ function CarShowcasePage() {
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
-                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-900" : ""
+                          className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
+                            idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800" : ""
                           }`}
                         >
-                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
                           <span className="font-normal text-xs sm:text-[13px] tracking-tight">
@@ -1602,11 +1854,11 @@ function CarShowcasePage() {
                           key={name}
                           href="#categories"
                           onClick={() => setIsCategoriesDropdownOpen(false)}
-                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
-                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-900" : ""
+                          className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
+                            idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800" : ""
                           }`}
                         >
-                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
                           <span className="font-normal text-xs sm:text-[13px] tracking-tight">
@@ -1629,7 +1881,7 @@ function CarShowcasePage() {
               <button
                 type="button"
                 onClick={() => setIsLocationsDropdownOpen((prev) => !prev)}
-                className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer flex items-center gap-1 py-1"
+                className="uppercase font-normal hover:text-white transition-colors cursor-pointer flex items-center gap-1 py-1"
               >
                 <span>LOCATIONS</span>
                 <ChevronDown
@@ -1641,7 +1893,7 @@ function CarShowcasePage() {
 
               {isLocationsDropdownOpen && (
                 <div
-                  className="absolute left-0 top-full mt-0 w-[440px] sm:w-[480px] bg-white rounded-none shadow-xl border border-neutral-200 py-4 px-6 z-50 animate-in fade-in duration-100"
+                  className="absolute left-0 top-full mt-0 w-[440px] sm:w-[480px] bg-[#121319] rounded-none shadow-2xl border border-neutral-800 py-4 px-6 z-50 animate-in fade-in duration-100"
                   onMouseEnter={() => setIsLocationsDropdownOpen(true)}
                   onMouseLeave={() => setIsLocationsDropdownOpen(false)}
                 >
@@ -1656,11 +1908,11 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsLocationsDropdownOpen(false);
                           }}
-                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
-                            idx < 5 ? "border-b border-neutral-900" : ""
+                          className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
+                            idx < 5 ? "border-b border-neutral-800" : ""
                           }`}
                         >
-                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
                           <span className="font-normal text-xs sm:text-[13px] tracking-tight">
@@ -1680,11 +1932,11 @@ function CarShowcasePage() {
                             setActiveLocationId(loc.id);
                             setIsLocationsDropdownOpen(false);
                           }}
-                          className={`group flex items-center gap-2 py-2 text-neutral-800 hover:text-amber-600 transition-colors cursor-pointer ${
-                            idx < 5 ? "border-b border-neutral-900" : ""
+                          className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
+                            idx < 5 ? "border-b border-neutral-800" : ""
                           }`}
                         >
-                          <span className="font-normal text-xs text-neutral-500 group-hover:text-amber-600 transition-colors select-none">
+                          <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
                           <span className="font-normal text-xs sm:text-[13px] tracking-tight">
@@ -1697,15 +1949,15 @@ function CarShowcasePage() {
                 </div>
               )}
             </div>
-            <a href="#services" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+            <a href="#services" className="uppercase font-normal hover:text-white transition-colors cursor-pointer">
               SERVICES
             </a>
-            <a href="#blogs" className="uppercase font-normal hover:text-neutral-900 transition-colors cursor-pointer">
+            <a href="#blogs" className="uppercase font-normal hover:text-white transition-colors cursor-pointer">
               BLOGS
             </a>
             <a
               href="tel:0000000000"
-              className="uppercase font-normal text-neutral-900 hover:opacity-80 transition-colors cursor-pointer"
+              className="uppercase font-normal text-[#FFE600] hover:text-white transition-colors cursor-pointer"
             >
               CONTACT US
             </a>
@@ -1718,22 +1970,22 @@ function CarShowcasePage() {
               <button
                 type="button"
                 onClick={() => setIsCurrencyDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 bg-white/90 hover:bg-white text-neutral-900 text-xs font-normal uppercase px-3 py-1.5 rounded-none border border-neutral-300 shadow-xs cursor-pointer transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1.5 bg-neutral-900/90 hover:bg-neutral-800 text-neutral-200 text-xs font-normal uppercase px-3 py-1.5 rounded-none border border-neutral-700 shadow-xs cursor-pointer transition-all hover:scale-105 active:scale-95"
               >
                 <span>{currentCurrencyConfig.flag}</span>
                 <span>{currentCurrencyConfig.code}</span>
                 <ChevronDown
-                  className={`w-3.5 h-3.5 text-neutral-500 transition-transform duration-200 ${isCurrencyDropdownOpen ? "rotate-180" : ""
+                  className={`w-3.5 h-3.5 text-neutral-400 transition-transform duration-200 ${isCurrencyDropdownOpen ? "rotate-180" : ""
                     }`}
                 />
               </button>
 
               {isCurrencyDropdownOpen && (
                 <div
-                  className="absolute right-0 top-full mt-0 w-44 bg-white rounded-none shadow-xl border border-neutral-200 py-1.5 z-50 animate-in fade-in duration-100"
+                  className="absolute right-0 top-full mt-0 w-44 bg-[#121319] rounded-none shadow-2xl border border-neutral-800 py-1.5 z-50 animate-in fade-in duration-100"
                   onMouseLeave={() => setIsCurrencyDropdownOpen(false)}
                 >
-                  <div className="px-3 py-1 text-[10px] font-normal text-neutral-400 uppercase tracking-wider border-b border-neutral-100">
+                  <div className="px-3 py-1 text-[10px] font-normal text-neutral-500 uppercase tracking-wider border-b border-neutral-800">
                     Select Currency
                   </div>
                   {currencies.map((curr) => (
@@ -1744,9 +1996,9 @@ function CarShowcasePage() {
                         setSelectedCurrency(curr.code);
                         setIsCurrencyDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-normal text-left hover:bg-neutral-50 cursor-pointer transition-colors uppercase rounded-none ${selectedCurrency === curr.code
-                        ? "text-neutral-950 font-normal bg-neutral-100/70"
-                          : "text-neutral-700"
+                      className={`w-full flex items-center justify-between px-3 py-2 text-xs font-normal text-left hover:bg-neutral-800 cursor-pointer transition-colors uppercase rounded-none ${selectedCurrency === curr.code
+                        ? "text-[#FFE600] font-normal bg-neutral-800/70"
+                          : "text-neutral-300"
                         }`}
                     >
                       <span className="flex items-center gap-2">
@@ -1754,7 +2006,7 @@ function CarShowcasePage() {
                         <span>{curr.label}</span>
                       </span>
                       {selectedCurrency === curr.code && (
-                        <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
+                        <Check className="w-3.5 h-3.5 text-[#FFE600] stroke-[3]" />
                       )}
                     </button>
                   ))}
@@ -1765,9 +2017,9 @@ function CarShowcasePage() {
             {/* Phone Number CTA (Desktop) */}
             <a
               href="tel:0000000000"
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-normal tracking-wider text-neutral-900 bg-white/90 hover:bg-white px-3.5 py-1.5 rounded-none border border-neutral-300 shadow-xs transition-colors cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 text-xs font-normal tracking-wider text-white bg-neutral-900/90 hover:bg-neutral-800 px-3.5 py-1.5 rounded-none border border-neutral-700 shadow-xs transition-colors cursor-pointer"
             >
-              <Phone className="w-3.5 h-3.5 text-neutral-700" />
+              <Phone className="w-3.5 h-3.5 text-[#FFE600]" />
               <span>0000000000</span>
             </a>
 
@@ -1776,9 +2028,9 @@ function CarShowcasePage() {
               type="button"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
               aria-label="Toggle Navigation Menu"
-              className="xl:hidden w-9 h-9 rounded-xl bg-white/90 hover:bg-white text-neutral-800 border border-neutral-200/80 shadow-xs flex items-center justify-center cursor-pointer"
+              className="xl:hidden w-9 h-9 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-white border border-neutral-700 shadow-xs flex items-center justify-center cursor-pointer"
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
             </button>
           </div>
         </header>
@@ -1809,7 +2061,7 @@ function CarShowcasePage() {
 
               <h1
                 key={`left-title-${car.id}-${animKey}`}
-                className="text-3xl xl:text-4xl font-black text-neutral-900 tracking-tight uppercase leading-tight mt-3 animate-d-fade-up"
+                className="text-3xl xl:text-4xl font-black text-white tracking-tight uppercase leading-tight mt-3 animate-d-fade-up"
                 style={{ animationDelay: "120ms" }}
               >
                 {getCarTitleBreakdown(car.make, car.model).firstTwo}{" "}
@@ -1820,7 +2072,7 @@ function CarShowcasePage() {
 
               <p
                 key={`left-desc-${car.id}-${animKey}`}
-                className="text-xs sm:text-sm text-neutral-600 font-medium leading-relaxed mt-2.5 max-w-xs animate-d-fade-up"
+                className="text-xs sm:text-sm text-neutral-300 font-medium leading-relaxed mt-2.5 max-w-xs animate-d-fade-up"
                 style={{ animationDelay: "200ms" }}
               >
                 {car.description}
@@ -1834,17 +2086,17 @@ function CarShowcasePage() {
               >
                 <div className="flex flex-col gap-1">
                   <div className="flex items-baseline gap-1.5">
-                    <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
+                    <span className="text-2xl sm:text-3xl font-black text-white leading-none">
                       {formatPrice(car.dailyRate)}
                     </span>
-                    <span className="text-xs text-neutral-500 font-semibold">/ day</span>
+                    <span className="text-xs text-neutral-400 font-semibold">/ day</span>
                   </div>
                   <div
                     className="text-xs font-bold"
                     style={{ color: car.themeColor }}
                   >
                     Weekly: {formatPrice(car.weeklyRate)}{" "}
-                    <span className="text-neutral-500 font-medium">/ week</span>
+                    <span className="text-neutral-400 font-medium">/ week</span>
                   </div>
                 </div>
                 <Button
@@ -1968,17 +2220,17 @@ function CarShowcasePage() {
                 <div className="flex items-center gap-4 bg-transparent border-none shadow-none backdrop-blur-none px-2 py-1">
                   <div className="flex flex-col items-start">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight leading-none">
+                      <span className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
                         {formatPrice(car.dailyRate)}
                       </span>
-                      <span className="text-[11px] font-semibold text-neutral-500">/ day</span>
+                      <span className="text-[11px] font-semibold text-neutral-400">/ day</span>
                     </div>
                     <div
                       className="text-[11px] font-bold mt-0.5"
                       style={{ color: car.themeColor }}
                     >
                       Weekly: {formatPrice(car.weeklyRate)}{" "}
-                      <span className="text-neutral-500 font-medium">/ week</span>
+                      <span className="text-neutral-400 font-medium">/ week</span>
                     </div>
                   </div>
 
@@ -1995,22 +2247,22 @@ function CarShowcasePage() {
                 {/* 6 Hero Service Features for small screen: 2 items per row, NO icons */}
                 <div className="w-full max-w-[340px] mx-auto pt-2.5 pb-0.5">
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-center">
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       Insurance included
                     </span>
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       No deposit
                     </span>
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       Own fleet
                     </span>
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       Working 24/7
                     </span>
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       Delivery &amp; pick-up
                     </span>
-                    <span className="text-[11px] font-bold text-neutral-800 tracking-tight">
+                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
                       Late return
                     </span>
                   </div>
@@ -2023,7 +2275,7 @@ function CarShowcasePage() {
                   type="button"
                   onClick={goToPrev}
                   aria-label="Previous Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -2036,7 +2288,7 @@ function CarShowcasePage() {
                       className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
                         idx === currentIndex
                         ? "scale-125 grayscale-0 opacity-100"
-                        : "grayscale opacity-50 hover:opacity-80 scale-95 hover:scale-100"
+                        : "grayscale opacity-40 hover:opacity-80 scale-95 hover:scale-100"
                         }`}
                     >
                       <img
@@ -2051,7 +2303,7 @@ function CarShowcasePage() {
                   type="button"
                   onClick={goToNext}
                   aria-label="Next Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -2078,7 +2330,7 @@ function CarShowcasePage() {
                   {/* Vertical connecting timeline line */}
                   <div
                     className="absolute left-2.5 top-2 bottom-2 w-0.5 rounded-full transition-colors duration-500"
-                    style={{ backgroundColor: `${car.themeColor}40` }}
+                    style={{ backgroundColor: `${car.themeColor}50` }}
                   />
 
                   {/* Spec 1: Engine */}
@@ -2087,19 +2339,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "100ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.engine.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.engine.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.engine.subvalue}
                       </span>
                     </div>
@@ -2111,19 +2363,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "160ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.power.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.power.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.power.subvalue}
                       </span>
                     </div>
@@ -2135,19 +2387,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "220ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.torque.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.torque.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.torque.subvalue}
                       </span>
                     </div>
@@ -2159,19 +2411,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "280ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.topSpeed.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.topSpeed.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.topSpeed.subvalue}
                       </span>
                     </div>
@@ -2183,19 +2435,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "340ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.acceleration.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.acceleration.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.acceleration.subvalue}
                       </span>
                     </div>
@@ -2207,19 +2459,19 @@ function CarShowcasePage() {
                     style={{ animationDelay: "400ms" }}
                   >
                     <div
-                      className="w-5 h-5 rounded-full border-2 border-white flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
+                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
                       style={{ backgroundColor: car.themeColor }}
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
                     </div>
                     <div>
                       <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
                         {car.specs.weight.label}
                       </span>
-                      <span className="text-xs sm:text-sm font-black text-neutral-900 leading-tight block">
+                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
                         {car.specs.weight.value}
                       </span>
-                      <span className="text-[10px] font-semibold text-neutral-500 block">
+                      <span className="text-[10px] font-semibold text-neutral-400 block">
                         {car.specs.weight.subvalue}
                       </span>
                     </div>
@@ -2234,7 +2486,7 @@ function CarShowcasePage() {
             type="button"
             onClick={goToPrev}
             aria-label="Previous Car"
-            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-md border border-neutral-200 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow-xl border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -2243,7 +2495,7 @@ function CarShowcasePage() {
             type="button"
             onClick={goToNext}
             aria-label="Next Car"
-            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow-md border border-neutral-200 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow-xl border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -2265,20 +2517,20 @@ function CarShowcasePage() {
                   aria-label={`Go to ${item.make} ${item.model}`}
                   className="w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer"
                   style={{
-                    backgroundColor: idx === currentIndex ? car.themeColor : "#D1D5DB",
+                    backgroundColor: idx === currentIndex ? car.themeColor : "#374151",
                     transform: idx === currentIndex ? "scale(1.3)" : "scale(1)",
                   }}
                 />
               ))}
             </div>
 
-            <div className="text-xs font-mono font-bold text-neutral-800 flex items-center gap-2">
+            <div className="text-xs font-mono font-bold text-neutral-200 flex items-center gap-2">
               <div>
                 <span style={{ color: car.themeColor }}>{car.number}</span>
-                <span className="text-neutral-400 mx-1">/</span>
+                <span className="text-neutral-500 mx-1">/</span>
                 <span>{String(fleet.length).padStart(2, "0")}</span>
               </div>
-              <span className="text-[10px] text-neutral-400 font-sans tracking-wide hidden md:inline">
+              <span className="text-[10px] text-neutral-500 font-sans tracking-wide hidden md:inline">
                 • Swipe or click arrows to explore fleet
               </span>
             </div>
@@ -2290,7 +2542,7 @@ function CarShowcasePage() {
               type="button"
               onClick={goToPrev}
               aria-label="Previous Car"
-              className="w-7 h-7 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="w-7 h-7 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
@@ -2303,7 +2555,7 @@ function CarShowcasePage() {
                   className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
                     idx === currentIndex
                     ? "scale-125 grayscale-0 opacity-100"
-                    : "grayscale opacity-50 hover:opacity-80 scale-95 hover:scale-100"
+                    : "grayscale opacity-40 hover:opacity-80 scale-95 hover:scale-100"
                     }`}
                 >
                   <img
@@ -2318,7 +2570,7 @@ function CarShowcasePage() {
               type="button"
               onClick={goToNext}
               aria-label="Next Car"
-              className="w-7 h-7 rounded-full bg-transparent hover:bg-neutral-200/40 text-neutral-700 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              className="w-7 h-7 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
             >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
@@ -2327,7 +2579,7 @@ function CarShowcasePage() {
 
         {/* Auto Slide Progress Line */}
         {isAutoPlay && (
-          <div className="w-full bg-neutral-200/60 h-0.5 overflow-hidden rounded-full mt-1">
+          <div className="w-full bg-neutral-800/80 h-0.5 overflow-hidden rounded-full mt-1">
             <div
               className="h-full transition-all duration-75"
               style={{
@@ -2348,15 +2600,15 @@ function CarShowcasePage() {
       */}
       <section
         id="categories"
-        className="w-full bg-[#F5F6F8] border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
+        className="w-full bg-[#0e1017] border-t border-neutral-800/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto">
           {/* Centered Main Header, right side content removed */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#FFE600] block mb-1">
               PRESTIGE DUBAI FLEET
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">
               Luxora Drive Rental Dubai
             </h2>
           </div>
@@ -2391,7 +2643,7 @@ function CarShowcasePage() {
 
                 {/* Category Typography: Rent Title & Number of cars */}
                 <div className="relative z-10 w-full mt-2 text-center">
-                  <h3 className="text-xs sm:text-[13px] font-black uppercase text-neutral-900 tracking-tight leading-tight group-hover:text-amber-600 transition-colors">
+                  <h3 className="text-xs sm:text-[13px] font-black uppercase text-white tracking-tight leading-tight group-hover:text-[#FFE600] transition-colors">
                     {cat.title}
                   </h3>
                   <p className="text-[11px] text-neutral-400 font-semibold mt-0.5">{cat.count}</p>
@@ -2405,7 +2657,7 @@ function CarShowcasePage() {
             <button
               type="button"
               onClick={() => setShowAllCategories((prev) => !prev)}
-              className="flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white font-black text-xs px-6 py-3 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 text-white font-black text-xs px-6 py-3 rounded-xl shadow-md border border-neutral-700 transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span>{showAllCategories ? "VIEW LESS CATEGORIES" : "VIEW MORE CATEGORIES"}</span>
               <ChevronDown
@@ -2419,35 +2671,35 @@ function CarShowcasePage() {
 
       {/* 
         Flash Sale Section:
-        - Background: White (as requested: "make sure super car flash deal should be their backgeround should be white")
+        - Deep sleek dark cards with bright gold / red accents
         - Heading: Centered, right-side content removed
-        - Car Card Color: #B7B09E (as requested: "#B7B09E please use this color on the flash deal car card")
+        - Countdown Timer Bar with Live Clock
         - No unnecessary icons
       */}
       <section
         id="flash-sale"
-        className="w-full bg-white border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
+        className="w-full bg-[#0a0b0e] border-t border-neutral-800/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto">
           {/* Centered Header, right side content removed */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#D1121E] block mb-1">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#FF0033] block mb-1">
               LIMITED TIME SUPERCAR SPECIALS • UP TO 56% OFF
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">
               SUPERCAR FLASH SALE
             </h2>
           </div>
 
-          {/* 4 Flash Sale Cards in #B7B09E - No border lines on card or buttons, no curved borders */}
+          {/* 4 Flash Sale Cards - Sleek Dark Titanium Aesthetics */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {flashSaleItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#B7B09E] rounded-none border-0 border-none shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                className="bg-[#141620] rounded-none border border-neutral-800 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
                 {/* Countdown Timer Bar with Real-Time Live Clock */}
-                <div className="w-full bg-[#18191B] px-3.5 py-1.5 flex items-center justify-between text-[#FFE600] text-xs font-bold uppercase tracking-wider rounded-none border-0 border-none">
+                <div className="w-full bg-[#0e1015] px-3.5 py-1.5 flex items-center justify-between text-[#FFE600] text-xs font-bold uppercase tracking-wider rounded-none border-b border-neutral-800">
                   <span>FLASH SALE</span>
                   <span className="font-mono tracking-widest text-[11px] font-bold text-white">
                     {formatFlashTimer(flashSaleSeconds[item.id] ?? 7200)}
@@ -2455,7 +2707,7 @@ function CarShowcasePage() {
                 </div>
 
                 {/* Car Preview Container with hover scale */}
-                <div className="relative w-full h-44 sm:h-48 bg-[#A8A18E]/30 p-3 flex items-center justify-center overflow-hidden select-none rounded-none border-0 border-none">
+                <div className="relative w-full h-44 sm:h-48 bg-[#0b0c10] p-3 flex items-center justify-center overflow-hidden select-none rounded-none border-0 border-none">
                   {/* Discount Badge */}
                   <div className="absolute top-2.5 left-3 bg-[#D1121E] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-none border-0 border-none shadow-xs z-10">
                     {item.discount}
@@ -2477,17 +2729,17 @@ function CarShowcasePage() {
                     alt={item.name}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
                   />
                 </div>
 
                 {/* Card Body */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-neutral-900 rounded-none border-0 border-none">
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between text-white rounded-none border-0 border-none">
                   <div>
-                    <span className="text-[10px] font-bold text-neutral-700 uppercase tracking-wider block">
+                    <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">
                       {item.category}
                     </span>
-                    <h3 className="text-base font-black text-neutral-950 leading-snug mt-0.5">
+                    <h3 className="text-base font-black text-white leading-snug mt-0.5">
                       {item.name}
                     </h3>
                   </div>
@@ -2497,32 +2749,32 @@ function CarShowcasePage() {
                     {/* Daily Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-xl font-black text-neutral-950 leading-none">
+                        <span className="text-xl font-black text-white leading-none">
                           {formatPrice(item.dailyRate)}
                         </span>
-                        <span className="text-xs font-semibold text-neutral-700">/ Day</span>
+                        <span className="text-xs font-semibold text-neutral-400">/ Day</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
-                        <span className="text-neutral-600 line-through">
+                        <span className="text-neutral-500 line-through">
                           {formatPrice(item.originalDailyRate)}
                         </span>
-                        <span className="font-bold text-red-700">{item.discount}</span>
+                        <span className="font-bold text-red-500">{item.discount}</span>
                       </div>
                     </div>
 
                     {/* Monthly Rate */}
-                    <div className="flex items-baseline justify-between text-xs text-neutral-800 font-semibold">
+                    <div className="flex items-baseline justify-between text-xs text-neutral-300 font-semibold">
                       <span>Monthly Deal</span>
-                      <span className="text-neutral-950 font-black">{formatPrice(item.monthlyRate)}</span>
+                      <span className="text-white font-black">{formatPrice(item.monthlyRate)}</span>
                     </div>
                   </div>
 
                   {/* Free Delivery & Insurance Included - No border line */}
-                  <div className="flex items-center gap-3 text-[11px] font-bold text-neutral-800 pt-2 border-0 border-none">
-                    <span className="flex items-center gap-1 text-emerald-800">
+                  <div className="flex items-center gap-3 text-[11px] font-bold text-neutral-300 pt-2 border-0 border-none">
+                    <span className="flex items-center gap-1 text-emerald-400">
                       Free Delivery
                     </span>
-                    <span className="flex items-center gap-1 text-emerald-800">
+                    <span className="flex items-center gap-1 text-emerald-400">
                       Insurance Included
                     </span>
                   </div>
@@ -2546,7 +2798,7 @@ function CarShowcasePage() {
                     <button
                       type="button"
                       onClick={() => setBookingCar(item.carRef)}
-                      className="flex items-center justify-center gap-1.5 bg-neutral-950 hover:bg-neutral-800 text-white py-2 px-1 rounded-none border-0 border-none text-[11px] font-bold transition-colors cursor-pointer text-center"
+                      className="flex items-center justify-center gap-1.5 bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 py-2 px-1 rounded-none border-0 border-none text-[11px] font-black transition-colors cursor-pointer text-center"
                     >
                       Claim Deal
                     </button>
@@ -2566,14 +2818,14 @@ function CarShowcasePage() {
       */}
       <section
         id="fleet-deals"
-        className="w-full bg-white border-t border-neutral-200/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20">
+        className="w-full bg-[#0a0b0e] border-t border-neutral-800/80 py-12 sm:py-16 px-4 sm:px-8 lg:px-12 relative z-20">
         <div className="w-full max-w-[1720px] mx-auto">
           {/* Centered Main Header, right side content removed */}
           <div className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#FFE600] block mb-1">
               FEATURED PROMOTIONS
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight uppercase">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase">
               OUR BEST RENTED
             </h2>
           </div>
@@ -2583,22 +2835,22 @@ function CarShowcasePage() {
             {porscheProductCards.map((card) => (
               <div
                 key={card.id}
-                className="bg-white rounded-none border border-neutral-300 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                className="bg-[#12141c] rounded-none border border-neutral-800 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
               >
                 {/* Car Preview Box with 3-Image Slider (Drag & Left/Right yellow arrow buttons) */}
                 <div
-                  className="relative w-full h-48 sm:h-52 bg-[#ECECEC] p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none rounded-none"
+                  className="relative w-full h-48 sm:h-52 bg-[#181a24] p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none rounded-none"
                   onTouchStart={(e) => handleCardTouchStart(card.id, e.touches[0].clientX)}
                   onTouchEnd={(e) => handleCardTouchEnd(card.id, e.changedTouches[0].clientX)}
                   onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
                   onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
                 >
-                  {/* Left & Right Black Chevrons */}
+                  {/* Left & Right Chevrons */}
                   <button
                     type="button"
                     onClick={(e) => handleCardPrevImage(card.id, e)}
                     aria-label="Previous view"
-                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-black hover:text-neutral-700 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-300 hover:text-white font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
                     &lt;
                   </button>
@@ -2606,31 +2858,31 @@ function CarShowcasePage() {
                     type="button"
                     onClick={(e) => handleCardNextImage(card.id, e)}
                     aria-label="Next view"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-black hover:text-neutral-700 font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-300 hover:text-white font-black text-2xl leading-none transition-transform hover:scale-125 active:scale-95 cursor-pointer z-20 select-none drop-shadow-xs"
                   >
                     &gt;
                   </button>
 
                   {/* Brand Logo in bottom-left */}
                   <div className="absolute left-3 bottom-2.5 z-10 pointer-events-none opacity-70">
-                    <div className="w-6 h-6 rounded-full border border-neutral-400 flex items-center justify-center text-[11px] font-bold text-neutral-600">
+                    <div className="w-6 h-6 rounded-full border border-neutral-700 flex items-center justify-center text-[11px] font-bold text-neutral-400">
                       {card.name.includes("Mercedes") ? "⨂" : "⚡"}
                     </div>
                   </div>
 
-                  {/* Carousel 3 Pagination Dots: Active black bar, inactive round dots */}
+                  {/* Carousel 3 Pagination Dots: Active yellow bar, inactive round dots */}
                   <div className="absolute bottom-3 inset-x-0 flex justify-center items-center gap-1.5 z-10 pointer-events-none">
                     {[0, 1, 2].map((dotIdx) => {
                       const isCurrent = (cardImageIndices[card.id] || 0) === dotIdx;
                       return isCurrent ? (
                         <span
                           key={dotIdx}
-                          className="w-5 h-2 rounded-none bg-black"
+                          className="w-5 h-2 rounded-none bg-[#FFE600]"
                         />
                       ) : (
                         <span
                           key={dotIdx}
-                          className="w-2 h-2 rounded-full bg-neutral-400"
+                          className="w-2 h-2 rounded-full bg-neutral-700"
                         />
                       );
                     })}
@@ -2652,7 +2904,7 @@ function CarShowcasePage() {
                       e.stopPropagation();
                       setSelectedCarDetails(card);
                     }}
-                    className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-black hover:bg-neutral-800 text-white flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
+                    className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
                     title="View Car Details & Full Specs"
                   >
                     <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
@@ -2663,17 +2915,17 @@ function CarShowcasePage() {
                     alt={`${card.name} - View ${(cardImageIndices[card.id] || 0) + 1}`}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    className="max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
                     key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
                 {/* Card Body with sharp square styling (no curved borders anywhere) */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between rounded-none">
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between rounded-none text-white">
                   <div>
-                    <span className="text-xs text-neutral-500 font-medium block">
+                    <span className="text-xs text-neutral-400 font-medium block">
                       {card.category}
                     </span>
-                    <h3 className="text-base sm:text-lg font-black text-neutral-900 leading-tight mt-1">
+                    <h3 className="text-base sm:text-lg font-black text-white leading-tight mt-1">
                       {card.name}
                     </h3>
                   </div>
@@ -2683,42 +2935,42 @@ function CarShowcasePage() {
                     {/* Daily Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-base sm:text-lg font-black text-neutral-900 leading-none">
+                        <span className="text-base sm:text-lg font-black text-white leading-none">
                           {formatPrice(card.dailyRate)}
                         </span>
-                        <span className="text-xs text-neutral-500 font-normal">/ Day</span>
+                        <span className="text-xs text-neutral-400 font-normal">/ Day</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
-                        <span className="text-neutral-400 line-through">
+                        <span className="text-neutral-500 line-through">
                           {formatPrice(card.originalDailyRate)}
                         </span>
-                        <span className="font-bold text-emerald-600">{card.dailyDiscount}</span>
+                        <span className="font-bold text-emerald-400">{card.dailyDiscount}</span>
                       </div>
                     </div>
                     {/* Monthly Rate */}
                     <div className="flex items-baseline justify-between">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-base sm:text-lg font-black text-neutral-900 leading-none">
+                        <span className="text-base sm:text-lg font-black text-white leading-none">
                           {formatPrice(card.monthlyRate)}
                         </span>
-                        <span className="text-xs text-neutral-500 font-normal">/ Monthly</span>
+                        <span className="text-xs text-neutral-400 font-normal">/ Monthly</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs">
-                        <span className="text-neutral-400 line-through">
+                        <span className="text-neutral-500 line-through">
                           {formatPrice(card.originalMonthlyRate)}
                         </span>
-                        <span className="font-bold text-emerald-600">{card.monthlyDiscount}</span>
+                        <span className="font-bold text-emerald-400">{card.monthlyDiscount}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Free Delivery & Insurance Included */}
-                  <div className="flex items-center gap-4 text-xs font-bold text-neutral-800 pt-1">
+                  <div className="flex items-center gap-4 text-xs font-bold text-neutral-300 pt-1">
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-600 text-white" /> Free Delivery
+                      <CheckCircle2 className="w-4 h-4 text-[#FFE600] fill-[#FFE600] text-black" /> Free Delivery
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-600 text-white" /> Insurance Included
+                      <CheckCircle2 className="w-4 h-4 text-[#FFE600] fill-[#FFE600] text-black" /> Insurance Included
                     </span>
                   </div>
 
@@ -2742,7 +2994,7 @@ function CarShowcasePage() {
                     <button
                       type="button"
                       onClick={() => handleBookProductCard(card)}
-                      className="flex items-center justify-center gap-1.5 bg-black hover:bg-neutral-800 text-white py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" /> Inquire Now
                     </button>
@@ -2763,15 +3015,15 @@ function CarShowcasePage() {
       */}
       <section
         id="promotions"
-        className="w-full bg-[#F5F6F8] border-none py-10 sm:py-14 px-4 sm:px-8 lg:px-12 relative z-20"
+        className="w-full bg-[#0c0d12] border-t border-neutral-800/80 py-10 sm:py-14 px-4 sm:px-8 lg:px-12 relative z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto space-y-8">
           {/* Centered Main Header, right side content removed */}
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-[11px] font-semibold uppercase tracking-widest text-amber-600 block mb-1">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-[#FFE600] block mb-1">
               EXCLUSIVE CAMPAIGNS
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight uppercase">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight uppercase">
               SPECIAL PROMOTIONAL OFFERS
             </h2>
           </div>
@@ -2945,13 +3197,13 @@ function CarShowcasePage() {
 
       {/* 
         Tailor Your Car Rental in Dubai Section:
-        - Pure white background as requested.
+        - Deep sleek obsidian background.
         - Two-tone custom yellow & black luxury SUV on the left.
-        - Clear copy and bullet points with dark checkmarks on the right.
+        - Clear copy and bullet points with bright yellow checkmarks on the right.
       */}
       <section
         id="tailor-dubai"
-        className="w-full bg-white text-neutral-900 py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
+        className="w-full bg-[#0e1017] text-white border-t border-neutral-800/80 py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
       >
         <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-12 relative z-10">
           {/* Left Column: Yellow/Black Luxury Custom SUV */}
@@ -2963,33 +3215,32 @@ function CarShowcasePage() {
                 src={dubaiSuv}
                 alt="Custom Two-Tone Luxury SUV in Dubai"
                 loading="lazy"
-                className="w-full h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.18)] relative z-10 transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] relative z-10 transition-transform duration-500 group-hover:scale-105"
               />
             </div>
           </div>
-
           {/* Right Column: Tailor Your Rental Copy & Bullet Points */}
           <div className="lg:col-span-6 space-y-4">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-neutral-900 tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
               Tailor Your Car Rental In Dubai Plan To Your Specific Requirement
             </h2>
 
-            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
               Faster Rent a Car is a professional rent a car in Dubai service provider for all
               requirements. We offer tailored rental plans and services for specific preferences.
               Our business, private, wedding, and desert safari car rental in Dubai services are
               available tailored to your requirements.{" "}
-              <span className="font-extrabold text-neutral-900">We offer:</span>
+              <span className="font-extrabold text-white">We offer:</span>
             </p>
 
             {/* Checklist with Checkmarks */}
-            <ul className="space-y-2 text-xs sm:text-sm text-neutral-700 pt-1">
+            <ul className="space-y-2 text-xs sm:text-sm text-neutral-300 pt-1">
               <li className="flex items-start gap-2.5">
                 <span className="text-[#FFE600] font-black text-base leading-tight flex-shrink-0">
                   ✓
                 </span>
                 <span>
-                  <strong className="text-neutral-950">Hourly car rental</strong> and chauffeur service
+                  <strong className="text-white">Hourly car rental</strong> and chauffeur service
                   for airport connections and desert safari
                 </span>
               </li>
@@ -3007,7 +3258,7 @@ function CarShowcasePage() {
                 </span>
                 <span>
                   Full weekend and also full week{" "}
-                  <strong className="text-neutral-950">exotic car rental in Dubai</strong> services
+                  <strong className="text-white">exotic car rental in Dubai</strong> services
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
@@ -3046,23 +3297,23 @@ function CarShowcasePage() {
 
       {/* 
         Our Premium Services Section:
-        - Pure white background as requested
-        - Middle car replaced with Mercedes-AMG G63 Maybach
+        - Sleek dark background matching dark luxury aesthetic
+        - Middle car Mercedes-AMG G63 Maybach
         - 3 Premium Services in a clean 3-column layout
-        - 3 service cards with white background, centered text, and prominent yellow 3D offset shadow
+        - 3 dark service cards with white text and prominent yellow 3D offset shadow
       */}
       <section
         id="services"
-        className="w-full bg-white text-neutral-900 py-16 sm:py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
+        className="w-full bg-[#0a0b0e] text-white border-t border-neutral-800/80 py-16 sm:py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden z-20"
       >
         <div className="w-full max-w-[1400px] mx-auto relative z-10 flex flex-col items-center">
           {/* Section Header */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-neutral-950 tracking-tight text-center mb-4">
-            Our <span className="text-[#FFE600] drop-shadow-xs" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>Premium Services</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight text-center mb-4">
+            Our <span className="text-[#FFE600] drop-shadow-xs" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>Premium Services</span>
           </h2>
-          <p className="max-w-4xl text-center text-xs sm:text-sm text-neutral-600 leading-relaxed mb-8 sm:mb-12 font-normal">
+          <p className="max-w-4xl text-center text-xs sm:text-sm text-neutral-300 leading-relaxed mb-8 sm:mb-12 font-normal">
             At Faster Rent a Car, we specialize in fulfilling all{" "}
-            <strong className="text-neutral-900 italic font-bold">rent a car in Dubai</strong> requirements. Our
+            <strong className="text-white italic font-bold">rent a car in Dubai</strong> requirements. Our
             clients can call us or request their car rental Dubai service any day of the week. We will
             ensure same-day delivery for private and business rent a car requirements. Also, chauffeur
             service is available in the city for desert safari, business, and family road trip
@@ -3077,7 +3328,7 @@ function CarShowcasePage() {
                 <img
                   src={porscheRed}
                   alt="Private Rental Sports Car"
-                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)]"
+                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)]"
                   loading="lazy"
                 />
               </div>
@@ -3085,7 +3336,7 @@ function CarShowcasePage() {
                 <img
                   src={mercedesG63Maybach}
                   alt="Mercedes-AMG G63 Maybach Luxury SUV"
-                  className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.25)]"
+                  className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)]"
                   loading="lazy"
                 />
               </div>
@@ -3093,52 +3344,50 @@ function CarShowcasePage() {
                 <img
                   src={lamboHuracanSto}
                   alt="Yellow Exotic Supercar"
-                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.2)]"
+                  className="w-full h-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)]"
                   loading="lazy"
                 />
               </div>
             </div>
-            {/* Center Lineup Badge */}
-
           </div>
 
           {/* 3 Premium Service Cards */}
           <div className="w-full">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Service 1: Private & Chauffeur Driven Car Rental */}
-              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+              <div className="bg-[#13151d] text-white p-6 sm:p-8 rounded-none border border-neutral-800 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-white mb-3 tracking-tight">
                   Private & Chauffeur Driven Rental
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
                   Experience ultimate privacy, luxury, and comfort with our bespoke{" "}
-                  <strong className="text-neutral-950 font-bold">private chauffeur hire in Dubai</strong>.
+                  <strong className="text-white font-bold">private chauffeur hire in Dubai</strong>.
                   Whether arriving at Dubai International Airport or attending high-profile events, our certified
                   multilingual chauffeurs and prestige fleet guarantee punctual, first-class journeys 24/7.
                 </p>
               </div>
 
               {/* Service 2: Corporate & Business Car Rental */}
-              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+              <div className="bg-[#13151d] text-white p-6 sm:p-8 rounded-none border border-neutral-800 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-white mb-3 tracking-tight">
                   Corporate & Business Car Rental
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
                   Command respect at every meeting with our dedicated{" "}
-                  <strong className="text-neutral-950 font-bold">business car rental in Dubai</strong>.
+                  <strong className="text-white font-bold">business car rental in Dubai</strong>.
                   Choose from prestigious Mercedes S-Class, BMW 7 Series, and Rolls-Royce models with flexible
                   corporate invoicing, long-term leasing advantages, and priority doorstep delivery to your office or hotel.
                 </p>
               </div>
 
               {/* Service 3: Desert Safari & Luxury SUV Tours */}
-              <div className="bg-white text-neutral-900 p-6 sm:p-8 rounded-none border border-neutral-200/90 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
-                <h3 className="font-bold text-base sm:text-lg text-neutral-950 mb-3 tracking-tight">
+              <div className="bg-[#13151d] text-white p-6 sm:p-8 rounded-none border border-neutral-800 shadow-[7px_7px_0px_#FFE600] flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                <h3 className="font-bold text-base sm:text-lg text-white mb-3 tracking-tight">
                   Desert Safari & Luxury SUV Tours
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
                   Embark on thrilling UAE desert adventures with our elite{" "}
-                  <strong className="text-neutral-950 font-bold">desert safari & SUV hire service</strong>.
+                  <strong className="text-white font-bold">desert safari & SUV hire service</strong>.
                   Command high-performance Mercedes-AMG G63s, Range Rover Autobiographies, and custom Nissan Patrols
                   engineered for peerless desert dune exploration and luxurious cross-emirate road trips.
                 </p>
@@ -3151,16 +3400,15 @@ function CarShowcasePage() {
       {/* 
         Frequently Asked Questions Section:
         - Positioned directly above Our Locations / Map section
-        - Visual styling exactly matching reference image (media_1795000920280_b1488734.png)
         - Sharp simple edges (rounded-none), prominent FAQ questions with square [?] badge
         - Active item features bright yellow (#FFE600) highlight, black text, and expanded description
       */}
       <section
         id="faq"
-        className="w-full bg-white py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
+        className="w-full bg-[#0e1017] text-white border-t border-neutral-800/80 py-14 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
       >
         {/* Background Vintage Porsche Illustration covering full screen of FAQ area */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-15 select-none z-0 overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-10 select-none z-0 overflow-hidden flex items-center justify-center">
           <img
             src={faqCarBg}
             alt=""
@@ -3170,7 +3418,7 @@ function CarShowcasePage() {
         </div>
 
         <div className="w-full max-w-5xl mx-auto relative z-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-center text-neutral-900 mb-8 sm:mb-12 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-[40px] font-bold text-center text-white mb-8 sm:mb-12 tracking-tight">
             Frequently Asked Questions
           </h2>
 
@@ -3182,9 +3430,9 @@ function CarShowcasePage() {
                   <button
                     type="button"
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className={`w-full flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 text-left transition-colors cursor-pointer rounded-none border-none outline-none ${isOpen
-                        ? "bg-[#FFE600] text-neutral-950 font-medium"
-                        : "bg-[#1c1c1c] text-white hover:bg-[#282828] font-normal"
+                    className={`w-full flex items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 text-left transition-colors cursor-pointer rounded-none border border-neutral-800/80 outline-none ${isOpen
+                        ? "bg-[#FFE600] text-neutral-950 font-bold border-[#FFE600]"
+                        : "bg-[#14161f] text-neutral-200 hover:bg-[#1b1e28] font-normal"
                       }`}
                   >
                     <div className="flex items-center gap-3">
@@ -3200,7 +3448,7 @@ function CarShowcasePage() {
                   </button>
 
                   {isOpen && (
-                    <div className="bg-white text-neutral-700 text-xs sm:text-sm leading-relaxed py-4 px-2 sm:px-3 font-normal">
+                    <div className="bg-[#12141c] text-neutral-300 text-xs sm:text-sm leading-relaxed py-4 px-4 font-normal border border-t-0 border-neutral-800">
                       <p>{item.a}</p>
                     </div>
                   )}
@@ -3213,16 +3461,15 @@ function CarShowcasePage() {
 
       {/* 
         Our Locations Section:
-        - Layout & Content directly matching user's uploaded reference (media_1794988104568_24beaa4d.png)
-        - Left: "Our Locations" heading, description, interactive location selection pills
-        - Right: Dubai & UAE Regional Map with 12 interactive lime/yellow pins with pulse/radar glow & tooltips
+        - Left: "Our Locations" heading, description
+        - Right: Animated Map
       */}
       <section
         id="locations"
-        className="w-full bg-white border-none py-16 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
+        className="w-full bg-[#0a0b0e] border-t border-neutral-800/80 py-16 sm:py-20 px-4 sm:px-8 lg:px-12 relative z-20 overflow-hidden"
       >
         {/* Background Vintage Porsche Illustration covering full screen of Map / Locations area */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-15 select-none z-0 overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 w-full h-full pointer-events-none opacity-10 select-none z-0 overflow-hidden flex items-center justify-center">
           <img
             src={faqCarBg}
             alt=""
@@ -3234,10 +3481,10 @@ function CarShowcasePage() {
         <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
           {/* Left Column: Heading & Description Only */}
           <div className="lg:col-span-5 flex flex-col items-start space-y-5">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-neutral-900 tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
               Our Locations
             </h2>
-            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-normal max-w-lg">
+            <p className="text-sm sm:text-base text-neutral-300 leading-relaxed font-normal max-w-lg">
               Partnered with the major car hire companies, Faster Rent A Car is your one-stop-solution to find a cheap car rental facility anywhere in Dubai.
             </p>
           </div>
@@ -3437,7 +3684,7 @@ function CarShowcasePage() {
 
       {/* Luxury Rental Booking Dialog */}
       <Dialog open={!!bookingCar} onOpenChange={(open) => !open && setBookingCar(null)}>
-        <DialogContent className="max-w-md bg-white p-6 rounded-2xl border shadow-2xl">
+        <DialogContent className="max-w-md bg-[#12141c] text-white p-6 rounded-2xl border border-neutral-800 shadow-2xl">
           {bookingCar && (
             <div>
               <DialogHeader>
@@ -3452,10 +3699,10 @@ function CarShowcasePage() {
                     VEHICLE #{bookingCar.number}
                   </span>
                 </div>
-                <DialogTitle className="text-xl font-black text-neutral-900 tracking-tight">
+                <DialogTitle className="text-xl font-black text-white tracking-tight">
                   Reserve {bookingCar.make} {bookingCar.model}
                 </DialogTitle>
-                <DialogDescription className="text-xs text-neutral-500">
+                <DialogDescription className="text-xs text-neutral-400">
                   Select your dates and delivery location for instant concierge confirmation.
                 </DialogDescription>
               </DialogHeader>
@@ -3468,10 +3715,10 @@ function CarShowcasePage() {
                   >
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h4 className="text-lg font-bold text-neutral-900">
+                  <h4 className="text-lg font-bold text-white">
                     Reservation Request Confirmed!
                   </h4>
-                  <p className="text-xs text-neutral-600 max-w-xs mx-auto">
+                  <p className="text-xs text-neutral-300 max-w-xs mx-auto">
                     The Luxora Drive concierge team will contact you via WhatsApp / Phone within 15
                     minutes to coordinate delivery of your {bookingCar.make} {bookingCar.model}.
                   </p>
@@ -3495,14 +3742,14 @@ function CarShowcasePage() {
                   className="space-y-4 mt-4"
                 >
                   {/* Car Quick Snapshot */}
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-neutral-50 border border-neutral-100">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-[#181a24] border border-neutral-800">
                     <img
                       src={bookingCar.image}
                       alt={bookingCar.model}
                       className="w-20 h-12 object-contain"
                     />
                     <div>
-                      <div className="text-sm font-bold text-neutral-900">
+                      <div className="text-sm font-bold text-white">
                         {bookingCar.make} {bookingCar.model}
                       </div>
                       <div
@@ -3511,7 +3758,7 @@ function CarShowcasePage() {
                       >
                           {formatPrice(bookingCar.dailyRate)} / day
                       </div>
-                      <div className="text-[10px] text-neutral-500">
+                      <div className="text-[10px] text-neutral-400">
                           Deposit: {formatPrice(bookingCar.securityDeposit)} • {bookingCar.includedMileage}
                       </div>
                     </div>
@@ -3520,30 +3767,30 @@ function CarShowcasePage() {
                   {/* Date Selection */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block mb-1">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                         PICKUP DATE
                       </label>
-                      <div className="flex items-center gap-2 border border-neutral-200 rounded-lg px-3 py-2 text-xs bg-white">
+                      <div className="flex items-center gap-2 border border-neutral-700 rounded-lg px-3 py-2 text-xs bg-[#181a24]">
                         <Calendar className="w-3.5 h-3.5 text-neutral-400" />
                         <input
                           type="date"
                           defaultValue="2026-11-20"
                           required
-                          className="w-full text-neutral-800 outline-none text-xs"
+                          className="w-full text-white bg-transparent outline-none text-xs"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block mb-1">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                         RETURN DATE
                       </label>
-                      <div className="flex items-center gap-2 border border-neutral-200 rounded-lg px-3 py-2 text-xs bg-white">
+                      <div className="flex items-center gap-2 border border-neutral-700 rounded-lg px-3 py-2 text-xs bg-[#181a24]">
                         <Calendar className="w-3.5 h-3.5 text-neutral-400" />
                         <input
                           type="date"
                           defaultValue="2026-11-23"
                           required
-                          className="w-full text-neutral-800 outline-none text-xs"
+                          className="w-full text-white bg-transparent outline-none text-xs"
                         />
                       </div>
                     </div>
@@ -3551,15 +3798,15 @@ function CarShowcasePage() {
 
                   {/* Location Selection */}
                   <div>
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block mb-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                       DELIVERY LOCATION
                     </label>
-                    <div className="flex items-center gap-2 border border-neutral-200 rounded-lg px-3 py-2 text-xs bg-white">
+                    <div className="flex items-center gap-2 border border-neutral-700 rounded-lg px-3 py-2 text-xs bg-[#181a24]">
                       <MapPin className="w-3.5 h-3.5 text-neutral-400" />
-                      <select className="w-full text-neutral-800 outline-none bg-transparent text-xs">
-                        <option>International Airport (VIP Terminal Handover)</option>
-                        <option>Hotel / Private Villa Doorstep Delivery</option>
-                        <option>Luxora Showroom Collection</option>
+                      <select className="w-full text-white outline-none bg-[#181a24] text-xs">
+                        <option className="bg-[#181a24] text-white">International Airport (VIP Terminal Handover)</option>
+                        <option className="bg-[#181a24] text-white">Hotel / Private Villa Doorstep Delivery</option>
+                        <option className="bg-[#181a24] text-white">Luxora Showroom Collection</option>
                       </select>
                     </div>
                   </div>
@@ -3567,44 +3814,44 @@ function CarShowcasePage() {
                   {/* Driver Contact Info */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block mb-1">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                         FULL NAME
                       </label>
                       <input
                         type="text"
                         placeholder="John Doe"
                         required
-                        className="w-full border border-neutral-200 rounded-lg px-3 py-2 text-xs text-neutral-800 outline-none"
+                        className="w-full border border-neutral-700 rounded-lg px-3 py-2 text-xs text-white bg-[#181a24] outline-none"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 block mb-1">
+                      <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 block mb-1">
                         PHONE / WHATSAPP
                       </label>
                       <input
                         type="tel"
                         placeholder="+1 (555) 000-0000"
                         required
-                        className="w-full border border-neutral-200 rounded-lg px-3 py-2 text-xs text-neutral-800 outline-none"
+                        className="w-full border border-neutral-700 rounded-lg px-3 py-2 text-xs text-white bg-[#181a24] outline-none"
                       />
                     </div>
                   </div>
 
                   {/* Total Estimate Calculation */}
-                  <div className="bg-neutral-50 p-3 rounded-lg text-xs space-y-1 text-neutral-600">
+                  <div className="bg-[#181a24] p-3 rounded-lg text-xs space-y-1 text-neutral-300 border border-neutral-800">
                     <div className="flex justify-between">
                         <span>3 Days Rental ({formatPrice(bookingCar.dailyRate)} × 3)</span>
-                      <span className="font-semibold text-neutral-800">
+                      <span className="font-semibold text-white">
                           {formatPrice(bookingCar.dailyRate * 3)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Refundable Security Deposit</span>
-                      <span className="font-semibold text-neutral-800">
+                      <span className="font-semibold text-white">
                           {formatPrice(bookingCar.securityDeposit)}
                       </span>
                     </div>
-                    <div className="flex justify-between border-t border-neutral-200/80 pt-1 text-neutral-900 font-bold">
+                    <div className="flex justify-between border-t border-neutral-700/80 pt-1 text-white font-bold">
                       <span>Estimated Total</span>
                       <span style={{ color: bookingCar.themeColor }}>
                           {formatPrice(bookingCar.dailyRate * 3 + bookingCar.securityDeposit)}
@@ -3632,11 +3879,11 @@ function CarShowcasePage() {
         open={!!selectedCarDetails}
         onOpenChange={(open) => !open && setSelectedCarDetails(null)}
       >
-        <DialogContent className="max-w-2xl bg-white p-6 sm:p-8 rounded-2xl border border-neutral-200 shadow-2xl overflow-y-auto max-h-[92vh]">
+        <DialogContent className="max-w-2xl bg-[#12141c] text-white p-6 sm:p-8 rounded-2xl border border-neutral-800 shadow-2xl overflow-y-auto max-h-[92vh]">
           {selectedCarDetails && (
             <div className="space-y-6">
               {/* Header */}
-              <div className="flex items-start justify-between gap-4 border-b border-neutral-100 pb-4">
+              <div className="flex items-start justify-between gap-4 border-b border-neutral-800 pb-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="bg-[#FFE600] text-neutral-950 text-[10px] font-black uppercase px-2 py-0.5 rounded shadow-xs">
@@ -3648,10 +3895,10 @@ function CarShowcasePage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
+                  <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                     {selectedCarDetails.name}
                   </h3>
-                  <p className="text-xs text-neutral-500 font-medium mt-1">
+                  <p className="text-xs text-neutral-400 font-medium mt-1">
                     Official Luxora Drive Fleet • Verified Condition • Doorstep Delivery Available
                   </p>
                 </div>
@@ -3659,18 +3906,18 @@ function CarShowcasePage() {
 
               {/* 3-Image Interactive Gallery */}
               <div className="space-y-2">
-                <div className="relative w-full h-56 sm:h-64 bg-gradient-to-b from-neutral-50 to-neutral-100/80 rounded-xl p-4 flex items-center justify-center overflow-hidden border border-neutral-100">
+                <div className="relative w-full h-56 sm:h-64 bg-[#181a24] rounded-xl p-4 flex items-center justify-center overflow-hidden border border-neutral-800">
                   <button
                     type="button"
                     onClick={() => handleCardPrevImage(selectedCarDetails.id)}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={() => handleCardNextImage(selectedCarDetails.id)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 hover:bg-white text-neutral-800 shadow flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95 z-20"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -3680,11 +3927,11 @@ function CarShowcasePage() {
                       selectedCarDetails.images[cardImageIndices[selectedCarDetails.id] || 0]
                     }
                     alt={selectedCarDetails.name}
-                    className="max-h-48 w-auto object-contain drop-shadow-[0_16px_20px_rgba(0,0,0,0.22)] select-none pointer-events-none transition-all duration-300"
+                    className="max-h-48 w-auto object-contain drop-shadow-[0_16px_20px_rgba(0,0,0,0.4)] select-none pointer-events-none transition-all duration-300"
                     key={`modal-img-${selectedCarDetails.id}-${cardImageIndices[selectedCarDetails.id] || 0}`}
                   />
 
-                  <div className="absolute bottom-2.5 right-3 text-[10px] font-mono font-bold text-neutral-400 bg-white/80 px-2 py-0.5 rounded">
+                  <div className="absolute bottom-2.5 right-3 text-[10px] font-mono font-bold text-neutral-300 bg-neutral-900/80 px-2 py-0.5 rounded border border-neutral-700">
                     Photo {(cardImageIndices[selectedCarDetails.id] || 0) + 1} of 3
                   </div>
                 </div>
@@ -3698,9 +3945,9 @@ function CarShowcasePage() {
                       onClick={() =>
                         setCardImageIndices((prev) => ({ ...prev, [selectedCarDetails.id]: idx }))
                       }
-                      className={`h-12 w-20 rounded-lg border p-1 bg-neutral-50 flex items-center justify-center cursor-pointer transition-all ${(cardImageIndices[selectedCarDetails.id] || 0) === idx
+                      className={`h-12 w-20 rounded-lg border p-1 bg-[#181a24] flex items-center justify-center cursor-pointer transition-all ${(cardImageIndices[selectedCarDetails.id] || 0) === idx
                         ? "border-2 border-[#FFE600] shadow-sm scale-105"
-                        : "border-neutral-200 opacity-60 hover:opacity-100"
+                        : "border-neutral-800 opacity-60 hover:opacity-100"
                         }`}
                     >
                       <img
@@ -3714,7 +3961,7 @@ function CarShowcasePage() {
               </div>
 
               {/* Description */}
-              <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                 {selectedCarDetails.description}
               </p>
 
@@ -3724,51 +3971,51 @@ function CarShowcasePage() {
                   TECHNICAL SPECIFICATIONS
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       ENGINE
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.engine}
                     </span>
                   </div>
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       HORSEPOWER
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.power}
                     </span>
                   </div>
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       0-100 KM/H
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.accel}
                     </span>
                   </div>
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       TOP SPEED
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.speed}
                     </span>
                   </div>
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       TRANSMISSION
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.gear}
                     </span>
                   </div>
-                  <div className="bg-neutral-50 p-2.5 rounded-lg border border-neutral-100">
+                  <div className="bg-[#181a24] p-2.5 rounded-lg border border-neutral-800">
                     <span className="text-[10px] font-bold text-neutral-400 uppercase block">
                       KERB WEIGHT
                     </span>
-                    <span className="text-xs font-black text-neutral-900 block mt-0.5">
+                    <span className="text-xs font-black text-white block mt-0.5">
                       {selectedCarDetails.specs.weight}
                     </span>
                   </div>
@@ -3780,42 +4027,42 @@ function CarShowcasePage() {
                 <h4 className="text-xs font-black uppercase tracking-wider text-neutral-400 mb-2">
                   HIGHLIGHTED FEATURES
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-700 font-medium">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-neutral-300 font-medium">
                   {selectedCarDetails.features.map((feat, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-[#FFE600] stroke-[3] shrink-0" />
                       <span>{feat}</span>
                     </div>
                   ))}
                   <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-[#FFE600] stroke-[3] shrink-0" />
                     <span>24/7 VIP Doorstep Delivery in Dubai</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3] shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-[#FFE600] stroke-[3] shrink-0" />
                     <span>Full Comprehensive Insurance Included</span>
                   </div>
                 </div>
               </div>
 
               {/* Pricing & Booking Action Footer */}
-              <div className="pt-4 border-t border-neutral-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="pt-4 border-t border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl sm:text-3xl font-black text-neutral-900 leading-none">
+                    <span className="text-2xl sm:text-3xl font-black text-white leading-none">
                       {formatPrice(selectedCarDetails.dailyRate)}
                     </span>
-                    <span className="text-xs text-neutral-500 font-semibold">/ Day</span>
-                    <span className="text-xs text-neutral-400 line-through font-bold">
+                    <span className="text-xs text-neutral-400 font-semibold">/ Day</span>
+                    <span className="text-xs text-neutral-500 line-through font-bold">
                       {formatPrice(selectedCarDetails.originalDailyRate)}
                     </span>
                     <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-500 text-white leading-none">
                       {selectedCarDetails.dailyDiscount} OFF
                     </span>
                   </div>
-                  <div className="text-xs text-neutral-500 font-medium mt-0.5">
+                  <div className="text-xs text-neutral-400 font-medium mt-0.5">
                     Monthly Rate:{" "}
-                    <strong className="text-neutral-900">
+                    <strong className="text-white">
                       {formatPrice(selectedCarDetails.monthlyRate)}
                     </strong>{" "}
                     ({selectedCarDetails.monthlyDiscount} OFF)
@@ -3836,7 +4083,7 @@ function CarShowcasePage() {
                       handleBookProductCard(selectedCarDetails);
                       setSelectedCarDetails(null);
                     }}
-                    className="flex-1 sm:flex-initial bg-neutral-950 hover:bg-neutral-800 text-white py-2.5 px-6 rounded-xl text-xs font-black shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
+                    className="flex-1 sm:flex-initial bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 py-2.5 px-6 rounded-xl text-xs font-black shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5"
                   >
                     <Key className="w-3.5 h-3.5" /> BOOK NOW
                   </Button>
