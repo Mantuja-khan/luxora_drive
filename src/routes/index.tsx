@@ -49,6 +49,8 @@ import mapGif from "@/assets/MAP.gif";
 import faqCarBg from "@/assets/faq-car-bg.webp";
 import luxoraLogo from "@/assets/luxora-logo.png";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
+import luxoraLoaderGif from "@/assets/luxora-drive-loader.gif";
+import heroVideo from "@/assets/herovideo.mp4";
 export interface CarItem {
   id: string;
   make: string;
@@ -498,6 +500,9 @@ export interface PorscheProductCard {
   monthlyDiscount: string;
   hasFlashTimer?: boolean;
   timerString?: string;
+  isFlashSale?: boolean;
+  flashSaleBadge?: string;
+  featuredOnHome?: boolean;
   specs: {
     engine: string;
     power: string;
@@ -522,6 +527,9 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyRate: 29999,
     originalMonthlyRate: 49500,
     monthlyDiscount: "39%",
+    isFlashSale: true,
+    flashSaleBadge: "24% FLASH SALE",
+    featuredOnHome: true,
     specs: {
       engine: "4.0L V8 Biturbo",
       power: "585 PS / 430 kW",
@@ -578,6 +586,9 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyRate: 34999,
     originalMonthlyRate: 55000,
     monthlyDiscount: "36%",
+    isFlashSale: true,
+    flashSaleBadge: "25% FLASH DEAL",
+    featuredOnHome: true,
     specs: {
       engine: "5.2L V10 Squadra Corse",
       power: "640 PS / 470 kW",
@@ -885,28 +896,20 @@ function CarShowcasePage() {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
-  // Cinematic 3D Car Reveal Intro Animation Phase: "covered" -> "unveiling" -> "revealing" -> "done"
-  const [introPhase, setIntroPhase] = useState<"covered" | "unveiling" | "revealing" | "done">("covered");
+  // Intro Loading Animation Phase: "loading" -> "flying" -> "done"
+  const [introPhase, setIntroPhase] = useState<"loading" | "flying" | "done">("loading");
 
   useEffect(() => {
-    // Phase 1: Lift & fly the silk cloth (parda) away into the air
-    const unveilTimer = setTimeout(() => {
-      setIntroPhase("unveiling");
-    }, 1100);
+    const flyTimer = setTimeout(() => {
+      setIntroPhase("flying");
+    }, 2800);
 
-    // Phase 2: Supercar 3D multi-angle rotation & dramatic zoom-in
-    const revealTimer = setTimeout(() => {
-      setIntroPhase("revealing");
-    }, 1700);
-
-    // Phase 3: Reveal completes, transition into the showroom
     const doneTimer = setTimeout(() => {
       setIntroPhase("done");
-    }, 4500);
+    }, 3650);
 
     return () => {
-      clearTimeout(unveilTimer);
-      clearTimeout(revealTimer);
+      clearTimeout(flyTimer);
       clearTimeout(doneTimer);
     };
   }, []);
@@ -1154,278 +1157,33 @@ function CarShowcasePage() {
   return (
     <main className="w-full bg-[#0a0b0e] text-neutral-100 select-none relative overflow-x-hidden">
       {/* 
-        Cinematic 3D Car Reveal & Silk Cloth (Parda) Loading Animation:
-        - Deep studio showroom with overhead spotlight & turntable floor
-        - Supercar draped under luxury silk satin cloth (parda)
-        - Cloth billows, pulls up, and dynamically flies away into the air
-        - The revealed supercar orbits in 3D across multiple angles with dramatic zoom-in
-        - Seamlessly transitions into the live showroom
+        Intro Loading Animation:
+        - Fullscreen sleek dark background with animated LUXORA DRIVE GIF in center
+        - When loading completes, logo smoothly flies & scales into the navbar logo spot
       */}
       {introPhase !== "done" && (
         <div
           onClick={() => setIntroPhase("done")}
-          className={`fixed inset-0 z-[9998] bg-[#06070a] flex flex-col items-center justify-between py-6 sm:py-8 px-4 sm:px-8 transition-opacity duration-700 ease-out cursor-pointer overflow-hidden ${
-            introPhase === "done" ? "opacity-0 pointer-events-none" : "opacity-100"
+          className={`fixed inset-0 z-[9998] transition-opacity duration-700 ease-out cursor-pointer ${
+            introPhase === "flying" ? "opacity-0 pointer-events-none" : "opacity-100 bg-[#0a0b0e]"
           }`}
           aria-hidden={introPhase === "done"}
         >
-          {/* Ambient Lighting & Dramatic Studio Spotlight Cones */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] sm:w-[950px] lg:w-[1200px] h-[550px] bg-[radial-gradient(ellipse_60%_50%_at_50%_15%,rgba(255,230,0,0.14),rgba(56,189,248,0.05)_50%,transparent_75%)] blur-2xl" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[340px] sm:w-[480px] h-[360px] bg-gradient-to-b from-[#FFE600]/20 via-[#FFE600]/5 to-transparent blur-3xl opacity-70" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(14,16,24,0)_40%,#06070a_95%)]" />
-          </div>
-
-          {/* Top Intro Bar */}
-          <div className="relative z-20 w-full flex items-center justify-between max-w-7xl">
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-[#FFE600] animate-ping" />
-              <span className="text-[11px] sm:text-xs font-semibold tracking-[0.25em] text-neutral-300 uppercase">
-                Luxora World Premiere
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIntroPhase("done");
-              }}
-              className="px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-wider uppercase border border-neutral-700/80 bg-neutral-900/80 hover:bg-[#FFE600] text-neutral-300 hover:text-black transition-all duration-300 backdrop-blur-md shadow-lg"
-            >
-              Skip Intro &rarr;
-            </button>
-          </div>
-
-          {/* Central 3D Car Reveal & Flying Parda Studio */}
-          <div className="relative z-10 w-full max-w-5xl my-auto flex flex-col items-center justify-center cinematic-stage-3d">
-            {/* Turntable Floor Stage & Circular Radar Reflection Rings */}
-            <div className="relative w-full max-w-[720px] sm:max-w-[880px] lg:max-w-[1040px] aspect-[2.1/1] flex items-center justify-center">
-              {/* Elliptical Podium Floor */}
-              <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 w-[85%] sm:w-[90%] h-[120px] sm:h-[160px] rounded-[100%] border border-[#FFE600]/25 bg-gradient-to-b from-neutral-800/40 via-neutral-950/90 to-black blur-[0.5px] pointer-events-none shadow-[0_0_50px_rgba(255,230,0,0.12)]">
-                {/* Concentric stage glow ring */}
-                <div className="absolute inset-3 rounded-[100%] border border-cyan-400/20" />
-                <div className="absolute inset-8 rounded-[100%] border border-white/10" />
-              </div>
-
-              {/* 
-                THE SUPERCAR (Porsche 911 GT3 RS):
-                - Hidden under silk cloth in "covered" phase
-                - In "unveiling" and "revealing", appears and rotates dynamically in 3D multi-angle orbit with zoom-in effect
-              */}
-              {(introPhase === "unveiling" || introPhase === "revealing") && (
-                <div className="relative w-full h-full flex items-center justify-center animate-car-3d-reveal z-10 pointer-events-none">
-                  {/* Car Cutout */}
-                  <img
-                    src={porscheGt3Rs}
-                    alt="Unveiled Porsche GT3 RS"
-                    className="w-[92%] sm:w-[94%] max-w-[860px] h-auto object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
-                  />
-
-                  {/* Specular Glint Sweep across the Car Body */}
-                  <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-3xl">
-                    <div className="w-1/3 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-30deg] animate-glint-sweep" />
-                  </div>
-
-                  {/* Dual Front LED Headlights Projector Glow */}
-                  <div className="absolute left-[34%] top-[54%] w-3 h-3 rounded-full bg-cyan-200 blur-[1px] shadow-[0_0_24px_10px_rgba(56,189,248,0.9),0_0_50px_20px_rgba(255,255,255,0.8)]" />
-                  <div className="absolute right-[33%] top-[54%] w-3 h-3 rounded-full bg-cyan-200 blur-[1px] shadow-[0_0_24px_10px_rgba(56,189,248,0.9),0_0_50px_20px_rgba(255,255,255,0.8)]" />
-                </div>
-              )}
-
-              {/* 
-                THE SILK CLOTH / PARDA:
-                - In "covered" phase: Draped over the car with luxurious satin folds and gold trims, gently billowing
-                - In "unveiling" phase: Billows, ripples violently, lifts up, and flies away into the sky with wave distortion!
-              */}
-              {(introPhase === "covered" || introPhase === "unveiling") && (
-                <div
-                  className={`absolute inset-0 flex items-center justify-center z-20 pointer-events-none ${
-                    introPhase === "covered" ? "animate-silk-idle" : "animate-silk-fly"
-                  }`}
-                >
-                  <svg
-                    viewBox="0 0 960 520"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-[96%] sm:w-[98%] max-w-[920px] h-auto filter drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
-                  >
-                    <defs>
-                      {/* Silk Satin Body Gradient */}
-                      <linearGradient id="silkBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#1e2230" />
-                        <stop offset="25%" stopColor="#2c3345" />
-                        <stop offset="45%" stopColor="#131620" />
-                        <stop offset="70%" stopColor="#222838" />
-                        <stop offset="100%" stopColor="#0d0e14" />
-                      </linearGradient>
-
-                      {/* Silk Sheen Highlight Gradient */}
-                      <linearGradient id="silkSheenGrad" x1="0%" y1="30%" x2="100%" y2="70%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
-                        <stop offset="20%" stopColor="rgba(255,255,255,0.05)" />
-                        <stop offset="50%" stopColor="rgba(255,230,0,0.25)" />
-                        <stop offset="80%" stopColor="rgba(255,255,255,0.03)" />
-                        <stop offset="100%" stopColor="rgba(255,255,255,0.2)" />
-                      </linearGradient>
-
-                      {/* Gold Hem Ribbon Gradient */}
-                      <linearGradient id="goldHemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#FFE600" />
-                        <stop offset="25%" stopColor="#FFF275" />
-                        <stop offset="50%" stopColor="#D4AF37" />
-                        <stop offset="75%" stopColor="#FFF275" />
-                        <stop offset="100%" stopColor="#FFE600" />
-                      </linearGradient>
-
-                      {/* Deep Fold Shadow Gradient */}
-                      <linearGradient id="foldShadowGrad" x1="50%" y1="0%" x2="50%" y2="100%">
-                        <stop offset="0%" stopColor="transparent" />
-                        <stop offset="100%" stopColor="rgba(0,0,0,0.75)" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* Main Silky Drape Body Conforming to Supercar Silhouette with Roof, Spoiler & Splitter */}
-                    <path
-                      d="M 120 375 
-                         C 135 340, 160 300, 205 280 
-                         C 250 260, 290 250, 345 220 
-                         C 400 190, 440 148, 510 148 
-                         C 580 148, 640 185, 710 230 
-                         C 780 275, 835 315, 865 345 
-                         C 885 365, 895 385, 875 405 
-                         C 845 425, 785 435, 720 435 
-                         C 660 435, 590 445, 500 445 
-                         C 410 445, 330 438, 250 435 
-                         C 180 432, 130 415, 115 395 
-                         C 105 385, 110 380, 120 375 Z"
-                      fill="url(#silkBodyGrad)"
-                    />
-
-                    {/* Aerodynamic High-Gloss Specular Sheen Over Silk */}
-                    <path
-                      d="M 135 370 
-                         C 180 305, 260 265, 355 225 
-                         C 415 198, 455 155, 515 155 
-                         C 575 155, 635 190, 705 235 
-                         C 775 280, 830 320, 855 350 
-                         C 820 370, 750 380, 680 370 
-                         C 580 355, 480 330, 380 320 
-                         C 270 310, 190 335, 135 370 Z"
-                      fill="url(#silkSheenGrad)"
-                      opacity="0.85"
-                    />
-
-                    {/* Flowing Drape Folds & Creases (Parda Silky Waves) */}
-                    {/* Fold 1: Cabin Canopy Downwards */}
-                    <path
-                      d="M 505 152 Q 470 260 410 395"
-                      stroke="rgba(255,255,255,0.22)"
-                      strokeWidth="5"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M 508 152 Q 475 260 417 395"
-                      stroke="rgba(0,0,0,0.55)"
-                      strokeWidth="6"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Fold 2: Rear Haunch Contour */}
-                    <path
-                      d="M 630 195 Q 675 295 725 410"
-                      stroke="rgba(255,255,255,0.2)"
-                      strokeWidth="4.5"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M 634 195 Q 680 295 732 410"
-                      stroke="rgba(0,0,0,0.5)"
-                      strokeWidth="6"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Fold 3: Front Hood Slope */}
-                    <path
-                      d="M 350 225 Q 300 310 240 405"
-                      stroke="rgba(255,255,255,0.22)"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M 354 225 Q 305 310 246 405"
-                      stroke="rgba(0,0,0,0.48)"
-                      strokeWidth="5.5"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Gold Silk Ribbon Hem Lining the Edge */}
-                    <path
-                      d="M 115 395 
-                         C 130 415, 180 432, 250 435 
-                         C 330 438, 410 445, 500 445 
-                         C 590 445, 660 435, 720 435 
-                         C 785 435, 845 425, 875 405"
-                      stroke="url(#goldHemGrad)"
-                      strokeWidth="4"
-                      strokeLinecap="round"
-                      filter="drop-shadow(0 2px 8px rgba(255,230,0,0.6))"
-                    />
-
-                    {/* Embroidered Gold Crest in Center of Hood */}
-                    <g transform="translate(480, 260)">
-                      <circle cx="0" cy="0" r="24" fill="#0f1118" stroke="#FFE600" strokeWidth="2.5" />
-                      <path
-                        d="M -12 -5 L 0 -15 L 12 -5 L 7 12 L -7 12 Z"
-                        fill="#FFE600"
-                        opacity="0.9"
-                      />
-                      <text
-                        x="0"
-                        y="4"
-                        fill="#0c0d12"
-                        fontSize="7"
-                        fontWeight="900"
-                        textAnchor="middle"
-                        letterSpacing="1"
-                      >
-                        LUXORA
-                      </text>
-                    </g>
-                  </svg>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Bottom Reveal Status & Live Action Caption */}
-          <div className="relative z-20 w-full flex flex-col items-center text-center max-w-xl pb-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#FFE600]" />
-              <span className="text-[12px] sm:text-sm font-bold tracking-[0.3em] uppercase text-white drop-shadow-md">
-                {introPhase === "covered" && "Supercar Under Silk Drape"}
-                {introPhase === "unveiling" && "Unveiling The Hypercar..."}
-                {introPhase === "revealing" && "3D 360° Studio Reveal"}
-              </span>
-              <span className="h-[1px] w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#FFE600]" />
-            </div>
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-light tracking-wide">
-              {introPhase === "covered" && "Preparing the ceremonial curtain unveil..."}
-              {introPhase === "unveiling" && "Drape flying off • aerodynamics revealed"}
-              {introPhase === "revealing" && "Multi-angle inspection & camera zoom • Entering showroom..."}
-            </p>
-
-            {/* Glowing Progress Pulse Bar */}
-            <div className="w-48 sm:w-64 h-[3px] bg-neutral-800 rounded-full mt-4 overflow-hidden relative">
-              <div
-                className={`h-full bg-gradient-to-r from-[#FFE600] to-cyan-400 transition-all duration-700 ease-out ${
-                  introPhase === "covered"
-                    ? "w-1/4"
-                    : introPhase === "unveiling"
-                    ? "w-2/3"
-                    : "w-full"
-                }`}
-              />
-            </div>
+          {/* Animated Logo Container: Starts centered, then flies to the navbar logo coordinates */}
+          <div
+            className={`fixed z-[9999] pointer-events-none transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center ${
+              introPhase === "loading"
+                ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 max-w-[85vw]"
+                : "top-4 sm:top-5 left-4 sm:left-8 lg:left-12 translate-x-0 translate-y-0 w-28 sm:w-36 h-8 sm:h-10 justify-start"
+            }`}
+          >
+            <img
+              src={luxoraLoaderGif}
+              alt="Luxora Drive"
+              className={`w-full h-auto object-contain transition-all duration-800 ease-in-out ${
+                introPhase === "flying" ? "max-h-8 sm:max-h-10" : "max-h-64 sm:max-h-80"
+              }`}
+            />
           </div>
         </div>
       )}
@@ -1710,11 +1468,32 @@ function CarShowcasePage() {
         onTouchEnd={handlePointerUp}
       >
         {/* 
+          Background Hero Video:
+          - Plays seamlessly behind the interactive supercar studio
+          - On large screens (lg, xl, 2xl), precisely focused on the car
+        */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover object-center lg:object-[50%_62%] xl:object-[50%_58%] 2xl:object-[50%_55%] scale-100 lg:scale-105 transition-all duration-700 opacity-65"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+          {/* Subtle cinematic gradient overlays to guarantee pristine contrast for text and cars */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b0e] via-black/35 to-[#0a0b0e]/70" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.6)_85%)]" />
+        </div>
+
+        {/* 
         Dynamic car-matched background patti (diagonal stripe) 
         Responsive on small screen: starts from right side, connects to left corner, does not touch bottom!
       */}
         <div
-          className="diagonal-patti opacity-90"
+          className="diagonal-patti opacity-80"
           style={{
             backgroundColor: car.themeColor,
             filter: "drop-shadow(0 20px 45px rgba(0,0,0,0.25))",
@@ -2706,8 +2485,13 @@ function CarShowcasePage() {
                   </span>
                 </div>
 
-                {/* Car Preview Container with hover scale */}
+                {/* Car Preview Container with hover scale & radiant white light burst */}
                 <div className="relative w-full h-44 sm:h-48 bg-[#0b0c10] p-3 flex items-center justify-center overflow-hidden select-none rounded-none border-0 border-none">
+                  {/* Radiant White Light Emitting from Card Center & Enveloping Car */}
+                  <div className="flash-white-center-glow" aria-hidden="true" />
+                  <div className="flash-white-rays" aria-hidden="true" />
+                  <div className="flash-white-shimmer" aria-hidden="true" />
+
                   {/* Discount Badge */}
                   <div className="absolute top-2.5 left-3 bg-[#D1121E] text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-none border-0 border-none shadow-xs z-10">
                     {item.discount}
@@ -2723,13 +2507,13 @@ function CarShowcasePage() {
                     <Phone className="w-3.5 h-3.5 fill-white" />
                   </a>
 
-                  {/* Car Image: Scales slightly on hover */}
+                  {/* Car Image: Scales slightly on hover, completely bathed in radiant white light aura */}
                   <img
                     src={item.image}
                     alt={item.name}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    className="max-h-32 object-contain drop-shadow-[0_12px_16px_rgba(0,0,0,0.4)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10 flash-car-white-envelope"
                   />
                 </div>
 
@@ -2830,22 +2614,50 @@ function CarShowcasePage() {
             </h2>
           </div>
 
-          {/* Product Cards Grid: Exactly matching user reference (media_1794989490058_abdd045b.png) with zero curved borders (rounded-none everywhere) */}
+          {/* Product Cards Grid: Exactly matching user reference with zero curved borders (rounded-none everywhere) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-            {porscheProductCards.map((card) => (
-              <div
-                key={card.id}
-                className="bg-[#12141c] rounded-none border border-neutral-800 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group"
-              >
-                {/* Car Preview Box with 3-Image Slider (Drag & Left/Right yellow arrow buttons) */}
-                <div
-                  className="relative w-full h-48 sm:h-52 bg-[#181a24] p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none rounded-none"
-                  onTouchStart={(e) => handleCardTouchStart(card.id, e.touches[0].clientX)}
-                  onTouchEnd={(e) => handleCardTouchEnd(card.id, e.changedTouches[0].clientX)}
-                  onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
-                  onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
-                >
-                  {/* Left & Right Chevrons */}
+            {porscheProductCards
+              .filter((card) => card.featuredOnHome !== false)
+              .map((card) => {
+                const isFlash = Boolean(card.isFlashSale || card.hasFlashTimer);
+
+                return (
+                  <div
+                    key={card.id}
+                    className={`rounded-none transition-all duration-300 overflow-hidden flex flex-col justify-between group relative ${
+                      isFlash
+                        ? "bg-gradient-to-b from-[#2a0c16] via-[#16101c] to-[#0c0d12] border-2 border-red-500/70 shadow-[0_0_30px_rgba(239,68,68,0.25)] hover:border-red-400 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)]"
+                        : "bg-[#12141c] border border-neutral-800 shadow-md hover:shadow-2xl"
+                    }`}
+                  >
+                    {/* Distinctive Flash Sale Top Ribbon Badge */}
+                    {isFlash && (
+                      <div className="absolute top-0 left-0 z-30 bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white font-black text-[10px] tracking-widest uppercase px-3 py-1 flex items-center gap-1.5 shadow-md shadow-red-950/60">
+                        <Zap className="w-3.5 h-3.5 fill-white text-white animate-bounce" />
+                        <span>{card.flashSaleBadge || "FLASH SALE SPECIAL OFFER"}</span>
+                      </div>
+                    )}
+
+                    {/* Car Preview Box with 3-Image Slider (Drag & Left/Right yellow arrow buttons) */}
+                    <div
+                      className={`relative w-full h-48 sm:h-52 p-3 flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none rounded-none ${
+                        isFlash ? "bg-gradient-to-b from-[#3a101d] to-[#180f1a]" : "bg-[#181a24]"
+                      }`}
+                      onTouchStart={(e) => handleCardTouchStart(card.id, e.touches[0].clientX)}
+                      onTouchEnd={(e) => handleCardTouchEnd(card.id, e.changedTouches[0].clientX)}
+                      onMouseDown={(e) => handleCardTouchStart(card.id, e.clientX)}
+                      onMouseUp={(e) => handleCardTouchEnd(card.id, e.clientX)}
+                    >
+                      {/* Radiant White Light Emitting from Card Center & Enveloping Entire Car */}
+                      {isFlash && (
+                        <>
+                          <div className="flash-white-center-glow" aria-hidden="true" />
+                          <div className="flash-white-rays" aria-hidden="true" />
+                          <div className="flash-white-shimmer" aria-hidden="true" />
+                        </>
+                      )}
+
+                      {/* Left & Right Chevrons */}
                   <button
                     type="button"
                     onClick={(e) => handleCardPrevImage(card.id, e)}
@@ -2915,7 +2727,9 @@ function CarShowcasePage() {
                     alt={`${card.name} - View ${(cardImageIndices[card.id] || 0) + 1}`}
                     loading="lazy"
                     draggable={false}
-                    className="max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10"
+                    className={`max-h-36 sm:max-h-40 object-contain drop-shadow-[0_12px_14px_rgba(0,0,0,0.35)] transition-transform duration-300 group-hover:scale-108 select-none pointer-events-none relative z-10 ${
+                      isFlash ? "flash-car-white-envelope" : ""
+                    }`}
                     key={`${card.id}-${cardImageIndices[card.id] || 0}`}
                   />
                 </div>
@@ -3001,8 +2815,9 @@ function CarShowcasePage() {
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         </div>
       </section>
 
@@ -3653,9 +3468,20 @@ function CarShowcasePage() {
             </div>
           </div>
 
-          {/* Bottom Bar: Copyright */}
-          <div className="pt-8 border-t border-neutral-900 text-center text-xs text-neutral-400">
-            © 2026 Faster Rent A Car LLC. All Rights Reserved.
+          {/* Bottom Bar: Copyright & Admin Portal */}
+          <div className="pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-400 gap-4">
+            <div>
+              © 2026 Faster Rent A Car LLC. All Rights Reserved.
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                href="/admin"
+                className="flex items-center gap-1.5 text-white/60 hover:text-[#FFE600] transition-colors py-1 px-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-[#FFE600]/40"
+              >
+                <Key className="w-3.5 h-3.5 text-[#FFE600]" />
+                Admin Panel Login
+              </a>
+            </div>
           </div>
         </div>
 

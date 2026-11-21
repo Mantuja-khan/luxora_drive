@@ -222,15 +222,16 @@
   }
 }
 
-/* Giant brand typography (Desktop): clean solid white font */
+/* Giant brand typography (Desktop): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography {
   font-family: var(--font-poster);
   font-weight: 900;
   line-height: 0.82;
   text-transform: uppercase;
   color: #ffffff;
-  text-shadow: 0 10px 45px rgba(0, 0, 0, 0.65), 0 2px 10px rgba(0, 0, 0, 0.8);
-  -webkit-text-stroke: 0px transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  opacity: 0.95;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
   white-space: nowrap;
   user-select: none;
   position: absolute;
@@ -242,15 +243,16 @@
   pointer-events: none;
 }
 
-/* Giant brand typography (Mobile): clean solid white font */
+/* Giant brand typography (Mobile): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography-mobile {
   font-family: var(--font-poster);
   font-weight: 900;
   line-height: 0.82;
   text-transform: uppercase;
   color: #ffffff;
-  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.8);
-  -webkit-text-stroke: 0px transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  opacity: 0.95;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
   white-space: nowrap;
   user-select: none;
   position: absolute;
@@ -638,128 +640,126 @@
 }
 
 /* =========================================================================
-   CINEMATIC 3D CAR UNVEIL & SILK DRAPE (PARDA) ANIMATION
+   FLASH DEAL: RADIANT WHITE LIGHT BURST & CAR ENVELOPE EFFECT
    ========================================================================= */
 
-/* Stage container with 3D perspective */
-.cinematic-stage-3d {
-  perspective: 1400px;
-  perspective-origin: 50% 45%;
-  transform-style: preserve-3d;
-}
-
-/* Silk Cloth Drape (Parda) - Billowing & Flying Away */
-@keyframes silk-drape-breeze {
+@keyframes flash-center-white-burst {
   0%, 100% {
-    transform: translateY(0px) scale(1) skewX(0deg);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.88;
+    filter: blur(10px) brightness(1.2);
   }
   50% {
-    transform: translateY(-4px) scale(1.01) skewX(-0.5deg);
-  }
-}
-
-@keyframes silk-drape-fly-away {
-  0% {
-    transform: translateY(0) scale(1) rotate(0deg) skewX(0deg);
+    transform: translate(-50%, -50%) scale(1.25);
     opacity: 1;
-    filter: blur(0px);
-  }
-  15% {
-    transform: translateY(-30px) scale(1.03) rotate(-2deg) skewX(4deg);
-    opacity: 0.98;
-  }
-  40% {
-    transform: translateY(-160px) translateX(60px) scale(1.15) rotate(-8deg) skewX(12deg);
-    opacity: 0.85;
-    filter: blur(1px);
-  }
-  70% {
-    transform: translateY(-380px) translateX(180px) scale(1.3) rotate(-18deg) skewX(20deg);
-    opacity: 0.45;
-    filter: blur(4px);
-  }
-  100% {
-    transform: translateY(-650px) translateX(350px) scale(1.55) rotate(-28deg) skewX(30deg);
-    opacity: 0;
-    filter: blur(8px);
+    filter: blur(14px) brightness(1.5);
   }
 }
 
-.animate-silk-idle {
-  animation: silk-drape-breeze 2.5s ease-in-out infinite;
-}
-
-.animate-silk-fly {
-  animation: silk-drape-fly-away 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  pointer-events: none;
-}
-
-/* 3D Car Multi-Angle Orbit & Zoom In */
-@keyframes car-3d-cinematic-reveal {
+@keyframes flash-ray-rotation {
   0% {
-    transform: perspective(1300px) rotateY(-32deg) rotateX(6deg) rotateZ(-2deg) scale(0.85);
-    filter: brightness(0.6) contrast(1.1);
-  }
-  28% {
-    transform: perspective(1300px) rotateY(22deg) rotateX(-3deg) rotateZ(1.5deg) scale(0.98);
-    filter: brightness(1.05) contrast(1.08);
-  }
-  58% {
-    transform: perspective(1300px) rotateY(-14deg) rotateX(4deg) rotateZ(-1deg) scale(1.12);
-    filter: brightness(1.12) contrast(1.05);
-  }
-  82% {
-    transform: perspective(1300px) rotateY(8deg) rotateX(-1deg) rotateZ(0.5deg) scale(1.24);
-    filter: brightness(1.08) contrast(1.03);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    transform: perspective(1300px) rotateY(0deg) rotateX(0deg) rotateZ(0deg) scale(1.32);
-    filter: brightness(1) contrast(1);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-.animate-car-3d-reveal {
-  animation: car-3d-cinematic-reveal 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, filter;
-  transform-style: preserve-3d;
-}
-
-/* Specular Shimmer across Car Body */
-@keyframes glint-sweep {
+@keyframes flash-white-shimmer-sweep {
   0% {
     transform: translateX(-150%) skewX(-30deg);
     opacity: 0;
   }
-  30% {
+  35% {
+    opacity: 0.65;
+  }
+  65% {
     opacity: 0.85;
   }
-  70% {
-    opacity: 0.9;
-  }
   100% {
-    transform: translateX(250%) skewX(-30deg);
+    transform: translateX(200%) skewX(-30deg);
     opacity: 0;
   }
 }
 
-.animate-glint-sweep {
-  animation: glint-sweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s infinite;
+.flash-white-center-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.85) 22%,
+    rgba(255, 255, 255, 0.5) 45%,
+    rgba(255, 255, 255, 0.2) 70%,
+    transparent 100%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: 5;
+  animation: flash-center-white-burst 3.2s ease-in-out infinite;
+  mix-blend-mode: screen;
 }
 
-/* Anamorphic Blue/Gold Lens Flare */
-@keyframes flare-pulse {
-  0%, 100% {
-    opacity: 0.25;
-    transform: scaleX(0.8);
-  }
-  50% {
-    opacity: 0.65;
-    transform: scaleX(1.15);
-  }
+.flash-white-rays {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255, 255, 255, 0.5) 0deg,
+    transparent 20deg,
+    rgba(255, 255, 255, 0.35) 45deg,
+    transparent 70deg,
+    rgba(255, 255, 255, 0.5) 90deg,
+    transparent 110deg,
+    rgba(255, 255, 255, 0.35) 135deg,
+    transparent 160deg,
+    rgba(255, 255, 255, 0.5) 180deg,
+    transparent 200deg,
+    rgba(255, 255, 255, 0.35) 225deg,
+    transparent 250deg,
+    rgba(255, 255, 255, 0.5) 270deg,
+    transparent 290deg,
+    rgba(255, 255, 255, 0.35) 315deg,
+    transparent 340deg,
+    rgba(255, 255, 255, 0.5) 360deg
+  );
+  mask-image: radial-gradient(circle at center, black 0%, black 45%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, black 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 4;
+  animation: flash-ray-rotation 28s linear infinite;
+  mix-blend-mode: screen;
 }
 
-.animate-flare-pulse {
-  animation: flare-pulse 2s ease-in-out infinite;
+.flash-car-white-envelope {
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.95))
+          drop-shadow(0 0 35px rgba(255, 255, 255, 0.65))
+          drop-shadow(0 0 60px rgba(255, 255, 255, 0.35)) !important;
+}
+
+.flash-white-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 35%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.15) 65%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 12;
+  animation: flash-white-shimmer-sweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
