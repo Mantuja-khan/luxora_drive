@@ -508,16 +508,16 @@ function AdminDashboardPage() {
   // If not logged in, show Luxury Admin Login Screen
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#07080a] text-white flex flex-col justify-center items-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-center items-center p-4 relative overflow-hidden">
         {/* Ambient background glows */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#FFE600]/10 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-red-500/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-amber-400/10 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-rose-400/10 rounded-full blur-[140px] pointer-events-none" />
 
         {/* Back to website button */}
         <div className="absolute top-6 left-6 z-20">
           <Link
             to="/"
-            className="flex items-center gap-2 text-white/70 hover:text-[#FFE600] text-sm transition-colors py-2 px-4 rounded-lg bg-white/5 border border-white/10 hover:border-[#FFE600]/40 backdrop-blur-md"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm transition-colors py-2 px-4 rounded-lg bg-white border border-slate-200 hover:border-amber-400 shadow-xs backdrop-blur-md"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Showroom
@@ -525,24 +525,24 @@ function AdminDashboardPage() {
         </div>
 
         {/* Admin Card */}
-        <div className="w-full max-w-md bg-[#0d0f14]/90 border border-white/15 rounded-2xl p-8 backdrop-blur-xl shadow-2xl relative z-10">
+        <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-xl relative z-10">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FFE600]/15 border border-[#FFE600]/30 text-[#FFE600] mb-3">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 mb-3 shadow-xs">
               <KeyRound className="w-7 h-7" />
             </div>
-            <h1 className="text-2xl font-black tracking-wide uppercase font-poster text-white">
+            <h1 className="text-2xl font-black tracking-wide uppercase font-poster text-slate-900">
               Luxora Admin Portal
             </h1>
-            <p className="text-xs text-white/60 mt-1 uppercase tracking-widest">
+            <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">
               Fleet Management & Flash Sale Control
             </p>
           </div>
 
           {/* Demo Credentials Box */}
-          <div className="mb-6 p-4 rounded-xl bg-[#141822] border border-[#FFE600]/30 text-xs">
-            <div className="flex items-center justify-between font-semibold text-[#FFE600] mb-2">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4" /> Demo Credentials
+          <div className="mb-6 p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-slate-800">
+            <div className="flex items-center justify-between font-semibold text-amber-900 mb-2">
+              <span className="flex items-center gap-1.5 font-bold">
+                <ShieldCheck className="w-4 h-4 text-amber-700" /> Demo Credentials
               </span>
               <button
                 type="button"
@@ -550,38 +550,38 @@ function AdminDashboardPage() {
                   setAuthEmail("admin@luxoradrive.com");
                   setAuthPassword("admin123");
                 }}
-                className="text-[11px] underline text-white/80 hover:text-[#FFE600]"
+                className="text-[11px] underline font-bold text-amber-800 hover:text-amber-950"
               >
                 Auto-fill
               </button>
             </div>
-            <div className="space-y-1 text-white/80">
+            <div className="space-y-1 text-slate-700">
               <div className="flex justify-between">
-                <span className="text-white/50">Email:</span>
-                <span className="font-mono text-white">admin@luxoradrive.com</span>
+                <span className="text-slate-500 font-medium">Email:</span>
+                <span className="font-mono text-slate-900 font-semibold">admin@luxoradrive.com</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/50">Password:</span>
-                <span className="font-mono text-white">admin123</span>
+                <span className="text-slate-500 font-medium">Password:</span>
+                <span className="font-mono text-slate-900 font-semibold">admin123</span>
               </div>
-              <div className="flex justify-between pt-1 border-t border-white/10">
-                <span className="text-white/50">Database:</span>
-                <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                  <Database className="w-3 h-3" /> MongoDB Connected
+              <div className="flex justify-between pt-1 border-t border-amber-200/60">
+                <span className="text-slate-500 font-medium">Database:</span>
+                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                  <Database className="w-3 h-3 text-emerald-600" /> MongoDB Connected
                 </span>
               </div>
             </div>
           </div>
 
           {loginError && (
-            <div className="mb-4 p-3 rounded-lg bg-red-500/20 border border-red-500/40 text-red-300 text-xs text-center">
+            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs text-center font-medium">
               {loginError}
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                 Admin Email Address
               </label>
               <input
@@ -590,12 +590,12 @@ function AdminDashboardPage() {
                 value={authEmail}
                 onChange={(e) => setAuthEmail(e.target.value)}
                 placeholder="admin@luxoradrive.com"
-                className="w-full px-4 py-2.5 rounded-lg bg-[#12151e] border border-white/15 text-white text-sm focus:outline-none focus:border-[#FFE600] transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all placeholder:text-slate-400"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-white/70 mb-1.5 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
                 Admin Password
               </label>
               <input
@@ -604,20 +604,20 @@ function AdminDashboardPage() {
                 value={authPassword}
                 onChange={(e) => setAuthPassword(e.target.value)}
                 placeholder="admin123"
-                className="w-full px-4 py-2.5 rounded-lg bg-[#12151e] border border-white/15 text-white text-sm focus:outline-none focus:border-[#FFE600] transition-colors"
+                className="w-full px-4 py-2.5 rounded-lg bg-slate-50 border border-slate-300 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all placeholder:text-slate-400"
               />
             </div>
 
             <Button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full py-3 bg-[#FFE600] hover:bg-[#ebd300] text-black font-bold uppercase tracking-wider text-xs rounded-lg transition-all shadow-lg shadow-[#FFE600]/20 mt-2"
+              className="w-full py-3 bg-[#FFE600] hover:bg-[#ebd300] text-black font-extrabold uppercase tracking-wider text-xs rounded-lg transition-all shadow-md shadow-amber-300/40 mt-2"
             >
               {isLoggingIn ? "Authenticating..." : "Sign In to Admin Panel"}
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-[11px] text-white/40">
+          <div className="mt-6 text-center text-[11px] text-slate-400 font-medium">
             Backend API: /backend &bull; MongoDB luxoradrive
           </div>
         </div>
@@ -627,26 +627,26 @@ function AdminDashboardPage() {
 
   // Logged-in Admin Dashboard View
   return (
-    <div className="min-h-screen bg-[#07080a] text-white flex flex-col font-sans selection:bg-[#FFE600] selection:text-black">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col font-sans selection:bg-[#FFE600] selection:text-black">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[#0d0f14]/95 border-b border-white/10 backdrop-blur-md px-6 py-4">
+      <header className="sticky top-0 z-40 bg-white/95 border-b border-slate-200/80 backdrop-blur-md px-6 py-4 shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-[#FFE600] text-black flex items-center justify-center font-black text-xl shadow-lg shadow-[#FFE600]/20">
+            <div className="w-10 h-10 rounded-xl bg-[#FFE600] text-black flex items-center justify-center font-black text-xl shadow-md shadow-amber-200/50">
               L
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-lg font-bold tracking-tight text-white font-poster uppercase">
+                <h1 className="text-lg font-bold tracking-tight text-slate-900 font-poster uppercase">
                   Luxora Fleet Admin
                 </h1>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FFE600]/20 text-[#FFE600] border border-[#FFE600]/40 uppercase tracking-widest">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300 uppercase tracking-widest">
                   Live Control
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-xs text-white/50">
-                <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-                  <Database className="w-3 h-3" /> MongoDB Connected
+              <div className="flex items-center gap-2 text-xs text-slate-500">
+                <span className="flex items-center gap-1 text-emerald-600 font-bold">
+                  <Database className="w-3 h-3 text-emerald-500" /> MongoDB Connected
                 </span>
                 <span>&bull;</span>
                 <span>Backend: backend/server.js</span>
@@ -657,7 +657,7 @@ function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <Link
               to="/"
-              className="hidden sm:flex items-center gap-1.5 text-xs text-white/80 hover:text-[#FFE600] px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-[#FFE600]/40 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 text-xs text-slate-700 hover:text-slate-900 px-3 py-2 rounded-lg bg-white border border-slate-200 hover:border-amber-400 shadow-xs transition-colors"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               View Live Storefront
@@ -665,7 +665,7 @@ function AdminDashboardPage() {
 
             <Button
               onClick={handleOpenAddModal}
-              className="bg-[#FFE600] hover:bg-[#ebd300] text-black font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-lg shadow-[#FFE600]/20"
+              className="bg-[#FFE600] hover:bg-[#ebd300] text-black font-extrabold text-xs uppercase tracking-wider px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-md shadow-amber-300/40"
             >
               <Plus className="w-4 h-4 stroke-[3]" /> Add New Car
             </Button>
@@ -673,7 +673,7 @@ function AdminDashboardPage() {
             <button
               onClick={handleLogout}
               title="Sign Out"
-              className="p-2 text-white/60 hover:text-red-400 rounded-lg hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
+              className="p-2 text-slate-400 hover:text-red-600 rounded-lg hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200"
             >
               <LogOut className="w-4 h-4" />
             </button>
@@ -685,113 +685,113 @@ function AdminDashboardPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-[#0e1118] border border-white/10 rounded-xl p-5 shadow-lg relative overflow-hidden">
-            <div className="flex items-center justify-between text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">
+          <div className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs hover:shadow-md transition-shadow relative overflow-hidden">
+            <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
               <span>Total Fleet Vehicles</span>
-              <Car className="w-4 h-4 text-[#FFE600]" />
+              <Car className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-3xl font-extrabold text-white font-poster">
-              {totalVehicles} <span className="text-xs font-sans text-white/50 font-normal">Supercars</span>
+            <div className="text-3xl font-extrabold text-slate-900 font-poster">
+              {totalVehicles} <span className="text-xs font-sans text-slate-500 font-normal">Supercars</span>
             </div>
-            <div className="mt-2 text-[11px] text-emerald-400 flex items-center gap-1">
+            <div className="mt-2 text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" /> Ready for immediate reservation
             </div>
           </div>
 
-          <div className="bg-[#190a10] border border-red-500/40 rounded-xl p-5 shadow-lg shadow-red-950/30 relative overflow-hidden">
-            <div className="flex items-center justify-between text-red-300 text-xs font-semibold uppercase tracking-wider mb-2">
-              <span className="flex items-center gap-1.5">
-                <Flame className="w-4 h-4 text-red-400 fill-red-400 animate-pulse" /> Active Flash Sales
+          <div className="bg-gradient-to-br from-red-50 to-rose-50/80 border border-red-200 rounded-xl p-5 shadow-xs hover:shadow-md transition-shadow relative overflow-hidden">
+            <div className="flex items-center justify-between text-red-700 text-xs font-semibold uppercase tracking-wider mb-2">
+              <span className="flex items-center gap-1.5 font-bold">
+                <Flame className="w-4 h-4 text-red-500 fill-red-500 animate-pulse" /> Active Flash Sales
               </span>
-              <Zap className="w-4 h-4 text-red-400" />
+              <Zap className="w-4 h-4 text-red-500" />
             </div>
-            <div className="text-3xl font-extrabold text-red-400 font-poster">
-              {activeFlashSales} <span className="text-xs font-sans text-red-300 font-normal">Promotional</span>
+            <div className="text-3xl font-extrabold text-red-600 font-poster">
+              {activeFlashSales} <span className="text-xs font-sans text-red-700 font-normal">Promotional</span>
             </div>
-            <div className="mt-2 text-[11px] text-red-300/80">
+            <div className="mt-2 text-[11px] text-red-600/80 font-medium">
               Rendered in distinct fiery crimson card styling on storefront
             </div>
           </div>
 
-          <div className="bg-[#0e1118] border border-white/10 rounded-xl p-5 shadow-lg relative overflow-hidden">
-            <div className="flex items-center justify-between text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">
+          <div className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs hover:shadow-md transition-shadow relative overflow-hidden">
+            <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
               <span>Home Showcase</span>
-              <Eye className="w-4 h-4 text-emerald-400" />
+              <Eye className="w-4 h-4 text-emerald-600" />
             </div>
-            <div className="text-3xl font-extrabold text-white font-poster">
-              {homeFeaturedCount} <span className="text-xs font-sans text-white/50 font-normal">Visible</span>
+            <div className="text-3xl font-extrabold text-slate-900 font-poster">
+              {homeFeaturedCount} <span className="text-xs font-sans text-slate-500 font-normal">Visible</span>
             </div>
-            <div className="mt-2 text-[11px] text-white/60">
+            <div className="mt-2 text-[11px] text-slate-500 font-medium">
               Vehicles actively selected to display on Home Page
             </div>
           </div>
 
-          <div className="bg-[#0e1118] border border-white/10 rounded-xl p-5 shadow-lg relative overflow-hidden">
-            <div className="flex items-center justify-between text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">
+          <div className="bg-white border border-slate-200/80 rounded-xl p-5 shadow-xs hover:shadow-md transition-shadow relative overflow-hidden">
+            <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">
               <span>Avg Daily Rate</span>
-              <DollarSign className="w-4 h-4 text-[#FFE600]" />
+              <DollarSign className="w-4 h-4 text-amber-500" />
             </div>
-            <div className="text-3xl font-extrabold text-white font-poster">
-              {avgDailyRate} <span className="text-xs font-sans text-white/50 font-normal">AED / Day</span>
+            <div className="text-3xl font-extrabold text-slate-900 font-poster">
+              {avgDailyRate} <span className="text-xs font-sans text-slate-500 font-normal">AED / Day</span>
             </div>
-            <div className="mt-2 text-[11px] text-white/60">
+            <div className="mt-2 text-[11px] text-slate-500 font-medium">
               Fleet average across all categories
             </div>
           </div>
         </div>
 
         {/* Card Styling Visual Comparison Bar */}
-        <div className="bg-[#0e1118] border border-white/10 rounded-xl p-4">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 shadow-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs mb-3">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#FFE600]" />
-              <span className="font-bold text-white uppercase tracking-wider">Storefront Card Color System</span>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span className="font-bold text-slate-900 uppercase tracking-wider">Storefront Card Color System</span>
             </div>
-            <span className="text-white/50 text-[11px]">Flash Sale cards feature high-visibility crimson gradients & glowing deal badges</span>
+            <span className="text-slate-500 text-[11px]">Flash Sale cards feature high-visibility crimson gradients & glowing deal badges</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Regular Card Demo */}
-            <div className="p-3 bg-[#12141c] border border-neutral-800 rounded-lg flex items-center justify-between">
+            <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between">
               <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/70 uppercase">
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-700 uppercase">
                   Normal Vehicle Card
                 </span>
-                <div className="text-xs font-bold text-white mt-1">Dark Luxury Theme (#12141c)</div>
-                <div className="text-[10px] text-white/40">Default elegant charcoal styling for standard fleet</div>
+                <div className="text-xs font-bold text-slate-900 mt-1">Dark Luxury Theme (#12141c)</div>
+                <div className="text-[10px] text-slate-500">Default elegant charcoal styling for standard fleet</div>
               </div>
-              <div className="text-right font-poster text-white text-sm">AED 1,850/day</div>
+              <div className="text-right font-poster text-slate-900 font-bold text-sm">AED 1,850/day</div>
             </div>
 
             {/* Flash Sale Card Demo */}
-            <div className="p-3 bg-gradient-to-r from-[#2c0d16] via-[#1a0e1c] to-[#120e18] border-2 border-red-500/70 shadow-[0_0_20px_rgba(239,68,68,0.25)] rounded-lg flex items-center justify-between">
+            <div className="p-3 bg-gradient-to-r from-red-50 via-rose-50 to-amber-50 border-2 border-red-300 rounded-lg flex items-center justify-between shadow-xs">
               <div>
                 <div className="flex items-center gap-1.5">
                   <span className="px-2 py-0.5 rounded text-[10px] font-black bg-red-600 text-white uppercase tracking-wider flex items-center gap-1">
                     <Zap className="w-3 h-3 fill-white" /> 25% FLASH SALE
                   </span>
-                  <span className="text-[10px] text-red-400 font-bold uppercase">Distinct Color</span>
+                  <span className="text-[10px] text-red-600 font-bold uppercase">Distinct Color</span>
                 </div>
-                <div className="text-xs font-bold text-red-200 mt-1">Fiery Crimson & Center White Light Burst</div>
-                <div className="text-[10px] text-red-300/60">Emits luminous white beam from center covering the car</div>
+                <div className="text-xs font-bold text-red-900 mt-1">Fiery Crimson & Center White Light Burst</div>
+                <div className="text-[10px] text-red-700/70">Emits luminous white beam from center covering the car</div>
               </div>
               <div className="text-right">
-                <span className="text-[10px] text-white/40 line-through mr-1.5">AED 2,400</span>
-                <span className="font-poster text-[#FFE600] font-black text-sm">AED 1,800/day</span>
+                <span className="text-[10px] text-slate-400 line-through mr-1.5">AED 2,400</span>
+                <span className="font-poster text-amber-600 font-black text-sm">AED 1,800/day</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="bg-[#0e1118] border border-white/10 rounded-xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="bg-white border border-slate-200/80 rounded-xl p-4 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           <div className="flex-1 relative">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by car name, brand, or location..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#141722] border border-white/10 text-white text-xs focus:outline-none focus:border-[#FFE600] transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-xs focus:bg-white focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
             />
           </div>
 
@@ -802,11 +802,11 @@ function AdminDashboardPage() {
               onClick={() => setFilterHomeOnly(!filterHomeOnly)}
               className={`px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors border ${
                 filterHomeOnly
-                  ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/50"
-                  : "bg-[#141722] text-white/60 border-white/10 hover:text-white"
+                  ? "bg-emerald-50 text-emerald-800 border-emerald-300 shadow-xs"
+                  : "bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
-              <Eye className="w-3.5 h-3.5" /> Home Page Only
+              <Eye className="w-3.5 h-3.5 text-emerald-600" /> Home Page Only
             </button>
 
             {/* Quick Flash Sale Filter */}
@@ -815,18 +815,18 @@ function AdminDashboardPage() {
               onClick={() => setFilterFlashOnly(!filterFlashOnly)}
               className={`px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors border ${
                 filterFlashOnly
-                  ? "bg-red-500/20 text-red-300 border-red-500/50"
-                  : "bg-[#141722] text-white/60 border-white/10 hover:text-white"
+                  ? "bg-red-50 text-red-800 border-red-300 shadow-xs"
+                  : "bg-white text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-50"
               }`}
             >
-              <Flame className="w-3.5 h-3.5 text-red-400" /> Flash Sales Only
+              <Flame className="w-3.5 h-3.5 text-red-500" /> Flash Sales Only
             </button>
 
             {/* Brand Filter */}
             <select
               value={filterBrand}
               onChange={(e) => setFilterBrand(e.target.value)}
-              className="px-3 py-2 rounded-lg bg-[#141722] border border-white/10 text-white text-xs focus:outline-none focus:border-[#FFE600] transition-colors"
+              className="px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-amber-500 transition-colors shadow-xs"
             >
               <option value="ALL">All Brands ({BRAND_OPTIONS.length})</option>
               {BRAND_OPTIONS.map((b) => (
@@ -838,7 +838,7 @@ function AdminDashboardPage() {
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="px-3 py-2 rounded-lg bg-[#141722] border border-white/10 text-white text-xs focus:outline-none focus:border-[#FFE600] transition-colors"
+              className="px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-800 text-xs focus:outline-none focus:border-amber-500 transition-colors shadow-xs"
             >
               <option value="ALL">All Categories</option>
               {CATEGORY_OPTIONS.map((c) => (
@@ -850,7 +850,7 @@ function AdminDashboardPage() {
               onClick={fetchCars}
               variant="outline"
               size="sm"
-              className="border-white/10 text-white/80 hover:text-white text-xs"
+              className="border-slate-200 text-slate-700 hover:bg-slate-50 text-xs shadow-xs"
             >
               <RefreshCw className={`w-3.5 h-3.5 mr-1.5 ${isLoadingCars ? "animate-spin" : ""}`} />
               Reload
@@ -859,24 +859,24 @@ function AdminDashboardPage() {
         </div>
 
         {/* Cars Inventory Table */}
-        <div className="bg-[#0e1118] border border-white/10 rounded-xl overflow-hidden shadow-xl">
-          <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-white font-poster flex items-center gap-2">
-              <Car className="w-4 h-4 text-[#FFE600]" /> Fleet Inventory ({filteredCars.length})
+        <div className="bg-white border border-slate-200/80 rounded-xl overflow-hidden shadow-xs">
+          <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/70 flex items-center justify-between">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-poster flex items-center gap-2">
+              <Car className="w-4 h-4 text-amber-500" /> Fleet Inventory ({filteredCars.length})
             </h2>
-            <span className="text-xs text-white/50">
+            <span className="text-xs text-slate-500 font-medium">
               Click &quot;Show on Home&quot; or &quot;Flash Sale&quot; to toggle live storefront visibility
             </span>
           </div>
 
           {filteredCars.length === 0 ? (
-            <div className="p-12 text-center text-white/50">
-              <Car className="w-12 h-12 mx-auto mb-3 opacity-30 text-white" />
-              <p className="text-sm font-semibold">No vehicles found matching filters</p>
-              <p className="text-xs text-white/40 mt-1">Try resetting search filters or add a new supercar to MongoDB.</p>
+            <div className="p-12 text-center text-slate-400">
+              <Car className="w-12 h-12 mx-auto mb-3 opacity-30 text-slate-400" />
+              <p className="text-sm font-semibold text-slate-700">No vehicles found matching filters</p>
+              <p className="text-xs text-slate-500 mt-1">Try resetting search filters or add a new supercar to MongoDB.</p>
               <Button
                 onClick={handleOpenAddModal}
-                className="mt-4 bg-[#FFE600] text-black font-bold text-xs uppercase tracking-wider"
+                className="mt-4 bg-[#FFE600] text-black font-extrabold text-xs uppercase tracking-wider"
               >
                 + Add Car Now
               </Button>
@@ -884,17 +884,17 @@ function AdminDashboardPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-[#141722] text-white/60 uppercase tracking-wider text-[10px] border-b border-white/10">
+                <thead className="bg-slate-100 text-slate-700 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200">
                   <tr>
-                    <th className="py-3 px-4">Vehicle & Images</th>
-                    <th className="py-3 px-4">Brand & Category</th>
-                    <th className="py-3 px-4">Daily Rate</th>
-                    <th className="py-3 px-4">Home Showcase</th>
-                    <th className="py-3 px-4">Flash Sale Offer (Distinct Color)</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
+                    <th className="py-3.5 px-4">Vehicle & Images</th>
+                    <th className="py-3.5 px-4">Brand & Category</th>
+                    <th className="py-3.5 px-4">Daily Rate</th>
+                    <th className="py-3.5 px-4">Home Showcase</th>
+                    <th className="py-3.5 px-4">Flash Sale Offer (Distinct Color)</th>
+                    <th className="py-3.5 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-slate-200">
                   {filteredCars.map((car) => {
                     const isFlash = Boolean(car.flashSale?.active);
                     const isHome = car.featuredOnHome !== false;
@@ -904,14 +904,14 @@ function AdminDashboardPage() {
                         key={car.id}
                         className={`transition-colors ${
                           isFlash
-                            ? "bg-red-950/20 hover:bg-red-950/30 border-l-4 border-l-red-500"
-                            : "hover:bg-white/[0.02]"
+                            ? "bg-red-50/50 hover:bg-red-50/80 border-l-4 border-l-red-500"
+                            : "hover:bg-slate-50/80"
                         }`}
                       >
                         {/* Vehicle & Image */}
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-16 h-12 rounded-lg bg-black/40 border border-white/10 overflow-hidden flex-shrink-0 relative">
+                            <div className="w-16 h-12 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex-shrink-0 relative shadow-2xs">
                               {car.images && car.images[0] ? (
                                 <img
                                   src={car.images[0]}
@@ -919,7 +919,7 @@ function AdminDashboardPage() {
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-white/20">
+                                <div className="w-full h-full flex items-center justify-center text-slate-400">
                                   <Car className="w-6 h-6" />
                                 </div>
                               )}
@@ -930,7 +930,7 @@ function AdminDashboardPage() {
                               )}
                             </div>
                             <div>
-                              <div className="font-bold text-white text-sm flex items-center gap-1.5">
+                              <div className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
                                 {car.name}
                                 {isFlash && (
                                   <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-red-600 text-white uppercase tracking-wider flex items-center gap-0.5 animate-pulse">
@@ -938,7 +938,7 @@ function AdminDashboardPage() {
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[11px] text-white/50 line-clamp-1 max-w-[200px]">
+                              <div className="text-[11px] text-slate-500 line-clamp-1 max-w-[200px]">
                                 {car.location} &bull; {car.specs?.engine || "V8"}
                               </div>
                             </div>
@@ -947,19 +947,19 @@ function AdminDashboardPage() {
 
                         {/* Brand & Category */}
                         <td className="py-3 px-4">
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FFE600]/15 text-[#FFE600] border border-[#FFE600]/30 mr-2">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 mr-2 shadow-2xs">
                             {car.brand}
                           </span>
-                          <div className="text-[11px] text-white/60 mt-1">{car.category}</div>
+                          <div className="text-[11px] text-slate-600 font-medium mt-1">{car.category}</div>
                         </td>
 
                         {/* Daily Rate */}
                         <td className="py-3 px-4">
-                          <div className="font-bold text-[#FFE600] text-sm font-poster">
+                          <div className="font-bold text-slate-900 text-sm font-poster">
                             AED {car.dailyRate?.toLocaleString()}
                           </div>
                           {car.originalDailyRate && car.originalDailyRate > car.dailyRate && (
-                            <div className="text-[10px] text-white/40 line-through">
+                            <div className="text-[10px] text-slate-400 line-through">
                               AED {car.originalDailyRate?.toLocaleString()}
                             </div>
                           )}
@@ -971,20 +971,20 @@ function AdminDashboardPage() {
                             type="button"
                             onClick={() => handleToggleFeaturedHome(car)}
                             title="Click to toggle Home Page visibility"
-                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition-all border ${
+                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 transition-all border shadow-2xs ${
                               isHome
-                                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30"
-                                : "bg-neutral-800/60 text-neutral-400 border-neutral-700 hover:text-white"
+                                ? "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                                : "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200 hover:text-slate-800"
                             }`}
                           >
                             {isHome ? (
                               <>
-                                <Eye className="w-3.5 h-3.5 text-emerald-400" />
+                                <Eye className="w-3.5 h-3.5 text-emerald-600" />
                                 <span>SHOW ON HOME</span>
                               </>
                             ) : (
                               <>
-                                <EyeOff className="w-3.5 h-3.5 text-neutral-500" />
+                                <EyeOff className="w-3.5 h-3.5 text-slate-400" />
                                 <span>HIDDEN FROM HOME</span>
                               </>
                             )}
@@ -998,15 +998,15 @@ function AdminDashboardPage() {
                             onClick={() => handleToggleFlashSale(car)}
                             className={`px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 transition-all ${
                               isFlash
-                                ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-900/40 hover:brightness-110"
-                                : "bg-white/5 text-white/40 border border-white/10 hover:border-white/20"
+                                ? "bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs hover:brightness-105"
+                                : "bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200"
                             }`}
                           >
                             <Zap className={`w-3 h-3 ${isFlash ? "fill-white animate-bounce" : ""}`} />
                             {isFlash ? "FLASH SALE ACTIVE" : "Regular (No Offer)"}
                           </button>
                           {isFlash && (
-                            <div className="text-[10px] text-red-300 font-semibold mt-1">
+                            <div className="text-[10px] text-red-700 font-bold mt-1">
                               {car.flashSale.discountPercent}% OFF &bull; Deal AED {car.flashSale.dealPrice}
                             </div>
                           )}
@@ -1019,7 +1019,7 @@ function AdminDashboardPage() {
                               type="button"
                               onClick={() => handleOpenEditModal(car)}
                               title="Edit Vehicle"
-                              className="p-1.5 rounded-lg bg-white/5 hover:bg-[#FFE600]/20 text-white/80 hover:text-[#FFE600] border border-white/10 transition-colors"
+                              className="p-1.5 rounded-lg bg-slate-100 hover:bg-amber-50 text-slate-600 hover:text-amber-800 border border-slate-200 transition-colors shadow-2xs"
                             >
                               <Edit3 className="w-4 h-4" />
                             </button>
@@ -1027,7 +1027,7 @@ function AdminDashboardPage() {
                               type="button"
                               onClick={() => handleDeleteCar(car.id, car.name)}
                               title="Delete Car from MongoDB"
-                              className="p-1.5 rounded-lg bg-white/5 hover:bg-red-500/20 text-white/80 hover:text-red-400 border border-white/10 transition-colors"
+                              className="p-1.5 rounded-lg bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-700 border border-slate-200 transition-colors shadow-2xs"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
@@ -1045,19 +1045,19 @@ function AdminDashboardPage() {
 
       {/* Comprehensive Add / Edit Car Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-          <div className="bg-[#0d0f15] border border-white/15 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto text-slate-900">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-[#12151e]">
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-[#FFE600]/20 text-[#FFE600] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shadow-xs">
                   <Car className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white uppercase font-poster text-base">
+                  <h3 className="font-bold text-slate-900 uppercase font-poster text-base">
                     {isEditing ? `Edit Vehicle: ${formData.name}` : "Add New Vehicle to MongoDB Fleet"}
                   </h3>
-                  <p className="text-[11px] text-white/50">
+                  <p className="text-[11px] text-slate-500 font-medium">
                     Set pricing, Home Page visibility, and Flash Sale promotions
                   </p>
                 </div>
@@ -1065,7 +1065,7 @@ function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="text-white/60 hover:text-white p-1 rounded-lg hover:bg-white/10"
+                className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-200 transition-colors"
               >
                 &times;
               </button>
@@ -1077,8 +1077,8 @@ function AdminDashboardPage() {
                 <div
                   className={`p-3 rounded-lg border text-xs font-semibold ${
                     saveMessage.type === "success"
-                      ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
-                      : "bg-red-500/20 border-red-500/40 text-red-300"
+                      ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                      : "bg-red-50 border-red-300 text-red-800"
                   }`}
                 >
                   {saveMessage.text}
@@ -1087,19 +1087,19 @@ function AdminDashboardPage() {
 
               {/* 1. Basic Information & Home Page Showcase Switch */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
-                  <h4 className="text-[#FFE600] uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5">
-                    <Info className="w-3.5 h-3.5" /> 1. Vehicle Details & Showcase
+                <div className="flex items-center justify-between border-b border-slate-200 pb-1.5">
+                  <h4 className="text-amber-800 uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5">
+                    <Info className="w-3.5 h-3.5 text-amber-600" /> 1. Vehicle Details & Showcase
                   </h4>
                 </div>
 
                 {/* Home Page Showcase Toggle Box */}
-                <div className="p-3 rounded-xl bg-[#141b27] border border-emerald-500/30 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 flex items-center justify-between shadow-2xs">
                   <div>
-                    <span className="font-bold text-white text-xs flex items-center gap-1.5">
-                      <Eye className="w-4 h-4 text-emerald-400" /> Show on Storefront Home Page
+                    <span className="font-bold text-slate-900 text-xs flex items-center gap-1.5">
+                      <Eye className="w-4 h-4 text-emerald-600" /> Show on Storefront Home Page
                     </span>
-                    <p className="text-[11px] text-white/60 mt-0.5">
+                    <p className="text-[11px] text-slate-600 mt-0.5 font-medium">
                       Enable this so visitors can see and rent this vehicle on the home page showcase grid
                     </p>
                   </div>
@@ -1110,29 +1110,29 @@ function AdminDashboardPage() {
                       onChange={(e) => setFormData({ ...formData, featuredOnHome: e.target.checked })}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 shadow-2xs"></div>
                   </label>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Car Title / Model Name</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Car Title / Model Name</label>
                     <input
                       type="text"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Porsche 911 GT3 RS"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Brand</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Brand</label>
                     <select
                       value={formData.brand}
                       onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     >
                       {BRAND_OPTIONS.map((b) => (
                         <option key={b} value={b}>{b}</option>
@@ -1141,11 +1141,11 @@ function AdminDashboardPage() {
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Category</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Category</label>
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     >
                       {CATEGORY_OPTIONS.map((c) => (
                         <option key={c} value={c}>{c}</option>
@@ -1154,11 +1154,11 @@ function AdminDashboardPage() {
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Location</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Location</label>
                     <select
                       value={formData.location}
                       onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     >
                       {LOCATION_OPTIONS.map((loc) => (
                         <option key={loc} value={loc}>{loc}</option>
@@ -1168,94 +1168,94 @@ function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-white/70 mb-1 font-semibold uppercase">Description</label>
+                  <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Description</label>
                   <textarea
                     rows={3}
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     placeholder="Enter detailed description, driving characteristics, and luxury amenities..."
-                    className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                    className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                   />
                 </div>
               </div>
 
               {/* 2. Rates & Pricing (Daily, Weekly, Monthly) */}
               <div className="space-y-4">
-                <h4 className="text-[#FFE600] uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-white/10 pb-1.5">
-                  <DollarSign className="w-3.5 h-3.5" /> 2. Rental Pricing (AED)
+                <h4 className="text-amber-800 uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1.5">
+                  <DollarSign className="w-3.5 h-3.5 text-amber-600" /> 2. Rental Pricing (AED)
                 </h4>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Daily Price (AED/day)</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Daily Price (AED/day)</label>
                     <input
                       type="number"
                       required
                       min={0}
                       value={formData.dailyRate}
                       onChange={(e) => setFormData({ ...formData, dailyRate: Number(e.target.value) })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Original Daily Price (Strike-through)</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Original Daily Price (Strike-through)</label>
                     <input
                       type="number"
                       min={0}
                       value={formData.originalDailyRate}
                       onChange={(e) => setFormData({ ...formData, originalDailyRate: Number(e.target.value) })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Weekly Price (AED/week)</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Weekly Price (AED/week)</label>
                     <input
                       type="number"
                       min={0}
                       value={formData.weeklyRate}
                       onChange={(e) => setFormData({ ...formData, weeklyRate: Number(e.target.value) })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Monthly Price (AED/month)</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Monthly Price (AED/month)</label>
                     <input
                       type="number"
                       min={0}
                       value={formData.monthlyRate}
                       onChange={(e) => setFormData({ ...formData, monthlyRate: Number(e.target.value) })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Original Monthly Price</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Original Monthly Price</label>
                     <input
                       type="number"
                       min={0}
                       value={formData.originalMonthlyRate}
                       onChange={(e) => setFormData({ ...formData, originalMonthlyRate: Number(e.target.value) })}
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
                 </div>
               </div>
 
               {/* 3. Flash Sale & Special Offers (With Distinct Card Color Indicator) */}
-              <div className="space-y-4 bg-gradient-to-r from-red-950/30 via-rose-950/20 to-amber-950/20 p-4 rounded-xl border-2 border-red-500/50">
+              <div className="space-y-4 bg-gradient-to-r from-red-50 via-rose-50/70 to-amber-50/60 p-4 rounded-xl border-2 border-red-300 shadow-xs">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-red-400 uppercase font-black tracking-wider text-[11px] flex items-center gap-1.5">
-                      <Zap className="w-4 h-4 fill-red-400 text-red-400 animate-pulse" /> 3. Flash Sale & Special Offers
+                    <h4 className="text-red-700 uppercase font-black tracking-wider text-[11px] flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 fill-red-600 text-red-600 animate-pulse" /> 3. Flash Sale & Special Offers
                     </h4>
-                    <span className="text-[10px] text-red-300/70 block mt-0.5">
-                      Card will be styled with a distinctive radiant crimson background & glowing border
+                    <span className="text-[10px] text-red-600/80 font-medium block mt-0.5">
+                      Card will be styled with a distinctive radiant crimson background & white shining line on storefront
                     </span>
                   </div>
-                  <label className="flex items-center gap-2 cursor-pointer bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg transition-colors">
+                  <label className="flex items-center gap-2 cursor-pointer bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg transition-colors shadow-2xs">
                     <input
                       type="checkbox"
                       checked={formData.flashSale.active}
@@ -1277,7 +1277,7 @@ function AdminDashboardPage() {
                   <div className="space-y-3 pt-2">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-white/70 mb-1 font-semibold uppercase">Discount Percentage (%)</label>
+                        <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Discount Percentage (%)</label>
                         <input
                           type="number"
                           min={1}
@@ -1296,12 +1296,12 @@ function AdminDashboardPage() {
                               }
                             });
                           }}
-                          className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-red-500/50 text-white focus:outline-none focus:border-red-400"
+                          className="w-full px-3 py-2 rounded-lg bg-white border border-red-300 text-slate-900 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 shadow-2xs"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-white/70 mb-1 font-semibold uppercase">Special Deal Price (AED)</label>
+                        <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Special Deal Price (AED)</label>
                         <input
                           type="number"
                           value={formData.flashSale.dealPrice}
@@ -1311,12 +1311,12 @@ function AdminDashboardPage() {
                               flashSale: { ...formData.flashSale, dealPrice: Number(e.target.value) }
                             })
                           }
-                          className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-red-500/50 text-white focus:outline-none focus:border-red-400"
+                          className="w-full px-3 py-2 rounded-lg bg-white border border-red-300 text-slate-900 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 shadow-2xs"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-white/70 mb-1 font-semibold uppercase">Offer Badge Tag</label>
+                        <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Offer Badge Tag</label>
                         <input
                           type="text"
                           value={formData.flashSale.badgeText}
@@ -1327,7 +1327,7 @@ function AdminDashboardPage() {
                             })
                           }
                           placeholder="e.g. 25% FLASH SALE"
-                          className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-red-500/50 text-white focus:outline-none focus:border-red-400"
+                          className="w-full px-3 py-2 rounded-lg bg-white border border-red-300 text-slate-900 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 shadow-2xs"
                         />
                       </div>
                     </div>
@@ -1337,13 +1337,13 @@ function AdminDashboardPage() {
 
               {/* 4. Specifications */}
               <div className="space-y-4">
-                <h4 className="text-[#FFE600] uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-white/10 pb-1.5">
-                  <Gauge className="w-3.5 h-3.5" /> 4. Technical Specifications
+                <h4 className="text-amber-800 uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1.5">
+                  <Gauge className="w-3.5 h-3.5 text-amber-600" /> 4. Technical Specifications
                 </h4>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Engine</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Engine</label>
                     <input
                       type="text"
                       value={formData.specs.engine}
@@ -1354,12 +1354,12 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 4.0L Twin-Turbo Flat-6"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Power / HP</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Power / HP</label>
                     <input
                       type="text"
                       value={formData.specs.power}
@@ -1370,12 +1370,12 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 525 PS / 518 HP"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">0-100 km/h</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">0-100 km/h</label>
                     <input
                       type="text"
                       value={formData.specs.accel}
@@ -1386,12 +1386,12 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 3.2s"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Top Speed</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Top Speed</label>
                     <input
                       type="text"
                       value={formData.specs.speed}
@@ -1402,12 +1402,12 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 330 km/h"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Transmission / Gearbox</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Transmission / Gearbox</label>
                     <input
                       type="text"
                       value={formData.specs.gear}
@@ -1418,12 +1418,12 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 8-Speed Dual-Clutch"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-white/70 mb-1 font-semibold uppercase">Weight / Seats</label>
+                    <label className="block text-slate-700 mb-1 font-bold uppercase text-[11px]">Weight / Seats</label>
                     <input
                       type="text"
                       value={formData.specs.weight}
@@ -1434,7 +1434,7 @@ function AdminDashboardPage() {
                         })
                       }
                       placeholder="e.g. 1,450 kg / 2 Seats"
-                      className="w-full px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                      className="w-full px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                     />
                   </div>
                 </div>
@@ -1442,8 +1442,8 @@ function AdminDashboardPage() {
 
               {/* 5. Product Images */}
               <div className="space-y-4">
-                <h4 className="text-[#FFE600] uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-white/10 pb-1.5">
-                  <ImageIcon className="w-3.5 h-3.5" /> 5. Product Images & Gallery
+                <h4 className="text-amber-800 uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1.5">
+                  <ImageIcon className="w-3.5 h-3.5 text-amber-600" /> 5. Product Images & Gallery
                 </h4>
 
                 <div className="flex gap-2">
@@ -1452,13 +1452,13 @@ function AdminDashboardPage() {
                     value={formData.newImageUrl}
                     onChange={(e) => setFormData({ ...formData, newImageUrl: e.target.value })}
                     placeholder="Enter image URL (https://...)"
-                    className="flex-1 px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                    className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                   />
                   <Button
                     type="button"
                     onClick={handleAddImage}
                     variant="outline"
-                    className="border-white/15 text-white hover:bg-white/10"
+                    className="border-slate-300 text-slate-700 hover:bg-slate-100 shadow-2xs"
                   >
                     + Add URL
                   </Button>
@@ -1466,7 +1466,7 @@ function AdminDashboardPage() {
 
                 {/* Quick Presets */}
                 <div>
-                  <span className="text-[10px] text-white/50 block mb-1.5 uppercase tracking-wider">
+                  <span className="text-[10px] text-slate-500 font-semibold block mb-1.5 uppercase tracking-wider">
                     Or select quick luxury preset image:
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -1482,7 +1482,7 @@ function AdminDashboardPage() {
                             }));
                           }
                         }}
-                        className="px-2 py-1 rounded bg-white/5 hover:bg-[#FFE600]/20 hover:text-[#FFE600] text-white/70 text-[10px] border border-white/10 transition-colors"
+                        className="px-2 py-1 rounded-md bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 text-[10px] font-semibold border border-slate-200 transition-colors shadow-2xs"
                       >
                         + {preset.name}
                       </button>
@@ -1496,13 +1496,13 @@ function AdminDashboardPage() {
                     {formData.images.map((img, idx) => (
                       <div
                         key={idx}
-                        className="relative rounded-lg overflow-hidden border border-white/15 group aspect-video bg-black/40"
+                        className="relative rounded-lg overflow-hidden border border-slate-200 group aspect-video bg-slate-100 shadow-2xs"
                       >
                         <img src={img} alt={`Car ${idx + 1}`} className="w-full h-full object-cover" />
                         <button
                           type="button"
                           onClick={() => handleRemoveImage(idx)}
-                          className="absolute top-1 right-1 p-1 rounded-full bg-red-600/90 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-1 right-1 p-1 rounded-full bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                         >
                           <Trash2 className="w-3 h-3" />
                         </button>
@@ -1514,8 +1514,8 @@ function AdminDashboardPage() {
 
               {/* 6. Key Features */}
               <div className="space-y-3">
-                <h4 className="text-[#FFE600] uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-white/10 pb-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> 6. Key Features
+                <h4 className="text-amber-800 uppercase font-bold tracking-wider text-[11px] flex items-center gap-1.5 border-b border-slate-200 pb-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-600" /> 6. Key Features
                 </h4>
 
                 <div className="flex gap-2">
@@ -1524,13 +1524,13 @@ function AdminDashboardPage() {
                     value={formData.newFeatureInput}
                     onChange={(e) => setFormData({ ...formData, newFeatureInput: e.target.value })}
                     placeholder="e.g. Ceramic Brakes, Carbon Aerodynamics, Apple CarPlay..."
-                    className="flex-1 px-3 py-2 rounded-lg bg-[#141722] border border-white/15 text-white focus:outline-none focus:border-[#FFE600]"
+                    className="flex-1 px-3 py-2 rounded-lg bg-white border border-slate-300 text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-2xs"
                   />
                   <Button
                     type="button"
                     onClick={handleAddFeature}
                     variant="outline"
-                    className="border-white/15 text-white hover:bg-white/10"
+                    className="border-slate-300 text-slate-700 hover:bg-slate-100 shadow-2xs"
                   >
                     + Add Feature
                   </Button>
@@ -1540,13 +1540,13 @@ function AdminDashboardPage() {
                   {formData.features.map((feat, idx) => (
                     <span
                       key={idx}
-                      className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-white/90 text-[11px] flex items-center gap-1.5"
+                      className="px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 font-semibold text-[11px] flex items-center gap-1.5 shadow-2xs"
                     >
                       {feat}
                       <button
                         type="button"
                         onClick={() => handleRemoveFeature(idx)}
-                        className="text-white/40 hover:text-red-400"
+                        className="text-slate-400 hover:text-red-500"
                       >
                         &times;
                       </button>
@@ -1556,19 +1556,19 @@ function AdminDashboardPage() {
               </div>
 
               {/* Modal Actions */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 bg-slate-50 -mx-6 -mb-6 px-6 py-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsModalOpen(false)}
-                  className="border-white/15 text-white hover:bg-white/10"
+                  className="border-slate-300 text-slate-700 hover:bg-slate-100 shadow-xs"
                 >
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSaving}
-                  className="bg-[#FFE600] hover:bg-[#ebd300] text-black font-bold uppercase tracking-wider text-xs px-6 shadow-lg shadow-[#FFE600]/20"
+                  className="bg-[#FFE600] hover:bg-[#ebd300] text-black font-extrabold uppercase tracking-wider text-xs px-6 shadow-md shadow-amber-300/40"
                 >
                   {isSaving ? "Saving to MongoDB..." : isEditing ? "Update Vehicle" : "Create Vehicle"}
                 </Button>

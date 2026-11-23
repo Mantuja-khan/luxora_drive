@@ -180,19 +180,19 @@
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
-  background-color: #0c0d12;
+  background-color: #161922;
   background-image: radial-gradient(
-    ellipse at 50% 20%,
-    rgba(26, 29, 38, 1) 0%,
-    rgba(15, 17, 24, 0.98) 55%,
-    rgba(9, 10, 14, 1) 100%
+    ellipse at 50% 25%,
+    rgba(45, 52, 68, 0.75) 0%,
+    rgba(25, 29, 39, 0.85) 55%,
+    rgba(18, 20, 28, 0.95) 100%
   );
   position: relative;
   overflow-x: hidden;
   color: #f3f4f6;
 }
 
-/* Dynamic diagonal background patti (stripe) */
+/* Dynamic diagonal background patti (stripe) - Soft, Light & Transparent */
 .diagonal-patti {
   position: absolute;
   top: 0;
@@ -201,8 +201,9 @@
   left: 0;
   pointer-events: none;
   clip-path: polygon(65% 0%, 86% 0%, 55% 100%, 34% 100%);
+  opacity: 0.35;
   transition:
-    background-color 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 700ms cubic-bezier(0.16, 1, 0.3, 1),
     opacity 700ms ease;
   z-index: 2;
 }
@@ -211,6 +212,7 @@
   .diagonal-patti {
     /* Starts from right side and connects to left side corner, does not connect into the bottom */
     clip-path: polygon(100% 18%, 100% 42%, 0% 64%, 0% 40%);
+    opacity: 0.32;
   }
 }
 
@@ -218,7 +220,7 @@
   .diagonal-patti {
     /* Starts from right side and connects to left side corner, does not connect into the bottom */
     clip-path: polygon(100% 16%, 100% 44%, 0% 65%, 0% 37%);
-    opacity: 0.88;
+    opacity: 0.3;
   }
 }
 
@@ -439,20 +441,20 @@
   animation: car-enter-from-left 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Realistic Ground Contact Shadow */
+/* Realistic Ground Contact Shadow - Soft & Transparent */
 .car-contact-shadow {
   position: absolute;
-  left: 6%;
-  right: 6%;
+  left: 8%;
+  right: 8%;
   bottom: 0%;
-  height: 28px;
+  height: 24px;
   background: radial-gradient(
     ellipse at center,
-    rgba(16, 18, 22, 0.5) 0%,
-    rgba(16, 18, 22, 0.2) 45%,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.1) 45%,
     transparent 75%
   );
-  filter: blur(10px);
+  filter: blur(8px);
   border-radius: 50%;
   pointer-events: none;
   z-index: 15;
@@ -635,7 +637,7 @@
 }
 
 /* =========================================================================
-   FLASH DEAL: FULL PRODUCT CARD SHINE LIGHT SWEEP (LEFT TO RIGHT)
+   FLASH DEAL: CRISP WHITE SHINE LINE SWEEP (LEFT TO RIGHT ACROSS CARD)
    ========================================================================= */
 
 @keyframes flash-card-shine-sweep {
@@ -643,20 +645,14 @@
     transform: translateX(-160%) skewX(-25deg);
     opacity: 0;
   }
-  15% {
-    opacity: 0.2;
-  }
-  45% {
+  10% {
     opacity: 0.85;
   }
   50% {
     opacity: 1;
   }
-  55% {
+  90% {
     opacity: 0.85;
-  }
-  85% {
-    opacity: 0.2;
   }
   100% {
     transform: translateX(240%) skewX(-25deg);
@@ -670,18 +666,225 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(
-    105deg,
-    transparent 15%,
-    rgba(255, 255, 255, 0.04) 30%,
-    rgba(255, 255, 255, 0.25) 45%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(255, 255, 255, 0.25) 55%,
-    rgba(255, 255, 255, 0.04) 70%,
-    transparent 85%
+    90deg,
+    transparent 0%,
+    transparent 47%,
+    rgba(255, 255, 255, 0.2) 48.5%,
+    rgba(255, 255, 255, 0.8) 49.5%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.8) 50.5%,
+    rgba(255, 255, 255, 0.2) 51.5%,
+    transparent 53%,
+    transparent 100%
   );
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
   pointer-events: none;
   z-index: 35;
-  animation: flash-card-shine-sweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: flash-card-shine-sweep 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* =========================================================================
+   CINEMATIC PAGE TEARING / PAPER RIP TRANSITION (FATNA EFFECT)
+   ========================================================================= */
+
+.page-tear-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99998;
+  pointer-events: auto;
+  perspective: 1400px;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Left torn page half */
+.page-tear-left {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(
+    0% 0%,
+    52% 0%,
+    48.5% 6%,
+    53% 12%,
+    47.5% 18%,
+    52.5% 24%,
+    47% 30%,
+    53.5% 36%,
+    48% 42%,
+    54% 48%,
+    47% 54%,
+    53% 60%,
+    47.5% 66%,
+    53.5% 72%,
+    48% 78%,
+    52.5% 84%,
+    47% 90%,
+    53% 95%,
+    49% 100%,
+    0% 100%
+  );
+  filter: drop-shadow(4px 0 0 rgba(255, 255, 255, 0.75))
+          drop-shadow(15px 0 35px rgba(0, 0, 0, 0.95));
+  transform-origin: left center;
+}
+
+/* Right torn page half */
+.page-tear-right {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(
+    52% 0%,
+    100% 0%,
+    100% 100%,
+    49% 100%,
+    53% 95%,
+    47% 90%,
+    52.5% 84%,
+    48% 78%,
+    53.5% 72%,
+    47.5% 66%,
+    53% 60%,
+    47% 54%,
+    54% 48%,
+    48% 42%,
+    53.5% 36%,
+    47% 30%,
+    52.5% 24%,
+    47.5% 18%,
+    53% 12%,
+    48.5% 6%
+  );
+  filter: drop-shadow(-4px 0 0 rgba(255, 255, 255, 0.75))
+          drop-shadow(-15px 0 35px rgba(0, 0, 0, 0.95));
+  transform-origin: right center;
+}
+
+@keyframes paper-tear-left-anim {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) skewY(0deg);
+  }
+  15% {
+    transform: translate3d(-4%, 0, 0) rotate(-1deg) skewY(-0.8deg);
+  }
+  40% {
+    transform: translate3d(-24%, -1%, 0) rotate(-4deg) skewY(-3deg) scale(0.98);
+  }
+  75% {
+    transform: translate3d(-75%, -2%, 0) rotate(-8deg) skewY(-5deg) scale(0.94);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(-130%, -4%, 0) rotate(-14deg) skewY(-7deg) scale(0.88);
+    opacity: 0;
+  }
+}
+
+@keyframes paper-tear-right-anim {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) skewY(0deg);
+  }
+  15% {
+    transform: translate3d(4%, 0, 0) rotate(1deg) skewY(0.8deg);
+  }
+  40% {
+    transform: translate3d(24%, 1%, 0) rotate(4deg) skewY(3deg) scale(0.98);
+  }
+  75% {
+    transform: translate3d(75%, 2%, 0) rotate(8deg) skewY(5deg) scale(0.94);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(130%, 4%, 0) rotate(14deg) skewY(7deg) scale(0.88);
+    opacity: 0;
+  }
+}
+
+.animate-paper-tear-left {
+  animation: paper-tear-left-anim 1150ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-paper-tear-right {
+  animation: paper-tear-right-anim 1150ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Bright rip light beam along tear line */
+@keyframes paper-rip-seam {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  15% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleY(1) scaleX(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1) scaleX(4);
+  }
+}
+
+.animate-rip-seam {
+  animation: paper-rip-seam 500ms ease-out forwards;
+}
+
+/* Floating torn paper scrap fragments */
+@keyframes paper-scrap-fly-left {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-140px, -60px) rotate(-160deg) scale(0.4);
+    opacity: 0;
+  }
+}
+
+@keyframes paper-scrap-fly-right {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(160px, 80px) rotate(180deg) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.animate-scrap-left {
+  animation: paper-scrap-fly-left 900ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.animate-scrap-right {
+  animation: paper-scrap-fly-right 950ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+/* Smooth zoom-in reveal of the actual site when torn open */
+@keyframes paper-reveal-zoom {
+  0% {
+    transform: scale(0.96);
+    filter: blur(5px);
+  }
+  100% {
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-paper-reveal {
+  animation: paper-reveal-zoom 1150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

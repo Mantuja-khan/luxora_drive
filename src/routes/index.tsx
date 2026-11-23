@@ -49,7 +49,7 @@ import mapGif from "@/assets/MAP.gif";
 import faqCarBg from "@/assets/faq-car-bg.webp";
 import luxoraLogo from "@/assets/luxora-logo.png";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
-import luxoraLoaderGif from "@/assets/luxora-drive-loader.gif";
+import loadingGif from "@/assets/loading.gif";
 import heroVideo from "@/assets/herovideo.mp4";
 export interface CarItem {
   id: string;
@@ -896,23 +896,50 @@ function CarShowcasePage() {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
-  // Intro Loading Animation Phase: "loading" -> "flying" -> "done"
-  const [introPhase, setIntroPhase] = useState<"loading" | "flying" | "done">("loading");
+  // Intro Loading Animation Phase: "loading" -> "tearing" -> "done"
+  // Shows strictly once per session so users only see it once on initial arrival
+  const [introPhase, setIntroPhase] = useState<"loading" | "tearing" | "done">(() => {
+    if (typeof window !== "undefined") {
+      try {
+        if (sessionStorage.getItem("luxora_intro_has_played") === "true") {
+          return "done";
+        }
+      } catch {
+        // sessionStorage unavailable
+      }
+    }
+    return "loading";
+  });
+
+  const triggerPaperTear = useCallback(() => {
+    setIntroPhase((prev) => {
+      if (prev === "loading") {
+        try {
+          sessionStorage.setItem("luxora_intro_has_played", "true");
+        } catch {
+          // ignore
+        }
+        setTimeout(() => {
+          setIntroPhase("done");
+        }, 1150);
+        return "tearing";
+      }
+      return prev;
+    });
+  }, []);
 
   useEffect(() => {
-    const flyTimer = setTimeout(() => {
-      setIntroPhase("flying");
-    }, 2800);
+    if (introPhase !== "loading") return;
 
-    const doneTimer = setTimeout(() => {
-      setIntroPhase("done");
-    }, 3650);
+    // loading.gif duration is ~10.46s -> plays once, then paper tearing transition opens the website
+    const tearTimer = setTimeout(() => {
+      triggerPaperTear();
+    }, 10460);
 
     return () => {
-      clearTimeout(flyTimer);
-      clearTimeout(doneTimer);
+      clearTimeout(tearTimer);
     };
-  }, []);
+  }, [introPhase, triggerPaperTear]);
 
   const toggleMobileSection = (section: "brands" | "categories" | "locations" | "currency") => {
     setMobileOpenSection((prev) => (prev === section ? null : section));
@@ -1155,36 +1182,88 @@ function CarShowcasePage() {
   };
 
   return (
-    <main className="w-full bg-[#0a0b0e] text-neutral-100 select-none relative overflow-x-hidden">
+    <main
+      className={`w-full bg-[#0a0b0e] text-neutral-100 select-none relative overflow-x-hidden ${
+        introPhase === "tearing" ? "animate-paper-reveal" : ""
+      }`}
+    >
       {/* 
-        Intro Loading Animation:
-        - Fullscreen sleek dark background with animated LUXORA DRIVE GIF in center
-        - When loading completes, logo smoothly flies & scales into the navbar logo spot
+        Intro Loading Animation & Page Tear Transition ("Pages jaise fat rha ho"):
+        - Fullscreen pure black view displaying loading.gif
+        - Automatically starts paper tear after loading.gif duration (or when user clicks SKIP / screen)
+        - Dramatic page tear effect splitting into two ragged tearing halves that curl away
       */}
       {introPhase !== "done" && (
-        <div
-          onClick={() => setIntroPhase("done")}
-          className={`fixed inset-0 z-[9998] transition-opacity duration-700 ease-out cursor-pointer ${
-            introPhase === "flying" ? "opacity-0 pointer-events-none" : "opacity-100 bg-[#0a0b0e]"
-          }`}
-          aria-hidden={introPhase === "done"}
-        >
-          {/* Animated Logo Container: Starts centered, then flies to the navbar logo coordinates */}
-          <div
-            className={`fixed z-[9999] pointer-events-none transition-all duration-800 ease-[cubic-bezier(0.16,1,0.3,1)] flex items-center justify-center ${
-              introPhase === "loading"
-                ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 md:w-96 max-w-[85vw]"
-                : "top-4 sm:top-5 left-4 sm:left-8 lg:left-12 translate-x-0 translate-y-0 w-28 sm:w-36 h-8 sm:h-10 justify-start"
-            }`}
-          >
-            <img
-              src={luxoraLoaderGif}
-              alt="Luxora Drive"
-              className={`w-full h-auto object-contain transition-all duration-800 ease-in-out ${
-                introPhase === "flying" ? "max-h-8 sm:max-h-10" : "max-h-64 sm:max-h-80"
-              }`}
-            />
-          </div>
+        <div className="page-tear-wrapper">
+          {introPhase === "loading" && (
+            <div
+              onClick={triggerPaperTear}
+              className="fixed inset-0 z-[99998] bg-black flex flex-col items-center justify-center cursor-pointer select-none"
+            >
+              {/* Fullscreen GIF Viewport */}
+              <div className="w-full h-full flex items-center justify-center relative overflow-hidden bg-black">
+                <img
+                  src={loadingGif}
+                  alt="Loading Luxora Drive"
+                  className="w-full h-full max-w-full max-h-full object-contain md:object-cover select-none pointer-events-none"
+                />
+              </div>
+
+              {/* Top Right Skip Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  triggerPaperTear();
+                }}
+                className="absolute top-4 sm:top-6 right-4 sm:right-8 z-30 flex items-center gap-2 bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white px-3.5 py-1.5 rounded-full border border-neutral-700/80 backdrop-blur-md text-xs font-bold uppercase tracking-wider transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+              >
+                <span>SKIP</span>
+                <span className="text-[#FFE600] font-black">→</span>
+              </button>
+
+              {/* Bottom Subtle Tap Hint */}
+              <div className="absolute bottom-5 inset-x-0 flex justify-center items-center pointer-events-none z-20">
+                <span className="text-[10px] tracking-widest text-neutral-400 uppercase font-mono bg-black/60 px-3 py-1 rounded-full border border-neutral-800/80 backdrop-blur-xs">
+                  Tap anywhere to enter
+                </span>
+              </div>
+            </div>
+          )}
+
+          {introPhase === "tearing" && (
+            <div className="fixed inset-0 z-[99999] pointer-events-none overflow-hidden">
+              {/* Left Tearing Page Half (Jagged ripped edge peeling left) */}
+              <div className="page-tear-left animate-paper-tear-left">
+                <div className="w-full h-full bg-black flex items-center justify-center">
+                  <img
+                    src={loadingGif}
+                    alt=""
+                    className="w-full h-full max-w-full max-h-full object-contain md:object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Right Tearing Page Half (Matching jagged ripped edge peeling right) */}
+              <div className="page-tear-right animate-paper-tear-right">
+                <div className="w-full h-full bg-black flex items-center justify-center">
+                  <img
+                    src={loadingGif}
+                    alt=""
+                    className="w-full h-full max-w-full max-h-full object-contain md:object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Central Ripped Seam Flash Line */}
+              <div className="absolute top-0 bottom-0 left-[49.5%] w-1.5 bg-gradient-to-b from-white via-neutral-100 to-white shadow-[0_0_25px_rgba(255,255,255,0.95)] animate-rip-seam pointer-events-none z-30" />
+
+              {/* Flying torn paper fragment scraps */}
+              <div className="absolute top-[28%] left-[49%] w-5 h-8 bg-neutral-200 shadow-xl rounded-xs animate-scrap-left pointer-events-none z-30 border border-white" />
+              <div className="absolute top-[52%] left-[51%] w-6 h-9 bg-neutral-300 shadow-xl rounded-xs animate-scrap-right pointer-events-none z-30 border border-white" />
+              <div className="absolute top-[75%] left-[48%] w-4 h-6 bg-neutral-100 shadow-xl rounded-xs animate-scrap-left pointer-events-none z-30 border border-white" />
+            </div>
+          )}
         </div>
       )}
 
@@ -1479,24 +1558,28 @@ function CarShowcasePage() {
             muted
             playsInline
             preload="auto"
-            className="w-full h-full object-cover object-center lg:object-[50%_62%] xl:object-[50%_58%] 2xl:object-[50%_55%] scale-100 lg:scale-105 transition-all duration-700 opacity-65"
+            className="w-full h-full object-cover object-center lg:object-[50%_62%] xl:object-[50%_58%] 2xl:object-[50%_55%] scale-100 lg:scale-105 transition-all duration-700 opacity-85"
           >
             <source src={heroVideo} type="video/mp4" />
           </video>
-          {/* Subtle cinematic gradient overlays to guarantee pristine contrast for text and cars */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0b0e] via-black/35 to-[#0a0b0e]/70" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.6)_85%)]" />
+          {/* Subtle cinematic gradient overlays: light & balanced so video stays visible and vibrant */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0e1017]/70 via-black/15 to-[#0e1017]/35" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.3)_90%)]" />
         </div>
 
         {/* 
-        Dynamic car-matched background patti (diagonal stripe) 
-        Responsive on small screen: starts from right side, connects to left corner, does not touch bottom!
+        Dynamic car-matched background patti (diagonal stripe):
+        Soft, light and transparent glassmorphic styling
       */}
         <div
-          className="diagonal-patti opacity-80"
+          className="diagonal-patti"
           style={{
-            backgroundColor: car.themeColor,
-            filter: "drop-shadow(0 20px 45px rgba(0,0,0,0.25))",
+            background: `linear-gradient(135deg, ${car.themeColor}55 0%, ${car.themeColor}22 50%, ${car.themeColor}0a 100%)`,
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            borderLeft: `1px solid ${car.themeColor}30`,
+            borderRight: `1px solid ${car.themeColor}30`,
+            filter: "drop-shadow(0 15px 35px rgba(0,0,0,0.1))",
           }}
           aria-hidden="true"
         />
@@ -1511,7 +1594,7 @@ function CarShowcasePage() {
           <a
             href="#home"
             className={`flex items-center cursor-pointer group shrink-0 transition-opacity duration-300 ${
-              introPhase === "done" ? "opacity-100" : "opacity-0"
+              introPhase === "loading" ? "opacity-0" : "opacity-100"
             }`}
             aria-label="Luxora Drive Home"
           >
@@ -2404,8 +2487,8 @@ function CarShowcasePage() {
                 href="#flash-sale"
                 className="bg-transparent border-0 shadow-none p-2 sm:p-3 text-center group relative flex flex-col items-center justify-between min-h-[140px] sm:min-h-[160px] cursor-pointer"
               >
-                {/* Yellow Diagonal Patti Accent behind the car */}
-                <div className="absolute top-1 sm:top-2 right-2 sm:right-5 w-14 sm:w-16 h-8 sm:h-9 bg-[#FFE600] -skew-x-12 rounded-xs opacity-90 transition-transform group-hover:scale-110 pointer-events-none" />
+                {/* Yellow Diagonal Patti Accent behind the car - Light & Transparent */}
+                <div className="absolute top-1 sm:top-2 right-2 sm:right-5 w-14 sm:w-16 h-8 sm:h-9 bg-[#FFE600]/30 -skew-x-12 rounded-xs backdrop-blur-xs transition-transform group-hover:scale-110 pointer-events-none" />
 
                 {/* Flash Sale Red Badge */}
                 {cat.isFlash && (
