@@ -49,7 +49,7 @@ import mapGif from "@/assets/MAP.gif";
 import faqCarBg from "@/assets/faq-car-bg.webp";
 import luxoraLogo from "@/assets/luxora-logo.png";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
-import loadingGif from "@/assets/loading.gif";
+import loadingWebp from "@/assets/loading.webp";
 import heroVideo from "@/assets/herovideo.mp4";
 export interface CarItem {
   id: string;
@@ -911,6 +911,12 @@ function CarShowcasePage() {
     return "loading";
   });
 
+  // Stages inside the "loading" phase:
+  // "driving": car enters from right & brakes into dead-center (~0 - 1.8s)
+  // "morphing": car transforms/morphs into the brand logo with luminous flash (~1.8s - 2.7s)
+  // "branded": brand name "LUXORA DRIVE" emerges with luxury typography (~2.7s - 4.6s)
+  const [introStage, setIntroStage] = useState<"driving" | "morphing" | "branded">("driving");
+
   const triggerPaperTear = useCallback(() => {
     setIntroPhase((prev) => {
       if (prev === "loading") {
@@ -931,13 +937,25 @@ function CarShowcasePage() {
   useEffect(() => {
     if (introPhase !== "loading") return;
 
-    // loading.gif duration is ~10.46s -> plays once, then paper tearing transition opens the website
-    const tearTimer = setTimeout(() => {
+    // 1.8s: Supercar settles dead center -> starts morphing into Luxora Logo
+    const morphTimer = setTimeout(() => {
+      setIntroStage("morphing");
+    }, 1800);
+
+    // 2.7s: Logo is established -> brand name "LUXORA DRIVE" reveals below
+    const brandTimer = setTimeout(() => {
+      setIntroStage("branded");
+    }, 2700);
+
+    // 4.6s: Automatically tear open screen and reveal website
+    const openTimer = setTimeout(() => {
       triggerPaperTear();
-    }, 10460);
+    }, 4600);
 
     return () => {
-      clearTimeout(tearTimer);
+      clearTimeout(morphTimer);
+      clearTimeout(brandTimer);
+      clearTimeout(openTimer);
     };
   }, [introPhase, triggerPaperTear]);
 
@@ -1193,20 +1211,85 @@ function CarShowcasePage() {
         - Automatically starts paper tear after loading.gif duration (or when user clicks SKIP / screen)
         - Dramatic page tear effect splitting into two ragged tearing halves that curl away
       */}
+      {/* 
+        Intro Loading Animation & Transition:
+        1. loading.webp supercar enters from right & brakes dead center
+        2. Supercar morphs into Luxora white logo with luminous flash
+        3. "LUXORA DRIVE" brand name emerges below
+        4. Screen tears open with paper-tear transition revealing the website
+      */}
       {introPhase !== "done" && (
         <div className="page-tear-wrapper">
           {introPhase === "loading" && (
             <div
               onClick={triggerPaperTear}
-              className="fixed inset-0 z-[99998] bg-black flex flex-col items-center justify-center cursor-pointer select-none"
+              className="fixed inset-0 z-[99998] bg-[#060709] flex flex-col items-center justify-center cursor-pointer select-none overflow-hidden"
             >
-              {/* Fullscreen GIF Viewport */}
-              <div className="w-full h-full flex items-center justify-center relative overflow-hidden bg-black">
-                <img
-                  src={loadingGif}
-                  alt="Loading Luxora Drive"
-                  className="w-full h-full max-w-full max-h-full object-contain md:object-cover select-none pointer-events-none"
-                />
+              {/* Luxury Ambient Radial Glow & Horizon Line */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(212,175,55,0.13)_0%,rgba(6,7,9,0.95)_65%,#060709_100%)] pointer-events-none" />
+              <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-400/25 to-transparent translate-y-16 md:translate-y-24 pointer-events-none" />
+
+              {/* Main Animated Stage Container */}
+              <div className="relative w-full max-w-4xl px-4 flex flex-col items-center justify-center min-h-[380px] md:min-h-[460px]">
+                {/* Luminous Burst Flash during morphing */}
+                {introStage !== "driving" && (
+                  <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full bg-gradient-to-r from-amber-400/35 via-white/70 to-amber-300/35 blur-3xl animate-intro-flash pointer-events-none z-10" />
+                )}
+
+                {/* 1. Supercar Driving In from Right to Center & Morphing */}
+                {introStage !== "branded" && (
+                  <div
+                    className={`relative z-20 flex items-center justify-center w-full ${
+                      introStage === "driving"
+                        ? "animate-intro-car-drive"
+                        : "animate-intro-car-morph"
+                    }`}
+                  >
+                    {/* Ground shadow beneath tires */}
+                    <div className="absolute -bottom-4 md:-bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-black/90 blur-xl rounded-full pointer-events-none" />
+
+                    {/* Supercar Image (facing left, driving forward) */}
+                    <img
+                      src={loadingWebp}
+                      alt="Luxora Supercar"
+                      className="w-full max-w-[540px] md:max-w-[720px] h-auto object-contain select-none pointer-events-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
+                    />
+
+                    {/* Forward Headlight Beam shooting left */}
+                    <div className="absolute left-[2%] top-[56%] -translate-y-1/2 w-48 md:w-72 h-16 md:h-24 bg-gradient-to-l from-amber-200/50 via-white/30 to-transparent blur-md -skew-y-3 pointer-events-none animate-intro-headlight" />
+                  </div>
+                )}
+
+                {/* 2. Brand Logo & Name Reveal */}
+                {(introStage === "morphing" || introStage === "branded") && (
+                  <div className="relative z-30 flex flex-col items-center justify-center text-center">
+                    {/* Transformed White Luxury Logo */}
+                    <div className="animate-intro-logo flex items-center justify-center mb-5 md:mb-7">
+                      <img
+                        src={luxoraLogoWhite}
+                        alt="Luxora Drive"
+                        className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 drop-shadow-[0_0_30px_rgba(255,230,0,0.45)]"
+                      />
+                    </div>
+
+                    {/* Brand Name "LUXORA DRIVE" emerges below */}
+                    {introStage === "branded" && (
+                      <div className="animate-intro-brand-title flex flex-col items-center">
+                        <div className="flex items-center gap-3 md:gap-5 mb-2.5">
+                          <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
+                          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200 drop-shadow-[0_2px_20px_rgba(255,255,255,0.4)]">
+                            LUXORA DRIVE
+                          </h1>
+                          <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
+                        </div>
+
+                        <p className="animate-intro-subtitle text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold drop-shadow-[0_0_12px_rgba(245,158,11,0.35)]">
+                          EXOTIC &amp; LUXURY CAR RENTAL DUBAI
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Top Right Skip Button */}
@@ -1216,14 +1299,14 @@ function CarShowcasePage() {
                   e.stopPropagation();
                   triggerPaperTear();
                 }}
-                className="absolute top-4 sm:top-6 right-4 sm:right-8 z-30 flex items-center gap-2 bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white px-3.5 py-1.5 rounded-full border border-neutral-700/80 backdrop-blur-md text-xs font-bold uppercase tracking-wider transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
+                className="absolute top-4 sm:top-6 right-4 sm:right-8 z-50 flex items-center gap-2 bg-neutral-900/80 hover:bg-neutral-800 text-neutral-300 hover:text-white px-3.5 py-1.5 rounded-full border border-neutral-700/80 backdrop-blur-md text-xs font-bold uppercase tracking-wider transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-lg"
               >
                 <span>SKIP</span>
                 <span className="text-[#FFE600] font-black">→</span>
               </button>
 
               {/* Bottom Subtle Tap Hint */}
-              <div className="absolute bottom-5 inset-x-0 flex justify-center items-center pointer-events-none z-20">
+              <div className="absolute bottom-5 inset-x-0 flex justify-center items-center pointer-events-none z-40">
                 <span className="text-[10px] tracking-widest text-neutral-400 uppercase font-mono bg-black/60 px-3 py-1 rounded-full border border-neutral-800/80 backdrop-blur-xs">
                   Tap anywhere to enter
                 </span>
@@ -1235,23 +1318,47 @@ function CarShowcasePage() {
             <div className="fixed inset-0 z-[99999] pointer-events-none overflow-hidden">
               {/* Left Tearing Page Half (Jagged ripped edge peeling left) */}
               <div className="page-tear-left animate-paper-tear-left">
-                <div className="w-full h-full bg-black flex items-center justify-center">
-                  <img
-                    src={loadingGif}
-                    alt=""
-                    className="w-full h-full max-w-full max-h-full object-contain md:object-cover"
-                  />
+                <div className="w-full h-full bg-[#060709] flex flex-col items-center justify-center relative overflow-hidden select-none">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img
+                      src={luxoraLogoWhite}
+                      alt=""
+                      className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
+                    />
+                    <div className="flex items-center gap-3 md:gap-5 mb-2.5">
+                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
+                      <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200">
+                        LUXORA DRIVE
+                      </h1>
+                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
+                    </div>
+                    <p className="text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold">
+                      EXOTIC &amp; LUXURY CAR RENTAL DUBAI
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {/* Right Tearing Page Half (Matching jagged ripped edge peeling right) */}
               <div className="page-tear-right animate-paper-tear-right">
-                <div className="w-full h-full bg-black flex items-center justify-center">
-                  <img
-                    src={loadingGif}
-                    alt=""
-                    className="w-full h-full max-w-full max-h-full object-contain md:object-cover"
-                  />
+                <div className="w-full h-full bg-[#060709] flex flex-col items-center justify-center relative overflow-hidden select-none">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img
+                      src={luxoraLogoWhite}
+                      alt=""
+                      className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
+                    />
+                    <div className="flex items-center gap-3 md:gap-5 mb-2.5">
+                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
+                      <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200">
+                        LUXORA DRIVE
+                      </h1>
+                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
+                    </div>
+                    <p className="text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold">
+                      EXOTIC &amp; LUXURY CAR RENTAL DUBAI
+                    </p>
+                  </div>
                 </div>
               </div>
 
