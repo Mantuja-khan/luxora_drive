@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ChevronRight,
@@ -33,6 +33,11 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import ferarri1 from "../assets/ferarri1.webp";
+import ferarri2 from "../assets/ferarri2.webp";
+import ferarri3 from "../assets/ferarri3.webp";
+import ferarri4 from "../assets/ferarri4.webp";
+import ferarri5 from "../assets/ferarri5.webp";
 
 import mclaren765lt from "@/assets/mclaren-765lt.png";
 import bmwM5Cs from "@/assets/bmw-m5-cs.png";
@@ -51,6 +56,92 @@ import luxoraLogo from "@/assets/luxora-logo.png";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
 import loadingWebp from "@/assets/loading.webp";
 import heroVideo from "@/assets/herovideo.mp4";
+
+import camaro1 from "../assets/camaro1.webp";
+import camaro2 from "../assets/camaro2.webp";
+import camaro3 from "../assets/camaro3.webp";
+import camaro4 from "../assets/camaro4.webp";
+import camaro5 from "../assets/camaro5.webp";
+
+
+// Sky / Tiffany LV Patrol Images
+import sky1 from "@/assets/sky1.png";
+import sky2 from "@/assets/sky2.webp";
+import sky3 from "@/assets/sky3.webp";
+import sky4 from "@/assets/sky4.webp";
+import img1 from "@/assets/img1.webp";
+import img3 from "@/assets/img3.webp";
+import img4 from "@/assets/img4.webp";
+import img5 from "@/assets/img5.webp";
+
+// White Platinum Patrol Images
+import white1 from "@/assets/white1.webp";
+import white2 from "@/assets/white2.webp";
+import white3 from "@/assets/white3.webp";
+import white4 from "@/assets/white4.webp";
+import white5 from "@/assets/white5.webp";
+
+// Brown / Executive Tan Patrol Images
+import brown1 from "@/assets/brown1.webp";
+import brown2 from "@/assets/brown2.webp";
+import brown3 from "@/assets/brown3.webp";
+import brown4 from "@/assets/brown4.webp";
+import brown5 from "@/assets/brown5.webp";
+
+// Car / Hermes Orange Edition Patrol Images
+import car1 from "@/assets/car1.webp";
+import car2 from "@/assets/car2.webp";
+import car3 from "@/assets/car3.webp";
+import car4 from "@/assets/car4.webp";
+
+// Lambo Tiffany EVO Spyder Images (lambo0 to lambo4)
+import lambo0 from "@/assets/lambo0.png";
+import lambo1 from "@/assets/lambo1.webp";
+import lambo2 from "@/assets/lambo2.webp";
+import lambo3 from "@/assets/lambo3.webp";
+import lambo4 from "@/assets/lambo4.webp";
+
+// Lambo Blue EVO Spyder Images (blue1 to blue5)
+import blue1 from "@/assets/blue1.webp";
+import blue2 from "@/assets/blue2.webp";
+import blue3 from "@/assets/blue3.webp";
+import blue4 from "@/assets/blue4.webp";
+import blue5 from "@/assets/blue5.webp";
+
+// Lambo Yellow EVO Spyder Images (yellow1 to yellow6)
+import yellow1 from "@/assets/yellow1.webp";
+import yellow2 from "@/assets/yellow2.webp";
+import yellow3 from "@/assets/yellow3.webp";
+import yellow4 from "@/assets/yellow4.webp";
+import yellow5 from "@/assets/yellow5.webp";
+import yellow6 from "@/assets/yellow6.webp";
+
+// Land Rover Defender White Images (whitesuv1-whitesuv5 & suv1-suv6)
+import whitesuv1 from "@/assets/whitesuv1.webp";
+import whitesuv2 from "@/assets/whitesuv2.webp";
+import whitesuv3 from "@/assets/whitesuv3.webp";
+import whitesuv4 from "@/assets/whitesuv4.webp";
+import whitesuv5 from "@/assets/whitesuv5.webp";
+import suv1 from "@/assets/suv1.webp";
+import suv2 from "@/assets/suv2.webp";
+import suv3 from "@/assets/suv3.webp";
+import suv4 from "@/assets/suv4.webp";
+import suv5 from "@/assets/suv5.webp";
+import suv6 from "@/assets/suv6.webp";
+
+// Land Rover Defender Black Edition Images (suvblack1 to suvblack5)
+import suvblack1 from "@/assets/suvblack1.webp";
+import suvblack2 from "@/assets/suvblack2.webp";
+import suvblack3 from "@/assets/suvblack3.webp";
+import suvblack4 from "@/assets/suvblack4.webp";
+import suvblack5 from "@/assets/suvblack5.webp";
+
+// Sports Camaro SS Orange Images (sports1 to sports5)
+import sports1 from "@/assets/sports1.webp";
+import sports2 from "@/assets/sports2.webp";
+import sports3 from "@/assets/sports3.webp";
+import sports4 from "@/assets/sports4.webp";
+import sports5 from "@/assets/sports5.webp";
 export interface CarItem {
   id: string;
   make: string;
@@ -211,6 +302,84 @@ const fleet: CarItem[] = [
       weight: { label: "WEIGHT", value: "1,422 kg", subvalue: "CARBON SPEC" },
       topSpeed: { label: "TOP SPEED", value: "325 km/h", subvalue: "202 mph" },
       acceleration: { label: "0-100 KM/H", value: "3.1 s", subvalue: "0-60 in 2.9s" },
+    },
+  },
+  {
+    id: "ferrari-f8-spider",
+    make: "Ferrari",
+    model: "F8 Spider",
+    badge: "FERRARI F8",
+    category: "SUPERCAR",
+    tagline: "ITALIAN POWER. OPEN-TOP PERFECTION.",
+    description:
+      "Experience pure Italian automotive excellence with the Ferrari F8 Spider. Powered by a breathtaking 3.9L twin-turbocharged V8 engine producing 720 CV, this stunning convertible delivers explosive acceleration and extraordinary performance. Its retractable hardtop, sculpted aerodynamic bodywork, luxurious driver-focused cockpit, and iconic Ferrari styling create the ultimate open-top supercar experience.",
+    cardShortDesc: "720 CV twin-turbo V8 power with breathtaking Italian convertible styling.",
+    builtFor: "PURE PERFORMANCE & ITALIAN PRESTIGE.",
+    themeColor: "#DC143C",
+    accentRgb: "220, 20, 60",
+    image: ferarri1,
+    alt: "Ferrari F8 Spider Supercar",
+    number: "02",
+
+    dailyRate: 2799,
+    originalDailyRate: 3500,
+    dailyDiscount: "20%",
+
+    weeklyRate: 18157,
+    originalWeeklyRate: 22703,
+    weeklyDiscount: "20%",
+
+    monthlyRate: 57599,
+    originalMonthlyRate: 72000,
+    monthlyDiscount: "20%",
+
+    isFlashSale: true,
+    flashSaleBadge: "SAVE 20%",
+
+    securityDeposit: 0,
+    minAge: 25,
+    includedMileage: "150 mi / day included",
+
+    practicalSpecs: {
+      make: "Ferrari",
+      carType: "Supercar",
+      doors: 2,
+      passengers: 2,
+      gear: "Auto (7-Speed Dual-Clutch)",
+      luggages: 1,
+    },
+
+    specs: {
+      engine: {
+        label: "ENGINE",
+        value: "3.9L V8",
+        subvalue: "TWIN-TURBOCHARGED",
+      },
+      power: {
+        label: "POWER",
+        value: "720 CV",
+        subvalue: "710 HP",
+      },
+      torque: {
+        label: "TORQUE",
+        value: "770 Nm",
+        subvalue: "568 lb-ft",
+      },
+      weight: {
+        label: "WEIGHT",
+        value: "1,400 kg",
+        subvalue: "DRY WEIGHT",
+      },
+      topSpeed: {
+        label: "TOP SPEED",
+        value: "340 km/h",
+        subvalue: "211 mph",
+      },
+      acceleration: {
+        label: "0-100 KM/H",
+        value: "2.9 s",
+        subvalue: "0-60 in 2.9s",
+      },
     },
   },
   {
@@ -517,6 +686,361 @@ export interface PorscheProductCard {
 
 const porscheProductCards: PorscheProductCard[] = [
   {
+    id: "nissan-patrol-lv-2026",
+    category: "Rent 7 Seater",
+    name: "Nissan Patrol LV 2026",
+    images: [sky1, img1, sky4],
+    dailyRate: 579,
+    originalDailyRate: 1400,
+    dailyDiscount: "59%",
+    monthlyRate: 12599,
+    originalMonthlyRate: 23849,
+    monthlyDiscount: "47%",
+    isFlashSale: true,
+    flashSaleBadge: "SAVE 59%",
+    featuredOnHome: true,
+    specs: {
+      engine: "5.6L Endurance V8",
+      power: "400 HP / 298 kW",
+      speed: "210 km/h",
+      accel: "0-100 km/h in 6.6s",
+      gear: "7-Speed Automatic",
+      weight: "2,750 kg",
+    },
+    features: [
+      "Louis Vuitton Bespoke Exterior Pattern",
+      "Tiffany Green & Orange Leather Interior",
+      "VIP 7-Seater Executive Configuration",
+      "Hydraulic Body Motion Control (HBMC)",
+    ],
+    description:
+      "Exclusive Louis Vuitton bespoke luxury SUV with Tiffany green interior and 7-seater executive comfort.",
+  },
+  {
+    id: "lambo-huracan-tiffany",
+    category: "Rent Supercars",
+    name: "Lamborghini Huracan EVO Tiffany",
+    images: [lambo0, lambo1, lambo4],
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
+    isFlashSale: true,
+    flashSaleBadge: "24% OFF FLASH DEAL",
+    featuredOnHome: true,
+    specs: {
+      engine: "5.2L Naturally Aspirated V10",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed LDF Dual-Clutch",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Tiffany Blue Bespoke Livery",
+      "LDVI Predictive Dynamics",
+      "Dual Sport Exhaust System",
+      "Bespoke Yellow Contrast Stitching",
+    ],
+    description:
+      "Exclusive Tiffany Blue custom livery with open-top driving thrill. Naturally aspirated 5.2L V10 revving to an exhilarating 8,500 RPM.",
+  },
+  {
+    id: "lambo-huracan-yellow",
+    category: "Rent Supercars",
+    name: "Lamborghini Huracan EVO Yellow",
+    images: [yellow1, yellow2, yellow4],
+    dailyRate: 1450,
+    originalDailyRate: 1950,
+    dailyDiscount: "25%",
+    monthlyRate: 28999,
+    originalMonthlyRate: 46000,
+    monthlyDiscount: "37%",
+    isFlashSale: true,
+    flashSaleBadge: "25% OFF FLASH DEAL",
+    featuredOnHome: true,
+    specs: {
+      engine: "5.2L V10 Naturally Aspirated",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed Dual-Clutch (LDF)",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Giallo Inti Multi-Layer Pearl Yellow Paint",
+      "Electro-Hydraulic Lightweight Soft Top",
+      "LDVI Predictive Vehicle Dynamics",
+      "Carbon Ceramic Brakes with Yellow Calipers",
+    ],
+    description:
+      "Finished in brilliant Giallo Inti pearl metallic with gloss black aerodynamics and yellow brake calipers. 640 HP of pure adrenaline.",
+  },
+  {
+    id: "defender-v8-white",
+    category: "Rent SUV",
+    name: "Land Rover Defender 110 White Custom",
+    images: [whitesuv1, suv2, suv6],
+    dailyRate: 899,
+    originalDailyRate: 1400,
+    dailyDiscount: "35%",
+    monthlyRate: 18500,
+    originalMonthlyRate: 28000,
+    monthlyDiscount: "34%",
+    isFlashSale: true,
+    flashSaleBadge: "35% OFF FLASH DEAL",
+    featuredOnHome: true,
+    specs: {
+      engine: "5.0L Supercharged V8",
+      power: "525 PS / 386 kW",
+      speed: "240 km/h",
+      accel: "0-100 km/h in 5.2s",
+      gear: "8-Speed Automatic with Quickshift",
+      weight: "2,600 kg",
+    },
+    features: [
+      "Bespoke Tiffany Blue Leather Interior",
+      "Twin Roof LED High-Power Safari Pods",
+      "Meridian 3D Surround Sound System",
+      "Terrain Response 2 with Desert Sand Mode",
+    ],
+    description:
+      "Finished in Fuji White with gloss black arches, roof LED light pods, and a fully bespoke handcrafted electric blue leather interior.",
+  },
+  {
+    id: "nissan-patrol-white-2026",
+    category: "Rent 7 Seater",
+    name: "Nissan Patrol Platinum White 2026",
+    images: [white1, white5, white4],
+    dailyRate: 549,
+    originalDailyRate: 1200,
+    dailyDiscount: "54%",
+    monthlyRate: 11999,
+    originalMonthlyRate: 21000,
+    monthlyDiscount: "43%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.6L V8 DIG Endurance",
+      power: "400 HP / 298 kW",
+      speed: "210 km/h",
+      accel: "0-100 km/h in 6.6s",
+      gear: "7-Speed Automatic",
+      weight: "2,750 kg",
+    },
+    features: [
+      "Pearl White with Black Contrast Roof",
+      "Starlight Headliner & Black Leather",
+      "Dual 14.3-inch Panoramic Screens",
+      "Bose 13-Speaker Surround Audio",
+    ],
+    description:
+      "Pearl White luxury 7-seater SUV with executive black leather interior and starry sky headliner.",
+  },
+  {
+    id: "nissan-patrol-tan-2026",
+    category: "Rent 7 Seater",
+    name: "Nissan Patrol V8 Executive Tan",
+    images: [brown1, brown2, brown3],
+    dailyRate: 569,
+    originalDailyRate: 1350,
+    dailyDiscount: "58%",
+    monthlyRate: 12299,
+    originalMonthlyRate: 22500,
+    monthlyDiscount: "45%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.6L V8 Endurance Engine",
+      power: "400 HP / 298 kW",
+      speed: "210 km/h",
+      accel: "0-100 km/h in 6.6s",
+      gear: "7-Speed Automatic",
+      weight: "2,750 kg",
+    },
+    features: [
+      "Bespoke Caramel Tan Leather Cockpit",
+      "Ultra-Wide Dual Digital Displays",
+      "Executive Rear Reclining Seats",
+      "All-Terrain Intelligent 4WD",
+    ],
+    description:
+      "Executive Edition Nissan Patrol featuring a warm caramel tan bespoke interior and ultra-wide digital cockpit.",
+  },
+  {
+    id: "chevrolet-camaro-ss",
+    name: "Chevrolet Camaro SS Coupe Orange",
+    brand: "Chevrolet",
+    model: "Camaro SS 6.2L V8",
+    badge: "CAMARO SS",
+    category: "Rent Sports",
+    tagline: "CRUSH ORANGE AMERICAN MUSCLE WITH 6.2L V8 ROAR.",
+    description:
+      "Finished in eye-catching Crush Orange with black aero splitter, rear spoiler, and black performance wheels. 455 HP of American V8 muscle delivering an unmistakable exhaust note along Dubai streets.",
+    images: [sports1, sports2, sports3, sports4, sports5],
+    dailyRate: 499,
+    originalDailyRate: 750,
+    weeklyRate: 3100,
+    monthlyRate: 9999,
+    originalMonthlyRate: 15000,
+    securityDeposit: 1500,
+    minAge: 21,
+    includedMileage: "250 KM / Day",
+    location: "Dubai Marina & JBR",
+    themeColor: "#FF6600",
+    specs: {
+      engine: "6.2L LT1 V8 Naturally Aspirated",
+      power: "455 HP / 617 Nm",
+      speed: "250 km/h",
+      accel: "0-100 km/h in 4.0s",
+      gear: "10-Speed Paddle-Shift Automatic",
+      weight: "1,680 kg",
+      torque: "617 Nm @ 4,400 RPM",
+    },
+    practicalSpecs: {
+      doors: 2,
+      passengers: 4,
+      gear: "Automatic",
+      luggages: 2,
+      carType: "Sports Muscle Coupe",
+    },
+    features: [
+      "Crush Orange Matte Finish with Black Accents",
+      "Dual-Mode Performance Exhaust System",
+      "Brembo 4-Piston Performance Brakes",
+      "Bose Premium Audio & Apple CarPlay",
+    ],
+    flashSale: {
+      active: false,
+      discountPercent: 0,
+      badgeText: "",
+    },
+    featuredOnHome: true,
+  },
+
+  {
+    id: "nissan-patrol-hermes-orange",
+    category: "Rent Modified",
+    name: "Nissan Patrol Nismo Hermes Edition",
+    images: [car1, car4, car2],
+    dailyRate: 649,
+    originalDailyRate: 1550,
+    dailyDiscount: "58%",
+    monthlyRate: 13999,
+    originalMonthlyRate: 25000,
+    monthlyDiscount: "44%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.6L V8 Nismo Tuned",
+      power: "428 HP / 315 kW",
+      speed: "215 km/h",
+      accel: "0-100 km/h in 6.2s",
+      gear: "7-Speed Automatic with Paddles",
+      weight: "2,710 kg",
+    },
+    features: [
+      "Hermes Paris Handcrafted Orange Quilted Cabin",
+      "Nismo Sport Body Aero & Lip Spoiler",
+      "22-inch Lightweight Sport Alloys",
+      "Starlight Headliner & Multi-Color Ambient LEDs",
+    ],
+    description:
+      "Opulent Hermes Paris orange quilted leather interior paired with track-tuned Nismo aerodynamics.",
+  },
+  {
+    id: "lambo-huracan-blue",
+    category: "Rent Supercars",
+    name: "Lamborghini Huracan EVO Blue Le Mans",
+    images: [blue1, blue2, blue4],
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.2L Naturally Aspirated V10",
+      power: "640 PS / 470 kW",
+      speed: "325 km/h",
+      accel: "0-100 km/h in 3.1s",
+      gear: "7-Speed Dual-Clutch (LDF)",
+      weight: "1,422 kg",
+    },
+    features: [
+      "Blu Le Mans High-Gloss Metallic Finish",
+      "Black Forged Aesir Rims with Red Brake Calipers",
+      "Dual Mode Valved Titanium Exhaust",
+      "Apple CarPlay & Touchscreen Navigation",
+    ],
+    description:
+      "Finished in deep Blu Le Mans metallic with black forged alloy wheels and blue contrast sport stitching.",
+  },
+  {
+    id: "defender-v8-black",
+    category: "Rent SUV",
+    name: "Land Rover Defender 110 Black Edition",
+    images: [suvblack1, suvblack2, suvblack3],
+    dailyRate: 949,
+    originalDailyRate: 1450,
+    dailyDiscount: "35%",
+    monthlyRate: 19500,
+    originalMonthlyRate: 29000,
+    monthlyDiscount: "33%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.0L Supercharged V8",
+      power: "525 PS / 386 kW",
+      speed: "240 km/h",
+      accel: "0-100 km/h in 5.2s",
+      gear: "8-Speed Automatic",
+      weight: "2,600 kg",
+    },
+    features: [
+      "Santorini Black Stealth Matte Wrap",
+      "Roof Auxiliary High-Beam LED Light Pods",
+      "Full Black Windsor Leather Interior",
+      "Quad Outboard Mounted Exhausts with V8 Acoustics",
+    ],
+    description:
+      "Satin Santorini Black exterior with stealth smoked lighting, black 22-inch wheels, and dual roof light bars.",
+  },
+  {
+    id: "chevrolet-camaro-ss",
+    category: "Rent Sports",
+    name: "Chevrolet Camaro SS Coupe Orange",
+    images: [sports1, sports2, sports3],
+    dailyRate: 499,
+    originalDailyRate: 750,
+    dailyDiscount: "33%",
+    monthlyRate: 9999,
+    originalMonthlyRate: 15000,
+    monthlyDiscount: "33%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "6.2L LT1 V8 Naturally Aspirated",
+      power: "455 HP / 335 kW",
+      speed: "250 km/h",
+      accel: "0-100 km/h in 4.0s",
+      gear: "10-Speed Paddle-Shift Automatic",
+      weight: "1,680 kg",
+    },
+    features: [
+      "Crush Orange Matte Finish with Black Accents",
+      "Dual-Mode Performance Exhaust System",
+      "Brembo 4-Piston Performance Brakes",
+      "Bose Premium Audio & Apple CarPlay",
+    ],
+    description:
+      "Finished in eye-catching Crush Orange with black aero splitter, rear spoiler, and 455 HP American V8 roar.",
+  },
+  {
     id: "mercedes-g63-maybach-card",
     category: "Rent Modified",
     name: "Mercedes-AMG G63",
@@ -527,8 +1051,7 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyRate: 29999,
     originalMonthlyRate: 49500,
     monthlyDiscount: "39%",
-    isFlashSale: true,
-    flashSaleBadge: "24% FLASH SALE",
+    isFlashSale: false,
     featuredOnHome: true,
     specs: {
       engine: "4.0L V8 Biturbo",
@@ -548,121 +1071,6 @@ const porscheProductCards: PorscheProductCard[] = [
       "The undisputed king of luxury performance SUVs in Dubai. Handcrafted Maybach leather, twin-turbo V8 rumble, and unmatched commanding road presence.",
   },
   {
-    id: "lambo-huracan-tiffany-card",
-    category: "Rent Supercars",
-    name: "Lamborghini Huracan EVO Tiffany",
-    images: [lamboHuracanTiffany, lamboHuracanTiffany, lamboHuracanTiffany],
-    dailyRate: 1499,
-    originalDailyRate: 1980,
-    dailyDiscount: "24%",
-    monthlyRate: 29999,
-    originalMonthlyRate: 49500,
-    monthlyDiscount: "39%",
-    specs: {
-      engine: "5.2L Naturally Aspirated V10",
-      power: "640 PS / 470 kW",
-      speed: "325 km/h",
-      accel: "0-100 km/h in 3.1s",
-      gear: "7-Speed LDF Dual-Clutch",
-      weight: "1,422 kg",
-    },
-    features: [
-      "Tiffany Blue Bespoke Livery",
-      "LDVI Predictive Dynamics",
-      "Dual Sport Exhaust System",
-      "Bespoke Yellow Contrast Stitching",
-    ],
-    description:
-      "Exclusive Tiffany Blue custom livery with open-top driving thrill. Naturally aspirated 5.2L V10 revving to an exhilarating 8,500 RPM.",
-  },
-  {
-    id: "lambo-huracan-sto-card",
-    category: "Rent Modified",
-    name: "Lamborghini Huracan STO",
-    images: [lamboHuracanSto, lamboHuracanSto, lamboHuracanSto],
-    dailyRate: 1799,
-    originalDailyRate: 2400,
-    dailyDiscount: "25%",
-    monthlyRate: 34999,
-    originalMonthlyRate: 55000,
-    monthlyDiscount: "36%",
-    isFlashSale: true,
-    flashSaleBadge: "25% FLASH DEAL",
-    featuredOnHome: true,
-    specs: {
-      engine: "5.2L V10 Squadra Corse",
-      power: "640 PS / 470 kW",
-      speed: "310 km/h",
-      accel: "0-100 km/h in 3.0s",
-      gear: "7-Speed Dual-Clutch",
-      weight: "1,339 kg Dry Track",
-    },
-    features: [
-      "Carbon Fiber 'Cofango' Aero",
-      "Shark Fin & Adjustable Wing",
-      "Brembo CCM-R Carbon Ceramic Brakes",
-      "Lightweight Forged Magnesium Wheels",
-    ],
-    description:
-      "Direct road-homologated Squadra Corse racecar. Extreme aerodynamic downforce, magnesium wheels, and pure motorsport DNA on Dubai roads.",
-  },
-  {
-    id: "lambo-huracan-white-card",
-    category: "Rent Sports",
-    name: "Lamborghini Huracan Evo",
-    images: [lamboHuracanWhite, lamboHuracanWhite, lamboHuracanWhite],
-    dailyRate: 1399,
-    originalDailyRate: 1850,
-    dailyDiscount: "24%",
-    monthlyRate: 27999,
-    originalMonthlyRate: 44500,
-    monthlyDiscount: "37%",
-    specs: {
-      engine: "5.2L V10 Naturally Aspirated",
-      power: "640 PS / 470 kW",
-      speed: "325 km/h",
-      accel: "0-100 km/h in 2.9s",
-      gear: "7-Speed LDF",
-      weight: "1,422 kg",
-    },
-    features: [
-      "Bianco Monocerus Pearl White",
-      "All-Wheel Steering & Torque Vectoring",
-      "Lamborghini Dynamic Steering (LDS)",
-      "Red Performance Brake Calipers",
-    ],
-    description:
-      "Pure Italian performance in pristine pearl white. Uncompromising handling with all-wheel drive and magnetic suspension.",
-  },
-  {
-    id: "lambo-evo-coupe-card",
-    category: "Rent Supercars",
-    name: "Lamborghini Evo Coupe",
-    images: [lamboEvoCoupe, lamboEvoCoupe, lamboEvoCoupe],
-    dailyRate: 1450,
-    originalDailyRate: 1900,
-    dailyDiscount: "24%",
-    monthlyRate: 28500,
-    originalMonthlyRate: 46000,
-    monthlyDiscount: "38%",
-    specs: {
-      engine: "5.2L High-Rev V10",
-      power: "640 PS / 470 kW",
-      speed: "325 km/h",
-      accel: "0-100 km/h in 3.0s",
-      gear: "7-Speed Dual-Clutch",
-      weight: "1,422 kg",
-    },
-    features: [
-      "Grigio Titans Stealth Metallic",
-      "Bronze Forged Lightweight Alloys",
-      "Carbon Ceramic Composite Brakes",
-      "Alcantara Sport Seats & Cockpit",
-    ],
-    description:
-      "Stealth Grigio finish accented by forged gold alloy wheels. Blistering acceleration and breathtaking visual appeal.",
-  },
-  {
     id: "porsche-gt3-clubsport",
     category: "Rent Sports",
     name: "Porsche 911 GT3 RS Clubsport",
@@ -673,6 +1081,8 @@ const porscheProductCards: PorscheProductCard[] = [
     monthlyRate: 29999,
     originalMonthlyRate: 49500,
     monthlyDiscount: "39%",
+    isFlashSale: false,
+    featuredOnHome: true,
     specs: {
       engine: "4.0L Naturally Aspirated Flat-6",
       power: "525 PS / 386 kW",
@@ -693,11 +1103,25 @@ const porscheProductCards: PorscheProductCard[] = [
 ];
 const flashSaleItems: FlashSaleItem[] = [
   {
-    id: "flash-lambo-tiffany",
+    id: "nissan-patrol-lv-2026",
+    badge: "SAVE 59%",
+    name: "Nissan Patrol LV 2026",
+    category: "Luxury 7-Seater SUV",
+    image: sky1,
+    dailyRate: 579,
+    originalDailyRate: 1400,
+    discount: "59% OFF",
+    monthlyRate: 12599,
+    timerString: "04:15:30",
+    specs: { power: "400 HP", speed: "210 km/h", accel: "6.6s" },
+    carRef: fleet[0],
+  },
+  {
+    id: "lambo-huracan-tiffany",
     badge: "24% OFF FLASH DEAL",
     name: "Lamborghini Huracan EVO Tiffany",
     category: "Supercar / Exotic",
-    image: lamboHuracanTiffany,
+    image: lambo0,
     dailyRate: 1499,
     originalDailyRate: 1980,
     discount: "24% OFF",
@@ -707,46 +1131,32 @@ const flashSaleItems: FlashSaleItem[] = [
     carRef: fleet[0],
   },
   {
-    id: "flash-mercedes-g63",
-    badge: "24% OFF EXCLUSIVE",
-    name: "Mercedes-AMG G63 Maybach",
-    category: "Luxury SUV",
-    image: mercedesG63Maybach,
-    dailyRate: 1499,
-    originalDailyRate: 1980,
-    discount: "24% OFF",
-    monthlyRate: 29999,
-    timerString: "04:45:15",
-    specs: { power: "585 PS", speed: "240 km/h", accel: "4.5s" },
-    carRef: fleet[1],
-  },
-  {
-    id: "flash-lambo-sto",
+    id: "lambo-huracan-yellow",
     badge: "25% OFF SPECIAL",
-    name: "Lamborghini Huracan STO",
+    name: "Lamborghini Huracan EVO Yellow",
     category: "Track Supercar",
-    image: lamboHuracanSto,
-    dailyRate: 1799,
-    originalDailyRate: 2400,
+    image: yellow1,
+    dailyRate: 1450,
+    originalDailyRate: 1950,
     discount: "25% OFF",
-    monthlyRate: 34999,
+    monthlyRate: 28999,
     timerString: "01:25:00",
-    specs: { power: "640 PS", speed: "310 km/h", accel: "3.0s" },
+    specs: { power: "640 PS", speed: "325 km/h", accel: "3.1s" },
     carRef: fleet[2],
   },
   {
-    id: "flash-lambo-white",
-    badge: "24% OFF EXOTIC",
-    name: "Lamborghini Huracan Evo",
-    category: "Supercar",
-    image: lamboHuracanWhite,
-    dailyRate: 1399,
-    originalDailyRate: 1850,
-    discount: "24% OFF",
-    monthlyRate: 27999,
-    timerString: "03:12:30",
-    specs: { power: "640 PS", speed: "325 km/h", accel: "2.9s" },
-    carRef: fleet[3],
+    id: "defender-v8-white",
+    badge: "35% OFF EXCLUSIVE",
+    name: "Land Rover Defender 110 White Custom",
+    category: "Luxury SUV",
+    image: whitesuv1,
+    dailyRate: 899,
+    originalDailyRate: 1400,
+    discount: "35% OFF",
+    monthlyRate: 18500,
+    timerString: "03:45:15",
+    specs: { power: "525 PS", speed: "240 km/h", accel: "5.2s" },
+    carRef: fleet[1],
   },
 ];
 
@@ -885,6 +1295,7 @@ const allCarBrands: CarBrandItem[] = [
 ];
 
 function CarShowcasePage() {
+  const navigate = useNavigate();
   const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>("AED");
   const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
   const [isBrandsDropdownOpen, setIsBrandsDropdownOpen] = useState(false);
@@ -1004,12 +1415,15 @@ function CarShowcasePage() {
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffsetX, setDragOffsetX] = useState(0);
 
+  // Pagination for "OUR BEST RENTED": starts at 4 cars, View More reveals the rest
+  const [visibleBestRentedCount, setVisibleBestRentedCount] = useState<number>(4);
+
   // Live ticking countdown timer for flash sale
   const [flashSaleSeconds, setFlashSaleSeconds] = useState<Record<string, number>>({
-    "flash-lambo-tiffany": 2 * 3600 + 10 * 60 + 40,
-    "flash-mercedes-g63": 4 * 3600 + 45 * 60 + 15,
-    "flash-lambo-sto": 1 * 3600 + 25 * 60 + 0,
-    "flash-lambo-white": 3 * 3600 + 15 * 60 + 22,
+    "nissan-patrol-lv-2026": 4 * 3600 + 15 * 60 + 30,
+    "lambo-huracan-tiffany": 2 * 3600 + 10 * 60 + 40,
+    "lambo-huracan-yellow": 1 * 3600 + 25 * 60 + 0,
+    "defender-v8-white": 3 * 3600 + 45 * 60 + 15,
   });
 
   useEffect(() => {
@@ -2669,7 +3083,8 @@ function CarShowcasePage() {
             {flashSaleItems.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#141620] rounded-none border border-neutral-800 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group relative"
+                onClick={() => navigate({ to: "/cars/$carId", params: { carId: item.id } })}
+                className="bg-[#141620] rounded-none border border-neutral-800 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between group relative cursor-pointer"
               >
                 {/* Full-card light shine sweeping from left to right */}
                 <div className="flash-card-full-shine" aria-hidden="true" />
@@ -2773,7 +3188,10 @@ function CarShowcasePage() {
                     </a>
                     <button
                       type="button"
-                      onClick={() => setBookingCar(item.carRef)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate({ to: "/cars/$carId", params: { carId: item.id } });
+                      }}
                       className="flex items-center justify-center gap-1.5 bg-[#FFE600] hover:bg-[#FACC15] text-neutral-950 py-2 px-1 rounded-none border-0 border-none text-[11px] font-black transition-colors cursor-pointer text-center"
                     >
                       Claim Deal
@@ -2806,17 +3224,19 @@ function CarShowcasePage() {
             </h2>
           </div>
 
-          {/* Product Cards Grid: Exactly matching user reference with zero curved borders (rounded-none everywhere) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+          {/* Product Cards Grid: 4 in a row, showing 4 initially, view more reveals the rest */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {porscheProductCards
               .filter((card) => card.featuredOnHome !== false)
+              .slice(0, visibleBestRentedCount)
               .map((card) => {
                 const isFlash = Boolean(card.isFlashSale || card.hasFlashTimer);
 
                 return (
                   <div
                     key={card.id}
-                    className={`rounded-none transition-all duration-300 overflow-hidden flex flex-col justify-between group relative ${
+                    onClick={() => navigate({ to: "/cars/$carId", params: { carId: card.id } })}
+                    className={`rounded-none transition-all duration-300 overflow-hidden flex flex-col justify-between group relative cursor-pointer ${
                       isFlash
                         ? "bg-gradient-to-b from-[#2a0c16] via-[#16101c] to-[#0c0d12] border-2 border-red-500/70 shadow-[0_0_30px_rgba(239,68,68,0.25)] hover:border-red-400 hover:shadow-[0_0_40px_rgba(239,68,68,0.4)]"
                         : "bg-[#12141c] border border-neutral-800 shadow-md hover:shadow-2xl"
@@ -2900,7 +3320,7 @@ function CarShowcasePage() {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedCarDetails(card);
+                          navigate({ to: "/cars/$carId", params: { carId: card.id } });
                     }}
                     className="absolute right-3 bottom-2.5 w-7 h-7 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 flex items-center justify-center shadow-md cursor-pointer hover:scale-110 active:scale-95 transition-transform z-20"
                     title="View Car Details & Full Specs"
@@ -2978,6 +3398,7 @@ function CarShowcasePage() {
                       href={`https://wa.me/?text=Hi%2C%20I%20am%20interested%20in%20renting%20the%20${encodeURIComponent(card.name)}`}
                       target="_blank"
                       rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
                       className="flex items-center justify-center gap-1.5 bg-[#1E7E34] hover:bg-[#186429] text-white py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
                     >
                       <svg
@@ -2991,8 +3412,11 @@ function CarShowcasePage() {
                     </a>
                     <button
                       type="button"
-                      onClick={() => handleBookProductCard(card)}
-                      className="flex items-center justify-center gap-1.5 bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 py-2 px-2 rounded-none text-xs font-bold transition-colors cursor-pointer"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate({ to: "/cars/$carId", params: { carId: card.id } });
+                          }}
+                          className="flex items-center justify-center gap-1.5 bg-[#FFE600] hover:bg-yellow-400 text-black py-2 px-2 rounded-none text-xs font-black transition-colors cursor-pointer"
                     >
                       <Calendar className="w-3.5 h-3.5" /> Inquire Now
                     </button>
@@ -3002,6 +3426,31 @@ function CarShowcasePage() {
             );
           })}
         </div>
+
+          {/* View More / Show Less Button for "OUR BEST RENTED" */}
+          {porscheProductCards.filter((card) => card.featuredOnHome !== false).length > 4 && (
+            <div className="text-center mt-12">
+              <button
+                type="button"
+                onClick={() =>
+                  setVisibleBestRentedCount((prev) =>
+                    prev >= porscheProductCards.filter((c) => c.featuredOnHome !== false).length
+                      ? 4
+                      : porscheProductCards.filter((c) => c.featuredOnHome !== false).length
+                  )
+                }
+                className="inline-flex items-center justify-center gap-2.5 bg-[#FFE600] hover:bg-yellow-400 text-black font-black uppercase text-xs sm:text-sm tracking-wider px-8 py-3.5 rounded-none shadow-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <span>
+                  {visibleBestRentedCount >=
+                    porscheProductCards.filter((c) => c.featuredOnHome !== false).length
+                    ? "SHOW LESS FLEET"
+                    : `VIEW MORE CARS (${porscheProductCards.filter((c) => c.featuredOnHome !== false).length} TOTAL)`}
+                </span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

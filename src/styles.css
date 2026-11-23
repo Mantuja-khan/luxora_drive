@@ -900,21 +900,21 @@
   15% {
     opacity: 1;
   }
-  80% {
+  82% {
     transform: translate3d(0, 0, 0);
   }
-  88% {
-    /* realistic braking dip / forward weight transfer */
-    transform: translate3d(-16px, 2px, 0);
+  90% {
+    /* realistic gentle braking dip / forward weight transfer */
+    transform: translate3d(-14px, 2px, 0);
   }
   100% {
-    /* settle dead-center */
+    /* settle and park dead-center */
     transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-intro-car-drive {
-  animation: intro-car-drive-in-anim 1800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: intro-car-drive-in-anim 2800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
 }
 
@@ -925,20 +925,20 @@
     transform: scale(1);
     filter: brightness(1) drop-shadow(0 15px 25px rgba(0,0,0,0.8));
   }
-  40% {
-    opacity: 0.85;
-    transform: scale(1.04);
-    filter: brightness(2.2) drop-shadow(0 0 40px rgba(255, 230, 0, 0.9));
+  45% {
+    opacity: 0.9;
+    transform: scale(1.05);
+    filter: brightness(2.4) drop-shadow(0 0 45px rgba(255, 230, 0, 0.95));
   }
   100% {
     opacity: 0;
     transform: scale(0.82);
-    filter: brightness(3) blur(14px);
+    filter: brightness(3.5) blur(16px);
   }
 }
 
 .animate-intro-car-morph {
-  animation: intro-car-morph-anim 900ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: intro-car-morph-anim 1100ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
   will-change: transform, opacity, filter;
 }
 
@@ -950,39 +950,39 @@
   }
   45% {
     opacity: 1;
-    transform: scale(1.35);
+    transform: scale(1.4);
   }
   100% {
     opacity: 0;
-    transform: scale(2.2);
+    transform: scale(2.3);
   }
 }
 
 .animate-intro-flash {
-  animation: intro-flash-burst-anim 850ms ease-out forwards;
+  animation: intro-flash-burst-anim 1100ms ease-out forwards;
 }
 
 /* 4. Brand Logo Emerges */
 @keyframes intro-logo-appear-anim {
   0% {
     opacity: 0;
-    transform: scale(0.65) translateY(10px);
+    transform: scale(0.65) translateY(12px);
     filter: drop-shadow(0 0 0px transparent);
   }
   50% {
     opacity: 1;
     transform: scale(1.08) translateY(-2px);
-    filter: drop-shadow(0 0 35px rgba(255, 230, 0, 0.75)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.9));
+    filter: drop-shadow(0 0 40px rgba(255, 230, 0, 0.8)) drop-shadow(0 0 18px rgba(255, 255, 255, 0.95));
   }
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
-    filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.4)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+    filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.45)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
   }
 }
 
 .animate-intro-logo {
-  animation: intro-logo-appear-anim 950ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: intro-logo-appear-anim 1150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, filter;
 }
 
@@ -990,7 +990,7 @@
 @keyframes intro-brand-title-anim {
   0% {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(20px);
     letter-spacing: 0.15em;
   }
   50% {
@@ -999,12 +999,12 @@
   100% {
     opacity: 1;
     transform: translateY(0);
-    letter-spacing: 0.35em;
+    letter-spacing: 0.38em;
   }
 }
 
 .animate-intro-brand-title {
-  animation: intro-brand-title-anim 850ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: intro-brand-title-anim 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity, letter-spacing;
 }
 

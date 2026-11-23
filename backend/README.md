@@ -6,7 +6,7 @@ Node.js, Express & MongoDB backend powering the Luxora Drive Supercar Showcase &
 
 ## 🚀 Features
 
-- **MongoDB / Mongoose Database**: Collections for fleet inventory, technical specifications, and promotional campaigns.
+- **MongoDB Atlas Cloud Database**: Fully configured and connected to your cloud cluster (`luxoradrives.1rkfccj.mongodb.net/luxoradrive`).
 - **Flash Sale Offer Management**: Instant flash sale activation, discount percentage calculations, and custom promotional badges.
 - **Home Page Showcase Filtering**: Toggle whether individual cars appear on the storefront Home Page (`featuredOnHome`).
 - **Admin JWT Authentication**: Secure admin endpoints with demo credentials (`admin@luxoradrive.com` / `admin123`).
@@ -16,34 +16,23 @@ Node.js, Express & MongoDB backend powering the Luxora Drive Supercar Showcase &
 
 ## 🛠️ Quick Start
 
-### 1. Install Dependencies
+### 1. Run the Backend Server
+From the main project root folder:
+```bash
+npm run backend:dev
+```
+Or from the `backend/` directory:
 ```bash
 cd backend
-npm install
-```
-
-### 2. Configure Environment Variables
-Copy `.env.example` to `.env`:
-```bash
-PORT=5000
-MONGODB_URI=mongodb://127.0.0.1:27017/luxoradrive
-JWT_SECRET=luxora_super_secret_jwt_token_2026
-ADMIN_EMAIL=admin@luxoradrive.com
-ADMIN_PASSWORD=admin123
-```
-
-### 3. Seed Initial Supercar Fleet
-```bash
-npm run seed
-```
-
-### 4. Start the Backend Server
-```bash
-# Production start
-npm start
-
-# Development mode with auto-reload
 npm run dev
+```
+
+The server will start at: `http://localhost:5000`
+
+### 2. Seed Initial Fleet (Optional)
+If you ever want to re-populate sample cars in MongoDB:
+```bash
+npm run backend:seed
 ```
 
 ---
@@ -59,10 +48,10 @@ npm run dev
 ### 🚗 Vehicle Inventory
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/api/cars` | Get all cars (Supports `?brand=`, `?category=`, `?flashOnly=true`, `?homeOnly=true`, `?search=`) |
-| `GET` | `/api/cars/:id` | Get details for single vehicle |
-| `POST` | `/api/cars` | Create new vehicle listing *(Admin Protected)* |
-| `PUT` | `/api/cars/:id` | Update vehicle details *(Admin Protected)* |
-| `PATCH` | `/api/cars/:id/flash-sale` | Toggle Flash Sale active/inactive & set discount *(Admin Protected)* |
-| `PATCH` | `/api/cars/:id/featured` | Toggle Home Page visibility (`featuredOnHome`) *(Admin Protected)* |
-| `DELETE` | `/api/cars/:id` | Delete vehicle from MongoDB *(Admin Protected)* |
+| `GET` | `/api/cars` | Fetch all vehicles in MongoDB |
+| `GET` | `/api/cars?flashOnly=true` | Fetch only active Flash Deals |
+| `GET` | `/api/cars?homeOnly=true` | Fetch only cars selected for Home Page |
+| `GET` | `/api/cars/:id` | Fetch single vehicle details |
+| `POST` | `/api/cars` | Add a new vehicle (Admin Token required) |
+| `PUT` | `/api/cars/:id` | Update vehicle or offer (Admin Token required) |
+| `DELETE` | `/api/cars/:id` | Delete vehicle (Admin Token required) |
