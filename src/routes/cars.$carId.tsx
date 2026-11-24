@@ -362,12 +362,12 @@ function CarDetailPage() {
             )}
           </div>
 
-          <a
-            href="/#flash-sale"
+          <Link
+            to="/flash-deals"
             className="uppercase font-normal text-[#FFE600] hover:text-amber-400 transition-colors cursor-pointer"
           >
-            FLASH SALE
-          </a>
+            FLASH DEALS
+          </Link>
 
           {/* Categories Dropdown in Two Vertical Columns */}
           <div
@@ -606,9 +606,9 @@ function CarDetailPage() {
             <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#FFE600] py-2">
               HOME
             </Link>
-            <a href="/#flash-sale" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFE600] py-2 font-bold">
-              FLASH SALE
-            </a>
+            <Link to="/flash-deals" onClick={() => setIsMobileMenuOpen(false)} className="text-[#FFE600] py-2 font-bold">
+              FLASH DEALS
+            </Link>
             <a href="/#services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#FFE600] py-2">
               SERVICES
             </a>

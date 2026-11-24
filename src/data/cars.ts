@@ -16,6 +16,7 @@ import camaro3 from "../assets/camaro3.webp";
 import camaro4 from "../assets/camaro4.webp";
 import camaro5 from "../assets/camaro5.webp";
 
+
 // Sky / Tiffany LV Patrol Images
 import sky1 from "@/assets/sky1.png";
 import sky2 from "@/assets/sky2.webp";
@@ -89,11 +90,55 @@ import suvblack4 from "@/assets/suvblack4.webp";
 import suvblack5 from "@/assets/suvblack5.webp";
 
 
-import ferarri1 from "../assets/ferarri1.webp";
-import ferarri2 from "../assets/ferarri2.webp";
-import ferarri3 from "../assets/ferarri3.webp";
-import ferarri4 from "../assets/ferarri4.webp";
-import ferarri5 from "../assets/ferarri5.webp";
+// Ferrari Red F8 Spider Images (ferarri1 to ferarri5)
+import ferarri1 from "@/assets/ferarri1.webp";
+import ferarri2 from "@/assets/ferarri2.webp";
+import ferarri3 from "@/assets/ferarri3.webp";
+import ferarri4 from "@/assets/ferarri4.webp";
+import ferarri5 from "@/assets/ferarri5.webp";
+
+// Ferrari Black SF90 Stradale Images (ferarriblack1 to ferarriblack5)
+import ferarriblack1 from "@/assets/ferarriblack1.webp";
+import ferarriblack2 from "@/assets/ferarriblack2.webp";
+import ferarriblack3 from "@/assets/ferarriblack3.webp";
+import ferarriblack4 from "@/assets/ferarriblack4.webp";
+import ferarriblack5 from "@/assets/ferarriblack5.webp";
+
+// Ferrari F8 Tributo Yellow Racing Livery Images (tributo1 to tributo5)
+import tributo1 from "@/assets/tributo1.webp";
+import tributo2 from "@/assets/tributo2.webp";
+import tributo3 from "@/assets/tributo3.webp";
+import tributo4 from "@/assets/tributo4.webp";
+import tributo5 from "@/assets/tributo5.webp";
+
+// Nissan Patrol Orange Custom Two-Tone Images (orange1 to orange5)
+import orange1 from "@/assets/orange1.webp";
+import orange2 from "@/assets/orange2.webp";
+import orange3 from "@/assets/orange3.webp";
+import orange4 from "@/assets/orange4.webp";
+import orange5 from "@/assets/orange5.webp";
+
+// Lumma CLR LD Defender Acid Green Images (rover1 to rover5)
+import rover1 from "@/assets/rover1.webp";
+import rover2 from "@/assets/rover2.webp";
+import rover3 from "@/assets/rover3.webp";
+import rover4 from "@/assets/rover4.webp";
+import rover5 from "@/assets/rover5.webp";
+
+// Ferrari Roma White Images (rumo1 to rumo5)
+import rumo1 from "@/assets/rumo1.webp";
+import rumo2 from "@/assets/rumo2.webp";
+import rumo3 from "@/assets/rumo3.webp";
+import rumo4 from "@/assets/rumo4.webp";
+import rumo5 from "@/assets/rumo5.webp";
+
+// Jeep Gladiator Rubicon Fire Red Images (jeep1 to jeep6)
+import jeep1 from "@/assets/jeep1.webp";
+import jeep2 from "@/assets/jeep2.webp";
+import jeep3 from "@/assets/jeep3.webp";
+import jeep4 from "@/assets/jeep4.webp";
+import jeep5 from "@/assets/jeep5.webp";
+import jeep6 from "@/assets/jeep6.webp";
 
 // Sports Camaro SS Orange Images (sports1 to sports5)
 import sports1 from "@/assets/sports1.webp";
@@ -632,68 +677,7 @@ export const CARS_DATABASE: ProductCar[] = [
     },
     featuredOnHome: true,
   },
-  {
-    id: "chevrolet-camaro-2023",
-    name: "Chevrolet Camaro Convertible",
-    brand: "Chevrolet",
-    model: "Camaro Convertible (2023)",
-    badge: "CHEVROLET CAMARO",
-    category: "Rent Sports",
-    tagline: "UNLEASH THE THRILL. DRIVE WITH STYLE.",
-    description:
-      "Experience the perfect combination of American muscle and open-air luxury with the 2023 Chevrolet Camaro Convertible. Featuring a sleek matte black exterior paired with a distinctive Tiffany interior, this sport-modified convertible delivers an unforgettable driving experience. Enjoy premium leather seats with heating and ventilation, advanced infotainment with Apple CarPlay and Android Auto, multi-zone climate control, smart key entry, and advanced safety technologies. Its aggressive body kit, dual exhaust, LED headlights, rear spoiler, and stylish alloy wheels make it a true head-turner on Dubai roads.",
-    images: [camaro1, camaro2, camaro3, camaro4, camaro5],
-    dailyRate: 349,
-    originalDailyRate: 800,
-    weeklyRate: 2200,
-    monthlyRate: 5999,
-    originalMonthlyRate: 11999,
-    securityDeposit: 0,
-    minAge: 21,
-    includedMileage: "250 KM / Day",
-    location: "Downtown Dubai & JBR",
-    themeColor: "#00D6C9",
-    specs: {
-      engine: "Engine variant not specified",
-      power: "Varies by engine variant",
-      speed: "Varies by engine variant",
-      accel: "Varies by engine variant",
-      gear: "Automatic Transmission",
-      weight: "Varies by configuration",
-      torque: "Varies by engine variant",
-    },
-    practicalSpecs: {
-      doors: 2,
-      passengers: 4,
-      gear: "Automatic",
-      luggages: 2,
-      carType: "Convertible Sports Car",
-    },
-    features: [
-      "Matte Black Exterior Finish",
-      "Exclusive Tiffany Interior",
-      "Electric Leather Seats",
-      "Heated & Ventilated Front Seats",
-      "Rear Seat Cooling",
-      "Apple CarPlay & Android Auto",
-      "Bluetooth & Navigation System",
-      "Touchscreen Infotainment Display",
-      "Multi-Zone Climate Control",
-      "Adaptive Cruise Control",
-      "Rear View Camera & Parking Sensors",
-      "LED Headlights & Illuminated Emblems",
-      "Sport Body Kit with Dual Exhaust",
-      "Premium Alloy Wheels",
-      "Electric Soft-Top Convertible Roof",
-      "Smart Key Entry",
-    ],
-    flashSale: {
-      active: false,
-      discountPercent: 56,
-      badgeText: "UP TO 56% OFF",
-    },
-    featuredOnHome: true,
-  },
+
   {
     id: "defender-v8-black",
     name: "Land Rover Defender 110 Black Edition",
@@ -703,7 +687,7 @@ export const CARS_DATABASE: ProductCar[] = [
     category: "Rent SUV",
     tagline: "ALL-BLACK STEALTH EXTERIOR WITH ROOF LIGHTS & V8 ROAR.",
     description:
-      "Satin Santorini Black exterior with stealth smoked lighting, black 22-inch wheels, and dual roof light bars. The ultimate command vehicle for Dubai's roads with 525 HP supercharged V8 power.",
+      "Experience commanding luxury and uncompromising performance with the Land Rover Defender 110 Black Edition. Featuring a Satin Santorini Black exterior, stealth smoked lighting, aggressive black 22-inch alloy wheels, and dual roof-mounted LED light bars, this exclusive SUV delivers an unmistakable presence on Dubai's roads. Powered by a 5.0L supercharged V8 engine producing 525 HP, it combines extraordinary performance with premium Windsor leather interiors and exceptional off-road capability.",
     images: [suvblack1, suvblack2, suvblack3, suvblack4, suvblack5],
     dailyRate: 949,
     originalDailyRate: 1450,
@@ -736,6 +720,379 @@ export const CARS_DATABASE: ProductCar[] = [
       "Roof Auxiliary High-Beam LED Light Pods",
       "Full Black Windsor Leather Interior",
       "Quad Outboard Mounted Exhausts with V8 Acoustics",
+      "Black 22-Inch Alloy Wheels",
+      "Stealth Smoked Exterior Lighting",
+      "5.0L Supercharged V8 Engine",
+      "Advanced Terrain Response System",
+    ],
+    flashSale: {
+      active: false,
+      discountPercent: 0,
+      badgeText: "",
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "ferrari-f8-spider-red",
+    name: "Ferrari F8 Spider Rosso Corsa",
+    brand: "Ferrari",
+    model: "F8 Spider",
+    badge: "FERRARI F8 SPIDER",
+    category: "Rent Supercars",
+    tagline: "720 HP TWIN-TURBO V8 WITH RETRACTABLE HARDTOP EXHILARATION.",
+    description:
+      "Dressed in iconic Rosso Corsa with Nero contrast aerodynamic accents and tan-stitched racing seats. The Ferrari F8 Spider unleashes 720 PS of twin-turbocharged Italian thoroughbred power, reaching 100 km/h in a blistering 2.9 seconds with an intoxicating open-air exhaust crescendo along Dubai's skyline.",
+    images: [ferarri1, ferarri2, ferarri3, ferarri4, ferarri5],
+    dailyRate: 2499,
+    originalDailyRate: 3500,
+    weeklyRate: 15500,
+    monthlyRate: 52000,
+    originalMonthlyRate: 75000,
+    securityDeposit: 5000,
+    minAge: 23,
+    includedMileage: "250 KM / Day",
+    location: "Dubai Marina & Palm Jumeirah",
+    themeColor: "#D1121E",
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "720 PS / 710 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed Dual-Clutch F1",
+      weight: "1,400 kg",
+      torque: "770 Nm @ 3,250 RPM",
+    },
+    practicalSpecs: {
+      doors: 2,
+      passengers: 2,
+      gear: "Automatic",
+      luggages: 2,
+      carType: "Supercar Convertible",
+    },
+    features: [
+      "Retractable Hardtop Convertible (14 Seconds)",
+      "Side Slip Angle Control 6.1 (SSC)",
+      "Ferrari Dynamic Enhancer (FDE+)",
+      "Carbon Ceramic Brakes with Rosso Calipers",
+      "Scuderia Ferrari Carbon Fender Shields",
+      "Carbon Fiber Driver Zone with LED Shift Lights",
+    ],
+    flashSale: {
+      active: true,
+      discountPercent: 28,
+      badgeText: "28% OFF FLASH DEAL",
+      dealPrice: 2499,
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "ferrari-sf90-stradale-black",
+    name: "Ferrari SF90 Stradale Nero Edition",
+    brand: "Ferrari",
+    model: "SF90 Stradale",
+    badge: "1000 HP HYBRID HYPERCAR",
+    category: "Rent Supercars",
+    tagline: "1000 HP HYBRID HYPERCAR. F1 TECHNOLOGY FOR DUBAI STREETS.",
+    description:
+      "The pinnacle of Maranello engineering. Finished in Nero Daytona with carbon aero splitters and forged wheels. Delivering an earth-shattering 1000 horsepower from its 4.0L twin-turbo V8 paired with three electric motors, sprinting from 0 to 100 km/h in just 2.5 seconds.",
+    images: [ferarriblack1, ferarriblack2, ferarriblack3, ferarriblack4, ferarriblack5],
+    dailyRate: 3299,
+    originalDailyRate: 4800,
+    weeklyRate: 21000,
+    monthlyRate: 68000,
+    originalMonthlyRate: 98000,
+    securityDeposit: 6000,
+    minAge: 25,
+    includedMileage: "250 KM / Day",
+    location: "Downtown Dubai & DIFC",
+    themeColor: "#111111",
+    specs: {
+      engine: "4.0L Twin-Turbo V8 + 3 Electric Motors",
+      power: "1000 PS / 986 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.5s",
+      gear: "8-Speed F1 Dual-Clutch",
+      weight: "1,570 kg",
+      torque: "800 Nm @ 6,000 RPM",
+    },
+    practicalSpecs: {
+      doors: 2,
+      passengers: 2,
+      gear: "Automatic",
+      luggages: 1,
+      carType: "Hypercar",
+    },
+    features: [
+      "RAC-e Electric Front Axle Torque Vectoring",
+      "Assetto Fiorano Aerodynamics & Carbon Diffuser",
+      "Head-Up Display with 16-inch Curved Digital Cockpit",
+      "eManettino with eDrive, Hybrid, Performance & Qualify",
+      "Brembo Carbon Ceramic Braking System",
+      "Keyless Entry & Touch-Sensitive Steering Controls",
+    ],
+    flashSale: {
+      active: true,
+      discountPercent: 31,
+      badgeText: "31% OFF FLASH DEAL",
+      dealPrice: 3299,
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "ferrari-f8-tributo-yellow",
+    name: "Ferrari F8 Tributo Racing Yellow Stripe",
+    brand: "Ferrari",
+    model: "F8 Tributo",
+    badge: "F8 TRIBUTO RACING",
+    category: "Rent Supercars",
+    tagline: "BESPOKE NERO COUPE WITH GIALLO MODENA RACING STRIPES.",
+    description:
+      "A bespoke track-inspired Ferrari F8 Tributo finished in deep Nero gloss with prominent Giallo Modena yellow racing stripes, matching yellow brake calipers, and aerodynamic s-duct hood design. Powered by the award-winning 720 HP twin-turbo V8, it offers peerless poise and racing pedigree.",
+    images: [tributo1, tributo2, tributo3, tributo4, tributo5],
+    dailyRate: 2399,
+    originalDailyRate: 3400,
+    weeklyRate: 14900,
+    monthlyRate: 49000,
+    originalMonthlyRate: 72000,
+    securityDeposit: 5000,
+    minAge: 23,
+    includedMileage: "250 KM / Day",
+    location: "Dubai Marina & JBR",
+    themeColor: "#FFE600",
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "720 PS / 710 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed Dual-Clutch F1",
+      weight: "1,330 kg",
+      torque: "770 Nm @ 3,250 RPM",
+    },
+    practicalSpecs: {
+      doors: 2,
+      passengers: 2,
+      gear: "Automatic",
+      luggages: 2,
+      carType: "Supercar Coupe",
+    },
+    features: [
+      "Bespoke Giallo Modena Racing Livery",
+      "Front S-Duct Aero Downforce System",
+      "Carbon Ceramic Brakes with Yellow Calipers",
+      "Lighter Lexan Rear Window with Engine Louvre Vents",
+      "Full Carbon Fiber Steering Wheel with Shift LEDs",
+      "JBL Quantum Sound System & Apple CarPlay",
+    ],
+    flashSale: {
+      active: true,
+      discountPercent: 29,
+      badgeText: "29% OFF FLASH DEAL",
+      dealPrice: 2399,
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "nissan-patrol-custom-orange",
+    name: "Nissan Patrol V8 Two-Tone Orange & Black",
+    brand: "Nissan",
+    model: "Patrol Custom V8",
+    badge: "CUSTOM WIDEBODY PATROL",
+    category: "Rent Modified",
+    tagline: "BESPOKE ORANGE & GLOSS BLACK TWO-TONE CUSTOM PATROL V8.",
+    description:
+      "Finished in an eye-catching bespoke two-tone Lava Orange and Diamond Black finish with custom widebody honeycomb front grille, lightweight alloy wheels, and quad sports exhaust. 450 HP of refined V8 presence with ultra-luxurious VIP cabin comfort.",
+    images: [orange1, orange2, orange3, orange4, orange5],
+    dailyRate: 699,
+    originalDailyRate: 1600,
+    weeklyRate: 4200,
+    monthlyRate: 14500,
+    originalMonthlyRate: 24000,
+    securityDeposit: 2000,
+    minAge: 21,
+    includedMileage: "250 KM / Day",
+    location: "City Walk & Downtown Dubai",
+    themeColor: "#FF6600",
+    specs: {
+      engine: "5.6L Supercharged V8",
+      power: "450 HP / 331 kW",
+      speed: "220 km/h",
+      accel: "0-100 km/h in 5.8s",
+      gear: "7-Speed Automatic with Sport Shift",
+      weight: "2,700 kg",
+      torque: "600 Nm @ 4,000 RPM",
+    },
+    practicalSpecs: {
+      doors: 5,
+      passengers: 7,
+      gear: "Automatic",
+      luggages: 5,
+      carType: "Modified Luxury SUV",
+    },
+    features: [
+      "Bespoke Two-Tone Lava Orange & Gloss Black Wrap",
+      "Custom Widebody Grille with Integrated LED Running Lights",
+      "Dual-Tone 22-inch Multi-Spoke Wheels",
+      "Executive 7-Seater Leather Interior with Starlight Roof",
+      "Quad Sport Exhaust with Active Sound Flaps",
+      "Dual Rear Seat Entertainment Screens",
+    ],
+    flashSale: {
+      active: true,
+      discountPercent: 56,
+      badgeText: "56% OFF FLASH DEAL",
+      dealPrice: 699,
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "defender-lumma-acid-green",
+    name: "Lumma Design Defender 110 Acid Green",
+    brand: "Land Rover",
+    model: "Defender 110 Lumma CLR LD",
+    badge: "LUMMA WIDEBODY DEFENDER",
+    category: "Rent SUV",
+    tagline: "ACID LIME GREEN WIDEBODY WITH CARBON HOOD & ROOF LED PODS.",
+    description:
+      "The extraordinary Lumma Design CLR LD Widebody conversion in Electric Acid Green with exposed carbon fiber hood, roof LED safari light pods, wide aerodynamic fender flares, and 23-inch custom black sport wheels. Powered by a 5.0L Supercharged V8 for unmatched Dubai road dominance.",
+    images: [rover1, rover2, rover3, rover4, rover5],
+    dailyRate: 999,
+    originalDailyRate: 1550,
+    weeklyRate: 6200,
+    monthlyRate: 20500,
+    originalMonthlyRate: 31000,
+    securityDeposit: 3000,
+    minAge: 21,
+    includedMileage: "250 KM / Day",
+    location: "Jumeirah Beach & Dubai Mall",
+    themeColor: "#A3E635",
+    specs: {
+      engine: "5.0L Supercharged V8 Widebody",
+      power: "525 PS / 386 kW",
+      speed: "240 km/h",
+      accel: "0-100 km/h in 5.1s",
+      gear: "8-Speed Automatic Quickshift",
+      weight: "2,550 kg",
+      torque: "625 Nm @ 2,500 RPM",
+    },
+    practicalSpecs: {
+      doors: 5,
+      passengers: 5,
+      gear: "Automatic",
+      luggages: 5,
+      carType: "Widebody Luxury SUV",
+    },
+    features: [
+      "Full Lumma CLR LD Aerodynamic Widebody Kit",
+      "Electric Acid Lime Green Custom High-Gloss Finish",
+      "Twin High-Power Roof LED Safari Pods",
+      "Exposed Carbon Fiber Louvered Hood",
+      "23-Inch Custom Lightweight Wheels with Performance Tires",
+      "Meridian Surround Sound & Panoramic Sunroof",
+    ],
+    flashSale: {
+      active: true,
+      discountPercent: 35,
+      badgeText: "35% OFF FLASH DEAL",
+      dealPrice: 999,
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "ferrari-roma-white",
+    name: "Ferrari Roma Bianco Avus",
+    brand: "Ferrari",
+    model: "Roma V8",
+    badge: "LA NUOVA DOLCE VITA",
+    category: "Rent Supercars",
+    tagline: "TIMELESS ITALIAN ELEGANCE WITH 620 HP TWIN-TURBO V8.",
+    description:
+      "Finished in pristine Bianco Avus white with carbon fiber splitter, sleek monolithic grille, and Nero leather interior with contrast yellow stitching. The Ferrari Roma represents contemporary Italian elegance powered by a 620 HP twin-turbo V8, combining grand touring comfort with supercar agility.",
+    images: [rumo1, rumo2, rumo3, rumo4, rumo5],
+    dailyRate: 1999,
+    originalDailyRate: 2800,
+    weeklyRate: 12500,
+    monthlyRate: 42000,
+    originalMonthlyRate: 58000,
+    securityDeposit: 4000,
+    minAge: 23,
+    includedMileage: "250 KM / Day",
+    location: "Dubai Marina & DIFC",
+    themeColor: "#FFFFFF",
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "620 PS / 612 HP",
+      speed: "320 km/h",
+      accel: "0-100 km/h in 3.4s",
+      gear: "8-Speed Dual-Clutch (Derived from SF90)",
+      weight: "1,472 kg",
+      torque: "760 Nm @ 3,000-5,750 RPM",
+    },
+    practicalSpecs: {
+      doors: 2,
+      passengers: 4,
+      gear: "Automatic",
+      luggages: 2,
+      carType: "Grand Tourer Coupe",
+    },
+    features: [
+      "Bianco Avus Gloss White with Carbon Aero Accents",
+      "Dual Cockpit Design with 8.4-inch Central Display",
+      "Full Digital 16-inch HD Driver Screen",
+      "Matrix LED Headlights with Dynamic Indicators",
+      "Passenger Touchscreen Display",
+      "Bespoke Italian Leather Cabin with Yellow Stitching",
+    ],
+    flashSale: {
+      active: false,
+      discountPercent: 0,
+      badgeText: "",
+    },
+    featuredOnHome: true,
+  },
+  {
+    id: "jeep-gladiator-rubicon-red",
+    name: "Jeep Gladiator Rubicon Fire Red",
+    brand: "Jeep",
+    model: "Gladiator Rubicon",
+    badge: "RUBICON TRAIL RATED",
+    category: "Rent SUV",
+    tagline: "FIRE RED DOUBLE-CAB OFF-ROAD PICKUP WITH RED CUSTOM WHEELS.",
+    description:
+      "Eye-catching Firecracker Red finish with red matching custom off-road wheels, Fox performance shocks, removable 3-piece Freedom Top hardtop, and heavy-duty Dana 44 axles. The ultimate open-air adventure pickup built to tackle desert dunes and cruise Dubai's coastline in bold style.",
+    images: [jeep1, jeep2, jeep3, jeep4, jeep5, jeep6],
+    dailyRate: 449,
+    originalDailyRate: 750,
+    weeklyRate: 2800,
+    monthlyRate: 8999,
+    originalMonthlyRate: 14000,
+    securityDeposit: 1500,
+    minAge: 21,
+    includedMileage: "250 KM / Day",
+    location: "Dubai Marina & Desert Gateway",
+    themeColor: "#EF4444",
+    specs: {
+      engine: "3.6L Pentastar V6 24V VVT",
+      power: "285 HP / 209 kW",
+      speed: "180 km/h",
+      accel: "0-100 km/h in 7.9s",
+      gear: "8-Speed Automatic with Rock-Trac",
+      weight: "2,290 kg",
+      torque: "353 Nm @ 4,400 RPM",
+    },
+    practicalSpecs: {
+      doors: 4,
+      passengers: 5,
+      gear: "Automatic",
+      luggages: 4,
+      carType: "Off-Road Adventure Pickup",
+    },
+    features: [
+      "Removable Modular 3-Piece Hardtop (Open-Air Driving)",
+      "Rock-Trac Heavy-Duty Part-Time 4WD System",
+      "Tru-Lok Front and Rear Electronic Locking Differentials",
+      "Fox 2.0 Performance Monotube Shocks",
+      "Custom 20-Inch Red Performance Wheels",
+      "Alpine 9-Speaker Audio with All-Weather Subwoofer",
     ],
     flashSale: {
       active: false,

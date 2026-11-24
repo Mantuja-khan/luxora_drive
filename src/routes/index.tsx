@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ChevronRight,
@@ -38,6 +38,13 @@ import ferarri2 from "../assets/ferarri2.webp";
 import ferarri3 from "../assets/ferarri3.webp";
 import ferarri4 from "../assets/ferarri4.webp";
 import ferarri5 from "../assets/ferarri5.webp";
+
+
+import ferarriblack1 from "../assets/ferarriblack1.webp";
+import ferarriblack2 from "../assets/ferarriblack2.webp";
+import ferarriblack3 from "../assets/ferarriblack3.webp";
+import ferarriblack4 from "../assets/ferarriblack4.webp";
+import ferarriblack5 from "../assets/ferarriblack5.webp";
 
 import mclaren765lt from "@/assets/mclaren-765lt.png";
 import bmwM5Cs from "@/assets/bmw-m5-cs.png";
@@ -142,6 +149,42 @@ import sports2 from "@/assets/sports2.webp";
 import sports3 from "@/assets/sports3.webp";
 import sports4 from "@/assets/sports4.webp";
 import sports5 from "@/assets/sports5.webp";
+
+// Ferrari F8 Tributo Yellow Racing Livery Images (tributo1 to tributo5)
+import tributo1 from "@/assets/tributo1.webp";
+import tributo2 from "@/assets/tributo2.webp";
+import tributo3 from "@/assets/tributo3.webp";
+import tributo4 from "@/assets/tributo4.webp";
+import tributo5 from "@/assets/tributo5.webp";
+
+// Nissan Patrol Orange Custom Two-Tone Images (orange1 to orange5)
+import orange1 from "@/assets/orange1.webp";
+import orange2 from "@/assets/orange2.webp";
+import orange3 from "@/assets/orange3.webp";
+import orange4 from "@/assets/orange4.webp";
+import orange5 from "@/assets/orange5.webp";
+
+// Lumma CLR LD Defender Acid Green Images (rover1 to rover5)
+import rover1 from "@/assets/rover1.webp";
+import rover2 from "@/assets/rover2.webp";
+import rover3 from "@/assets/rover3.webp";
+import rover4 from "@/assets/rover4.webp";
+import rover5 from "@/assets/rover5.webp";
+
+// Ferrari Roma White Images (rumo1 to rumo5)
+import rumo1 from "@/assets/rumo1.webp";
+import rumo2 from "@/assets/rumo2.webp";
+import rumo3 from "@/assets/rumo3.webp";
+import rumo4 from "@/assets/rumo4.webp";
+import rumo5 from "@/assets/rumo5.webp";
+
+// Jeep Gladiator Rubicon Fire Red Images (jeep1 to jeep6)
+import jeep1 from "@/assets/jeep1.webp";
+import jeep2 from "@/assets/jeep2.webp";
+import jeep3 from "@/assets/jeep3.webp";
+import jeep4 from "@/assets/jeep4.webp";
+import jeep5 from "@/assets/jeep5.webp";
+import jeep6 from "@/assets/jeep6.webp";
 export interface CarItem {
   id: string;
   make: string;
@@ -312,7 +355,7 @@ const fleet: CarItem[] = [
     category: "SUPERCAR",
     tagline: "ITALIAN POWER. OPEN-TOP PERFECTION.",
     description:
-      "Experience pure Italian automotive excellence with the Ferrari F8 Spider. Powered by a breathtaking 3.9L twin-turbocharged V8 engine producing 720 CV, this stunning convertible delivers explosive acceleration and extraordinary performance. Its retractable hardtop, sculpted aerodynamic bodywork, luxurious driver-focused cockpit, and iconic Ferrari styling create the ultimate open-top supercar experience.",
+      "Experience pure Italian automotive excellence with the Ferrari F8 Spider. ",
     cardShortDesc: "720 CV twin-turbo V8 power with breathtaking Italian convertible styling.",
     builtFor: "PURE PERFORMANCE & ITALIAN PRESTIGE.",
     themeColor: "#DC143C",
@@ -1011,36 +1054,6 @@ const porscheProductCards: PorscheProductCard[] = [
       "Satin Santorini Black exterior with stealth smoked lighting, black 22-inch wheels, and dual roof light bars.",
   },
   {
-    id: "chevrolet-camaro-ss",
-    category: "Rent Sports",
-    name: "Chevrolet Camaro SS Coupe Orange",
-    images: [sports1, sports2, sports3],
-    dailyRate: 499,
-    originalDailyRate: 750,
-    dailyDiscount: "33%",
-    monthlyRate: 9999,
-    originalMonthlyRate: 15000,
-    monthlyDiscount: "33%",
-    isFlashSale: false,
-    featuredOnHome: true,
-    specs: {
-      engine: "6.2L LT1 V8 Naturally Aspirated",
-      power: "455 HP / 335 kW",
-      speed: "250 km/h",
-      accel: "0-100 km/h in 4.0s",
-      gear: "10-Speed Paddle-Shift Automatic",
-      weight: "1,680 kg",
-    },
-    features: [
-      "Crush Orange Matte Finish with Black Accents",
-      "Dual-Mode Performance Exhaust System",
-      "Brembo 4-Piston Performance Brakes",
-      "Bose Premium Audio & Apple CarPlay",
-    ],
-    description:
-      "Finished in eye-catching Crush Orange with black aero splitter, rear spoiler, and 455 HP American V8 roar.",
-  },
-  {
     id: "mercedes-g63-maybach-card",
     category: "Rent Modified",
     name: "Mercedes-AMG G63",
@@ -1071,6 +1084,40 @@ const porscheProductCards: PorscheProductCard[] = [
       "The undisputed king of luxury performance SUVs in Dubai. Handcrafted Maybach leather, twin-turbo V8 rumble, and unmatched commanding road presence.",
   },
   {
+    id: "ferrari-black-card",
+    category: "Rent Modified",
+    name: "Ferrari Black",
+    images: [ferarriblack1, ferarriblack2, ferarriblack3, ferarriblack4, ferarriblack5],
+    dailyRate: 1499,
+    originalDailyRate: 1980,
+    dailyDiscount: "24%",
+    monthlyRate: 29999,
+    originalMonthlyRate: 49500,
+    monthlyDiscount: "39%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "3.9L Twin-Turbocharged V8",
+      power: "720 PS / 530 kW",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed Dual-Clutch",
+      weight: "1,400 kg",
+    },
+    features: [
+      "Exclusive Black Exterior Finish",
+      "Ferrari Signature Styling",
+      "Twin-Turbocharged V8 Engine",
+      "Retractable Hardtop Convertible Roof",
+      "Advanced Aerodynamic Design",
+      "Carbon Ceramic Braking System",
+      "Premium Leather Interior",
+      "F1-Inspired Driving Technology",
+    ],
+    description:
+      "Experience the ultimate combination of Italian performance and dark elegance with the Ferrari Black. Featuring an aggressive black exterior, breathtaking twin-turbocharged V8 performance, and unmistakable Ferrari styling, this exotic supercar delivers an unforgettable driving experience. Its advanced aerodynamics, luxurious interior, and race-inspired engineering make it a perfect choice for those seeking exclusivity and prestige on Dubai roads.",
+  },
+  {
     id: "porsche-gt3-clubsport",
     category: "Rent Sports",
     name: "Porsche 911 GT3 RS Clubsport",
@@ -1099,6 +1146,216 @@ const porscheProductCards: PorscheProductCard[] = [
     ],
     description:
       "Motorsport aerodynamic downforce combined with a 9,000 RPM naturally aspirated engine. Tuned for peak racetrack connection and open Dubai highway cruising.",
+  },
+  {
+    id: "ferrari-f8-spider-red",
+    category: "Rent Supercars",
+    name: "Ferrari F8 Spider Rosso Corsa",
+    images: [ferarri1, ferarri2, ferarri4],
+    dailyRate: 2499,
+    originalDailyRate: 3500,
+    dailyDiscount: "28%",
+    monthlyRate: 52000,
+    originalMonthlyRate: 75000,
+    monthlyDiscount: "30%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "720 PS / 710 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed Dual-Clutch F1",
+      weight: "1,400 kg",
+    },
+    features: [
+      "Retractable Hardtop Convertible (14s)",
+      "Side Slip Angle Control 6.1 (SSC)",
+      "Carbon Ceramic Brakes with Rosso Calipers",
+      "Scuderia Ferrari Carbon Fender Shields",
+    ],
+    description:
+      "Dressed in iconic Rosso Corsa with Nero aerodynamic accents. 720 PS of twin-turbocharged Italian thoroughbred power, reaching 100 km/h in 2.9 seconds.",
+  },
+  {
+    id: "ferrari-sf90-stradale-black",
+    category: "Rent Supercars",
+    name: "Ferrari SF90 Stradale Nero",
+    images: [ferarriblack1, ferarriblack2, ferarriblack3],
+    dailyRate: 3299,
+    originalDailyRate: 4800,
+    dailyDiscount: "31%",
+    monthlyRate: 68000,
+    originalMonthlyRate: 98000,
+    monthlyDiscount: "30%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "4.0L Twin-Turbo V8 + 3 Electric Motors",
+      power: "1000 PS / 986 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.5s",
+      gear: "8-Speed F1 Dual-Clutch",
+      weight: "1,570 kg",
+    },
+    features: [
+      "1000 HP Hybrid Tri-Motor Powertrain",
+      "RAC-e Electric Front Axle Torque Vectoring",
+      "Head-Up Display with 16-inch Curved Screen",
+      "Brembo Carbon Ceramic Braking System",
+    ],
+    description:
+      "The pinnacle of Maranello engineering. Finished in Nero Daytona with carbon splitters and 1000 HP sprinting 0 to 100 km/h in 2.5 seconds.",
+  },
+  {
+    id: "ferrari-f8-tributo-yellow",
+    category: "Rent Supercars",
+    name: "Ferrari F8 Tributo Racing Yellow",
+    images: [tributo1, tributo2, tributo3],
+    dailyRate: 2399,
+    originalDailyRate: 3400,
+    dailyDiscount: "29%",
+    monthlyRate: 49000,
+    originalMonthlyRate: 72000,
+    monthlyDiscount: "31%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "720 PS / 710 HP",
+      speed: "340 km/h",
+      accel: "0-100 km/h in 2.9s",
+      gear: "7-Speed Dual-Clutch F1",
+      weight: "1,330 kg",
+    },
+    features: [
+      "Bespoke Giallo Modena Racing Livery",
+      "Front S-Duct Aero Downforce System",
+      "Carbon Ceramic Brakes with Yellow Calipers",
+      "Full Carbon Fiber Steering Wheel with Shift LEDs",
+    ],
+    description:
+      "A bespoke track-inspired Ferrari F8 Tributo in deep Nero gloss with Giallo Modena yellow racing stripes and 720 HP twin-turbo V8 engine.",
+  },
+  {
+    id: "nissan-patrol-custom-orange",
+    category: "Rent Modified",
+    name: "Nissan Patrol Two-Tone Orange & Black",
+    images: [orange1, orange2, orange3],
+    dailyRate: 699,
+    originalDailyRate: 1600,
+    dailyDiscount: "56%",
+    monthlyRate: 14500,
+    originalMonthlyRate: 24000,
+    monthlyDiscount: "39%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.6L Supercharged V8",
+      power: "450 HP / 331 kW",
+      speed: "220 km/h",
+      accel: "0-100 km/h in 5.8s",
+      gear: "7-Speed Automatic with Sport Shift",
+      weight: "2,700 kg",
+    },
+    features: [
+      "Bespoke Two-Tone Lava Orange & Gloss Black Wrap",
+      "Custom Widebody Honeycomb Front Grille",
+      "Dual-Tone 22-inch Multi-Spoke Wheels",
+      "Executive 7-Seater Leather Interior",
+    ],
+    description:
+      "Eye-catching bespoke two-tone Lava Orange and Diamond Black finish with custom widebody honeycomb front grille and 450 HP supercharged V8 power.",
+  },
+  {
+    id: "defender-lumma-acid-green",
+    category: "Rent SUV",
+    name: "Lumma Defender 110 Acid Green",
+    images: [rover1, rover2, rover3],
+    dailyRate: 999,
+    originalDailyRate: 1550,
+    dailyDiscount: "35%",
+    monthlyRate: 20500,
+    originalMonthlyRate: 31000,
+    monthlyDiscount: "33%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "5.0L Supercharged V8 Widebody",
+      power: "525 PS / 386 kW",
+      speed: "240 km/h",
+      accel: "0-100 km/h in 5.1s",
+      gear: "8-Speed Automatic Quickshift",
+      weight: "2,550 kg",
+    },
+    features: [
+      "Full Lumma CLR LD Aerodynamic Widebody Kit",
+      "Electric Acid Lime Green High-Gloss Finish",
+      "Twin High-Power Roof LED Safari Pods",
+      "Exposed Carbon Fiber Louvered Hood",
+    ],
+    description:
+      "Lumma Design CLR LD Widebody conversion in Electric Acid Green with exposed carbon hood, roof LED safari light pods, and 525 HP supercharged V8.",
+  },
+  {
+    id: "ferrari-roma-white",
+    category: "Rent Supercars",
+    name: "Ferrari Roma Bianco Avus",
+    images: [rumo1, rumo2, rumo3],
+    dailyRate: 1999,
+    originalDailyRate: 2800,
+    dailyDiscount: "28%",
+    monthlyRate: 42000,
+    originalMonthlyRate: 58000,
+    monthlyDiscount: "27%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "3.9L Twin-Turbo V8",
+      power: "620 PS / 612 HP",
+      speed: "320 km/h",
+      accel: "0-100 km/h in 3.4s",
+      gear: "8-Speed Dual-Clutch F1",
+      weight: "1,472 kg",
+    },
+    features: [
+      "Bianco Avus Gloss White with Carbon Aero Accents",
+      "Dual Cockpit Design with 8.4-inch Display",
+      "Full Digital 16-inch HD Driver Screen",
+      "Matrix LED Headlights with Dynamic Indicators",
+    ],
+    description:
+      "Pristine Bianco Avus white with carbon fiber splitter, sleek monolithic grille, and 620 HP twin-turbo V8 combining GT comfort with supercar pace.",
+  },
+  {
+    id: "jeep-gladiator-rubicon-red",
+    category: "Rent SUV",
+    name: "Jeep Gladiator Rubicon Fire Red",
+    images: [jeep1, jeep2, jeep3],
+    dailyRate: 449,
+    originalDailyRate: 750,
+    dailyDiscount: "40%",
+    monthlyRate: 8999,
+    originalMonthlyRate: 14000,
+    monthlyDiscount: "35%",
+    isFlashSale: false,
+    featuredOnHome: true,
+    specs: {
+      engine: "3.6L Pentastar V6 24V VVT",
+      power: "285 HP / 209 kW",
+      speed: "180 km/h",
+      accel: "0-100 km/h in 7.9s",
+      gear: "8-Speed Automatic with Rock-Trac",
+      weight: "2,290 kg",
+    },
+    features: [
+      "Removable Modular 3-Piece Hardtop (Open-Air)",
+      "Rock-Trac Heavy-Duty Part-Time 4WD",
+      "Fox 2.0 Performance Monotube Shocks",
+      "Custom 20-Inch Red Performance Wheels",
+    ],
+    description:
+      "Firecracker Red finish with red matching custom off-road wheels, Fox performance shocks, removable Freedom Top hardtop, and heavy-duty 4x4 capability.",
   },
 ];
 const flashSaleItems: FlashSaleItem[] = [
@@ -1686,20 +1943,12 @@ function CarShowcasePage() {
                       />
                     </div>
 
-                    {/* Brand Name "LUXORA DRIVE" emerges below */}
+                    {/* Brand Name "Luxora drive" emerges below logo */}
                     {introStage === "branded" && (
                       <div className="animate-intro-brand-title flex flex-col items-center">
-                        <div className="flex items-center gap-3 md:gap-5 mb-2.5">
-                          <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
-                          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200 drop-shadow-[0_2px_20px_rgba(255,255,255,0.4)]">
-                            LUXORA DRIVE
-                          </h1>
-                          <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
-                        </div>
-
-                        <p className="animate-intro-subtitle text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold drop-shadow-[0_0_12px_rgba(245,158,11,0.35)]">
-                          EXOTIC &amp; LUXURY CAR RENTAL DUBAI
-                        </p>
+                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white drop-shadow-[0_2px_20px_rgba(255,255,255,0.4)]">
+                          Luxora drive
+                        </h1>
                       </div>
                     )}
                   </div>
@@ -1739,16 +1988,9 @@ function CarShowcasePage() {
                       alt=""
                       className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
                     />
-                    <div className="flex items-center gap-3 md:gap-5 mb-2.5">
-                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
-                      <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200">
-                        LUXORA DRIVE
-                      </h1>
-                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
-                    </div>
-                    <p className="text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold">
-                      EXOTIC &amp; LUXURY CAR RENTAL DUBAI
-                    </p>
+                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white">
+                      Luxora drive
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -1762,16 +2004,9 @@ function CarShowcasePage() {
                       alt=""
                       className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
                     />
-                    <div className="flex items-center gap-3 md:gap-5 mb-2.5">
-                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-amber-200" />
-                      <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-[0.35em] text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-neutral-200">
-                        LUXORA DRIVE
-                      </h1>
-                      <div className="w-8 sm:w-16 h-[1px] bg-gradient-to-l from-transparent via-amber-400 to-amber-200" />
-                    </div>
-                    <p className="text-[10px] sm:text-xs md:text-sm font-sans tracking-[0.42em] uppercase text-amber-400/95 font-semibold">
-                      EXOTIC &amp; LUXURY CAR RENTAL DUBAI
-                    </p>
+                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white">
+                      Luxora drive
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -1866,13 +2101,13 @@ function CarShowcasePage() {
                 )}
               </div>
 
-              <a
-                href="#flash-sale"
+              <Link
+                to="/flash-deals"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="text-[#FFE600] hover:text-amber-400 py-2.5 border-b border-neutral-800/80"
               >
-                FLASH SALE
-              </a>
+                FLASH DEALS
+              </Link>
 
               {/* CATEGORIES Accordion */}
               <div className="border-b border-neutral-800/80">
@@ -2177,12 +2412,12 @@ function CarShowcasePage() {
               )}
             </div>
 
-            <a
-              href="#flash-sale"
+            <Link
+              to="/flash-deals"
               className="uppercase font-normal text-[#FFE600] hover:text-amber-400 transition-colors cursor-pointer"
             >
-              FLASH SALE
-            </a>
+              FLASH DEALS
+            </Link>
 
             {/* Categories Dropdown in Two Vertical Columns */}
             <div

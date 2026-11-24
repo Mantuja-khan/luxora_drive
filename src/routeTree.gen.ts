@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as FlashDealsRouteImport } from './routes/flash-deals'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FlashDealsRoute = FlashDealsRouteImport.update({
+  id: '/flash-deals',
+  path: '/flash-deals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CarsCarIdRoute = CarsCarIdRouteImport.update({
   id: '/cars/$carId',
   path: '/cars/$carId',
@@ -32,30 +38,34 @@ const CarsCarIdRoute = CarsCarIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/cars/$carId'
+  fullPaths: '/' | '/admin' | '/flash-deals' | '/cars/$carId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/cars/$carId'
-  id: '__root__' | '/' | '/admin' | '/cars/$carId'
+  to: '/' | '/admin' | '/flash-deals' | '/cars/$carId'
+  id: '__root__' | '/' | '/admin' | '/flash-deals' | '/cars/$carId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  FlashDealsRoute: typeof FlashDealsRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/flash-deals': {
+      id: '/flash-deals'
+      path: '/flash-deals'
+      fullPath: '/flash-deals'
+      preLoaderRoute: typeof FlashDealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cars/$carId': {
       id: '/cars/$carId'
       path: '/cars/$carId'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  FlashDealsRoute: FlashDealsRoute,
   CarsCarIdRoute: CarsCarIdRoute,
 }
 export const routeTree = rootRouteImport
