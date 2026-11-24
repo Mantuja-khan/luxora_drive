@@ -1684,3 +1684,174 @@ export const getRelatedCars = (currentCarId: string, limit = 4): ProductCar[] =>
 
   return [...sameCategoryOrBrand, ...rest].slice(0, limit);
 };
+
+export interface CategoryInfo {
+  slug: string;
+  name: string;
+  headline: string;
+  description: string;
+  heroTag: string;
+}
+
+export const ALL_CATEGORIES: CategoryInfo[] = [
+  { slug: "rent-supercars", name: "Rent Supercars", headline: "Dubai Supercar Rental", description: "Experience adrenaline-fueled acceleration and iconic prestige with Dubai's finest exotic supercars.", heroTag: "EXOTIC & HIGH PERFORMANCE" },
+  { slug: "rent-luxury", name: "Rent Luxury", headline: "Luxury Cars in Dubai", description: "Immerse yourself in supreme comfort, refined craftsmanship, and royal elegance.", heroTag: "ROYAL CHAUFFEUR & VIP CLASS" },
+  { slug: "rent-suv", name: "Rent SUV", headline: "Luxury SUV Rental Dubai", description: "Conquer city avenues and desert dunes in premium prestige and commanding luxury SUVs.", heroTag: "COMMANDING ELEVATION & ROAD PRESENCE" },
+  { slug: "rent-7-seater", name: "Rent 7 Seater", headline: "7-Seater Luxury Fleet", description: "Spacious 7-seater vehicles engineered for VIP family tours, group charters, and road trips.", heroTag: "SPACIOUS FAMILY & EXECUTIVE TOURS" },
+  { slug: "rent-sports", name: "Rent Sports", headline: "Sports Car Hire Dubai", description: "Thrilling dynamics, razor-sharp cornering, and heart-pounding exhaust notes.", heroTag: "AERODYNAMIC AGILITY & PURE SPEED" },
+  { slug: "rent-modified", name: "Rent Modified", headline: "Custom Modified Supercars", description: "Bespoke widebody kits, Lumma tuning, and custom performance builds seen nowhere else.", heroTag: "BESPOKE WIDEBODY & RACING KITS" },
+  { slug: "weekly-car-rental", name: "Weekly Car Rental", headline: "Weekly Rental Packages", description: "Flexible 7-day discounted packages with complimentary insurance and door-to-door delivery.", heroTag: "SAVE UP TO 30% ON WEEKLY BOOKINGS" },
+  { slug: "rent-monthly", name: "Rent Monthly", headline: "Monthly Car Rental Dubai", description: "Long-term prestige mobility with maximum savings, maintenance included, and zero deposit options.", heroTag: "BEST MONTHLY VALUE & ZERO DEPOSIT" },
+  { slug: "airport-car-rental", name: "Airport Car Rental", headline: "Dubai Airport VIP Car Rental", description: "Direct VIP tarmac or terminal delivery at DXB and DWC with meet & greet chauffeur service.", heroTag: "TERMINAL 1, 2, 3 & AL MAKTOUM VIP" },
+  { slug: "wedding-car-rental", name: "Wedding Car Rental", headline: "Wedding & Red Carpet Rental", description: "Make your grand entrance unforgettable with pristine white luxury sedans and royal cruisers.", heroTag: "EXQUISITE RED CARPET & CEREMONIAL LUXURY" },
+  { slug: "car-with-driver", name: "Car With Driver", headline: "Dubai Chauffeur Service", description: "Executive transport with professional multilingual English & Arabic speaking VIP chauffeurs.", heroTag: "DISCREET PROFESSIONAL CHAUFFEURS" },
+  { slug: "patrol-experts", name: "Patrol Experts", headline: "Nissan Patrol VIP Fleet", description: "The undisputed king of Gulf roads: armored comfort, executive styling, and twin-turbo performance.", heroTag: "SIGNATURE ARABIAN HERITAGE & POWER" },
+  { slug: "rent-convertible", name: "Rent Convertible", headline: "Convertible Car Hire Dubai", description: "Drop the top along Jumeirah Beach Road and Dubai Marina with open-air coastal luxury.", heroTag: "OPEN AIR EMIRATES COASTAL CRUISE" },
+  { slug: "rent-electric", name: "Rent Electric", headline: "Electric & Hybrid Supercars", description: "Next-generation instantaneous torque, quiet cabin sophistication, and zero emissions.", heroTag: "EV PERFORMANCE & SUSTAINABLE SPEED" },
+  { slug: "long-term-car-rental", name: "Long Term Car Rental", headline: "Long-Term Flexible Rental", description: "Corporate and personal luxury leases with fully covered servicing and guaranteed vehicle upgrades.", heroTag: "EXECUTIVE CONTRACTS & LEASING" },
+  { slug: "rent-economy-car", name: "Rent Economy Car", headline: "Premium Everyday Rental", description: "Agile, efficient city cruisers for seamless navigation throughout Dubai and Abu Dhabi.", heroTag: "RELIABLE EVERYDAY URBAN COMMUTE" },
+  { slug: "daily-car-rental", name: "Daily Car Rental", headline: "24-Hour Instant Rental", description: "Instant 24-hour rentals with express 30-minute delivery to any Dubai hotel or residence.", heroTag: "INSTANT 24-HOUR SUPERCAR EXPERIENCES" },
+  { slug: "rent-muscle-car", name: "Rent Muscle Car", headline: "American Muscle Cars", description: "Roaring V8 powerplants, muscular silhouette styling, and pure raw throttle thrill.", heroTag: "HIGH HORSEPOWER V8 AMERICAN BEASTS" },
+  { slug: "business-car-rental", name: "Business Car Rental", headline: "Corporate & Executive Fleet", description: "Immaculate executive transport for summits, conferences, and high-profile investor meetings.", heroTag: "DIFC & BUSINESS BAY CORPORATE MOBILITY" },
+  { slug: "luxury-van-rental", name: "Luxury Van Rental", headline: "VIP Van & Sprinter Hire", description: "First-class cabin seating with captain recliner chairs, ambient starlight roofs, and Wi-Fi.", heroTag: "FIRST CLASS CABIN SEATING ON WHEELS" },
+  { slug: "lease-to-own", name: "Lease To Own", headline: "Lease-To-Own Supercars", description: "Drive now with straightforward ownership transfer options tailored to Emirates residents.", heroTag: "FLEXIBLE PATH TO LUXURY OWNERSHIP" },
+];
+
+export function categoryNameToSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function getCategoryBySlug(slug: string): CategoryInfo {
+  const normalized = (slug || "").toLowerCase().trim();
+  const found = ALL_CATEGORIES.find((c) => c.slug === normalized || c.slug === `rent-${normalized}`);
+  if (found) return found;
+
+  const name = slug
+    .split("-")
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(" ");
+  return {
+    slug,
+    name,
+    headline: `${name} in Dubai`,
+    description: `Browse our exclusive collection of ${name.toLowerCase()} available for daily, weekly, and monthly hire across Dubai with instant VIP delivery.`,
+    heroTag: "EXCLUSIVE DUBAI LUXURY FLEET",
+  };
+}
+
+export function getCarsForCategory(slug: string): ProductCar[] {
+  const norm = (slug || "").toLowerCase().trim();
+
+  let matched: ProductCar[] = [];
+
+  if (norm.includes("supercar")) {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().includes("supercar") ||
+      c.brand?.toLowerCase().includes("ferrari") ||
+      c.brand?.toLowerCase().includes("lamborghini") ||
+      c.brand?.toLowerCase().includes("mclaren") ||
+      c.brand?.toLowerCase().includes("porsche")
+    );
+  } else if (norm.includes("suv")) {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().includes("suv") ||
+      c.name.toLowerCase().includes("suv") ||
+      c.name.toLowerCase().includes("patrol") ||
+      c.name.toLowerCase().includes("defender") ||
+      c.name.toLowerCase().includes("g63") ||
+      c.name.toLowerCase().includes("range")
+    );
+  } else if (norm.includes("7-seater") || norm.includes("7 seater")) {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().includes("7") ||
+      (c.specs?.seats && c.specs.seats >= 7) ||
+      c.name.toLowerCase().includes("patrol") ||
+      c.name.toLowerCase().includes("defender") ||
+      c.name.toLowerCase().includes("white")
+    );
+  } else if (norm.includes("sports")) {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().includes("sport") ||
+      c.name.toLowerCase().includes("huracan") ||
+      c.name.toLowerCase().includes("f8") ||
+      c.name.toLowerCase().includes("m5") ||
+      c.name.toLowerCase().includes("gt3")
+    );
+  } else if (norm.includes("modified")) {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().includes("modified") ||
+      c.name.toLowerCase().includes("lumma") ||
+      c.name.toLowerCase().includes("custom") ||
+      c.name.toLowerCase().includes("acid")
+    );
+  } else if (norm.includes("patrol")) {
+    matched = productCars.filter((c) =>
+      c.name.toLowerCase().includes("patrol") ||
+      c.brand?.toLowerCase().includes("nissan")
+    );
+  } else if (norm.includes("luxury")) {
+    matched = productCars.filter((c) =>
+      c.brand?.toLowerCase().includes("mercedes") ||
+      c.brand?.toLowerCase().includes("rolls") ||
+      c.brand?.toLowerCase().includes("maybach") ||
+      c.dailyRate > 1500
+    );
+  } else if (norm.includes("weekly") || norm.includes("monthly") || norm.includes("daily")) {
+    matched = productCars.filter((c) => Boolean(c.weeklyRate || c.monthlyRate));
+  } else {
+    matched = productCars.filter((c) =>
+      c.category?.toLowerCase().replace(/[^a-z0-9]/g, "").includes(norm.replace(/[^a-z0-9]/g, "")) ||
+      norm.replace(/[^a-z0-9]/g, "").includes(c.category?.toLowerCase().replace(/[^a-z0-9]/g, ""))
+    );
+  }
+
+  // Ensure minimum 4 cars per category so the UI is richly populated
+  if (matched.length < 4) {
+    const fallbackCars = productCars.filter((c) => !matched.some((m) => m.id === c.id));
+    matched = [...matched, ...fallbackCars].slice(0, 8);
+  }
+
+  return matched;
+}
+
+export interface CarBrandItem {
+  id: string;
+  name: string;
+  count: string;
+}
+
+export const allCarBrands: CarBrandItem[] = [
+  { id: "nissan", name: "NISSAN", count: "54 CARS" },
+  { id: "chevrolet", name: "CHEVROLET", count: "30 CARS" },
+  { id: "ford", name: "FORD", count: "22 CARS" },
+  { id: "dodge", name: "DODGE", count: "17 CARS" },
+  { id: "mercedes", name: "MERCEDES", count: "60 CARS" },
+  { id: "mini-cooper", name: "MINI COOPER", count: "4 CARS" },
+  { id: "bmw", name: "BMW", count: "25 CARS" },
+  { id: "audi", name: "AUDI", count: "23 CARS" },
+  { id: "infiniti", name: "INFINITI", count: "5 CARS" },
+  { id: "range-rover", name: "RANGE ROVER", count: "34 CARS" },
+  { id: "lamborghini", name: "LAMBORGHINI", count: "28 CARS" },
+  { id: "ferrari", name: "FERRARI", count: "8 CARS" },
+  { id: "rolls-royce", name: "ROLLS ROYCE", count: "15 CARS" },
+  { id: "porsche", name: "PORSCHE", count: "7 CARS" },
+  { id: "bentley", name: "BENTLEY", count: "8 CARS" },
+  { id: "cadillac", name: "CADILLAC", count: "3 CARS" },
+  { id: "mclaren", name: "MCLAREN", count: "3 CARS" },
+  { id: "corvette", name: "CORVETTE", count: "5 CARS" },
+  { id: "chrysler", name: "CHRYSLER", count: "4 CARS" },
+  { id: "jeep", name: "JEEP", count: "6 CARS" },
+  { id: "jaguar", name: "JAGUAR", count: "9 CARS" },
+  { id: "gmc", name: "GMC", count: "9 CARS" },
+  { id: "maserati", name: "MASERATI", count: "3 CARS" },
+  { id: "kia", name: "KIA", count: "1 CARS" },
+  { id: "toyota", name: "TOYOTA", count: "1 CARS" },
+  { id: "tesla", name: "TESLA", count: "2 CARS" },
+  { id: "lincoln", name: "LINCOLN", count: "1 CARS" },
+  { id: "citroen", name: "CITROEN", count: "4 CARS" },
+  { id: "brabus", name: "BRABUS", count: "11 CARS" },
+];

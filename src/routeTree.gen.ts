@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as FlashDealsRouteImport } from './routes/flash-deals'
 import { Route as CarsCarIdRouteImport } from './routes/cars.$carId'
+import { Route as CategoriesCategorySlugRouteImport } from './routes/categories.$categorySlug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const CarsCarIdRoute = CarsCarIdRouteImport.update({
   path: '/cars/$carId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoriesCategorySlugRoute = CategoriesCategorySlugRouteImport.update({
+  id: '/categories/$categorySlug',
+  path: '/categories/$categorySlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/categories/$categorySlug': typeof CategoriesCategorySlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/categories/$categorySlug': typeof CategoriesCategorySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,30 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/flash-deals': typeof FlashDealsRoute
   '/cars/$carId': typeof CarsCarIdRoute
+  '/categories/$categorySlug': typeof CategoriesCategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/flash-deals' | '/cars/$carId'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/flash-deals'
+    | '/cars/$carId'
+    | '/categories/$categorySlug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/flash-deals' | '/cars/$carId'
-  id: '__root__' | '/' | '/admin' | '/flash-deals' | '/cars/$carId'
+  to:
+    | '/'
+    | '/admin'
+    | '/flash-deals'
+    | '/cars/$carId'
+    | '/categories/$categorySlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/flash-deals'
+    | '/cars/$carId'
+    | '/categories/$categorySlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +92,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   FlashDealsRoute: typeof FlashDealsRoute
   CarsCarIdRoute: typeof CarsCarIdRoute
+  CategoriesCategorySlugRoute: typeof CategoriesCategorySlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarsCarIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/categories/$categorySlug': {
+      id: '/categories/$categorySlug'
+      path: '/categories/$categorySlug'
+      fullPath: '/categories/$categorySlug'
+      preLoaderRoute: typeof CategoriesCategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   FlashDealsRoute: FlashDealsRoute,
   CarsCarIdRoute: CarsCarIdRoute,
+  CategoriesCategorySlugRoute: CategoriesCategorySlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

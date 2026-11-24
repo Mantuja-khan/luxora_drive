@@ -31,7 +31,7 @@ import {
   Check,
   Menu,
 } from "lucide-react";
-import { getCarById, getRelatedCars, type ProductCar } from "@/data/cars";
+import { getCarById, getRelatedCars, categoryNameToSlug, type ProductCar } from "@/data/cars";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
 import herovideo from "@/assets/herovideo.mp4";
 
@@ -399,7 +399,8 @@ function CarDetailPage() {
                     {categoryDropdownCol1.map((name, idx) => (
                       <Link
                         key={name}
-                        to="/"
+                        to="/categories/$categorySlug"
+                        params={{ categorySlug: categoryNameToSlug(name) }}
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                         className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer rounded-none ${
                           idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800" : ""
@@ -418,7 +419,8 @@ function CarDetailPage() {
                     {categoryDropdownCol2.map((name, idx) => (
                       <Link
                         key={name}
-                        to="/"
+                        to="/categories/$categorySlug"
+                        params={{ categorySlug: categoryNameToSlug(name) }}
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                         className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer rounded-none ${
                           idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800" : ""
@@ -583,7 +585,13 @@ function CarDetailPage() {
             rel="noreferrer"
             className="hidden sm:flex items-center gap-1.5 bg-[#25D366] hover:bg-[#1ebd5a] text-black px-3.5 py-1.5 rounded-none font-extrabold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md"
           >
-            <MessageCircle className="w-4 h-4 fill-black" />
+            <svg
+              viewBox="0 0 32 32"
+              className="w-4 h-4 fill-black shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M16.01 2.012c-7.72 0-14 6.277-14 14 0 2.47.644 4.88 1.87 7.01l-1.99 7.26 7.43-1.95c2.05 1.12 4.38 1.68 6.69 1.68 7.72 0 14-6.28 14-14s-6.28-14-14-14zm0 25.64c-2.11 0-4.17-.57-5.97-1.64l-.43-.25-4.43 1.16 1.18-4.32-.28-.44c-1.18-1.87-1.8-4.04-1.8-6.15 0-6.42 5.22-11.64 11.64-11.64 3.11 0 6.03 1.21 8.23 3.41s3.41 5.12 3.41 8.23c0 6.42-5.23 11.64-11.65 11.64zm6.39-8.73c-.35-.18-2.07-1.02-2.39-1.14-.32-.12-.55-.18-.78.18-.23.35-.9 1.14-1.1 1.38-.2.23-.4.26-.75.09-.35-.18-1.48-.54-2.81-1.73-1.04-.92-1.74-2.07-1.94-2.42-.2-.35-.02-.54.15-.71.16-.16.35-.4.53-.61.18-.2.23-.35.35-.59.12-.23.06-.44-.03-.61-.09-.18-.78-1.89-1.07-2.58-.28-.68-.57-.59-.78-.6-.2-.01-.43-.01-.67-.01-.23 0-.61.09-.93.44-.32.35-1.22 1.19-1.22 2.91s1.25 3.38 1.42 3.61c.18.23 2.46 3.75 5.96 5.26.83.36 1.48.58 1.99.74.84.27 1.61.23 2.21.14.68-.1 2.07-.85 2.36-1.66.29-.82.29-1.52.2-1.66-.09-.15-.32-.23-.67-.41z" />
+            </svg>
             <span>WhatsApp</span>
           </a>
 
@@ -643,7 +651,7 @@ function CarDetailPage() {
       {/* =========================================================================
           PRODUCT DETAILS CONTENT: PURE BLACK THEME & ZERO BORDER CURVE (ROUNDED-NONE)
           ========================================================================= */}
-      <main className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 py-6 sm:py-8 space-y-6">
+      <main className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 py-3 sm:py-4 space-y-4">
         
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs text-neutral-400 flex-wrap">
@@ -672,8 +680,8 @@ function CarDetailPage() {
               ===================================================================== */}
           <div className="lg:col-span-7 xl:col-span-7 space-y-3">
             
-            {/* Main Image Showcase Card (Black Theme with Yellow Chevron Arrows - Rounded None) */}
-            <div className="relative w-full h-72 sm:h-96 md:h-[420px] bg-gradient-to-b from-[#12141e] via-[#0d0f17] to-[#07080b] border border-neutral-800 rounded-none flex items-center justify-center p-6 sm:p-10 overflow-hidden group select-none shadow-2xl">
+            {/* Main Image Showcase Card: aspect-[16/10] max-h-[460px] to cover necessary height without excess top/bottom space */}
+            <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] max-h-[460px] min-h-[260px] sm:min-h-[340px] bg-gradient-to-b from-[#12141e] via-[#0d0f17] to-[#07080b] border border-neutral-800 rounded-none flex items-center justify-center p-2 sm:p-4 overflow-hidden group select-none shadow-2xl">
               
               {/* Previous Photo Button (Yellow Chevron Arrow `<` as in screenshot) */}
               <button
@@ -967,7 +975,7 @@ function CarDetailPage() {
             {/* 3 Horizontal Action Buttons (WhatsApp Green, Call Us Red, Inquire Now Black/Gold - Rounded None) */}
             <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
               
-              {/* WhatsApp Button (Green) */}
+              {/* WhatsApp Button (Green with actual WhatsApp SVG icon) */}
               <a
                 href={`https://wa.me/?text=Hi%20Luxora%20Drive%2C%20I%20want%20to%20rent%20the%20${encodeURIComponent(
                   car.name
@@ -978,7 +986,13 @@ function CarDetailPage() {
                 rel="noreferrer"
                 className="bg-[#1E7E34] hover:bg-[#186429] text-white py-2.5 px-2 sm:px-3 rounded-none font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 shadow-md transition-colors text-center"
               >
-                <MessageCircle className="w-4 h-4 fill-white shrink-0" />
+                <svg
+                  viewBox="0 0 32 32"
+                  className="w-4 h-4 fill-white shrink-0"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M16.01 2.012c-7.72 0-14 6.277-14 14 0 2.47.644 4.88 1.87 7.01l-1.99 7.26 7.43-1.95c2.05 1.12 4.38 1.68 6.69 1.68 7.72 0 14-6.28 14-14s-6.28-14-14-14zm0 25.64c-2.11 0-4.17-.57-5.97-1.64l-.43-.25-4.43 1.16 1.18-4.32-.28-.44c-1.18-1.87-1.8-4.04-1.8-6.15 0-6.42 5.22-11.64 11.64-11.64 3.11 0 6.03 1.21 8.23 3.41s3.41 5.12 3.41 8.23c0 6.42-5.23 11.64-11.65 11.64zm6.39-8.73c-.35-.18-2.07-1.02-2.39-1.14-.32-.12-.55-.18-.78.18-.23.35-.9 1.14-1.1 1.38-.2.23-.4.26-.75.09-.35-.18-1.48-.54-2.81-1.73-1.04-.92-1.74-2.07-1.94-2.42-.2-.35-.02-.54.15-.71.16-.16.35-.4.53-.61.18-.2.23-.35.35-.59.12-.23.06-.44-.03-.61-.09-.18-.78-1.89-1.07-2.58-.28-.68-.57-.59-.78-.6-.2-.01-.43-.01-.67-.01-.23 0-.61.09-.93.44-.32.35-1.22 1.19-1.22 2.91s1.25 3.38 1.42 3.61c.18.23 2.46 3.75 5.96 5.26.83.36 1.48.58 1.99.74.84.27 1.61.23 2.21.14.68-.1 2.07-.85 2.36-1.66.29-.82.29-1.52.2-1.66-.09-.15-.32-.23-.67-.41z" />
+                </svg>
                 <span className="truncate">WhatsApp</span>
               </a>
 

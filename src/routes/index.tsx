@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { categoryNameToSlug } from "@/data/cars";
 import {
   ChevronLeft,
   ChevronRight,
@@ -1580,10 +1581,10 @@ function CarShowcasePage() {
   });
 
   // Stages inside the "loading" phase:
-  // "driving": car enters from right & brakes into dead-center (~0 - 1.8s)
-  // "morphing": car transforms/morphs into the brand logo with luminous flash (~1.8s - 2.7s)
-  // "branded": brand name "LUXORA DRIVE" emerges with luxury typography (~2.7s - 4.6s)
-  const [introStage, setIntroStage] = useState<"driving" | "morphing" | "branded">("driving");
+  // "driving": car enters from right & brakes into dead-center (~0 - 2.0s)
+  // "drawing": Luxora logo draws directly over the car (~2.0s - 3.4s)
+  // "fading": car behind the logo fades away completely (~3.4s - 4.8s)
+  const [introStage, setIntroStage] = useState<"driving" | "drawing" | "fading">("driving");
 
   const triggerPaperTear = useCallback(() => {
     setIntroPhase((prev) => {
@@ -1595,7 +1596,7 @@ function CarShowcasePage() {
         }
         setTimeout(() => {
           setIntroPhase("done");
-        }, 1150);
+        }, 1250);
         return "tearing";
       }
       return prev;
@@ -1605,24 +1606,24 @@ function CarShowcasePage() {
   useEffect(() => {
     if (introPhase !== "loading") return;
 
-    // 1.8s: Supercar settles dead center -> starts morphing into Luxora Logo
-    const morphTimer = setTimeout(() => {
-      setIntroStage("morphing");
-    }, 1800);
+    // 2.0s: Supercar stops dead center -> Luxora logo draws on top of car
+    const drawTimer = setTimeout(() => {
+      setIntroStage("drawing");
+    }, 2000);
 
-    // 2.7s: Logo is established -> brand name "LUXORA DRIVE" reveals below
-    const brandTimer = setTimeout(() => {
-      setIntroStage("branded");
-    }, 2700);
+    // 3.4s: Behind the drawn logo, car gradually fades out
+    const fadeTimer = setTimeout(() => {
+      setIntroStage("fading");
+    }, 3400);
 
-    // 4.6s: Automatically tear open screen and reveal website
+    // 4.8s: Automatically tear page downwards from top to reveal website
     const openTimer = setTimeout(() => {
       triggerPaperTear();
-    }, 4600);
+    }, 4800);
 
     return () => {
-      clearTimeout(morphTimer);
-      clearTimeout(brandTimer);
+      clearTimeout(drawTimer);
+      clearTimeout(fadeTimer);
       clearTimeout(openTimer);
     };
   }, [introPhase, triggerPaperTear]);
@@ -1902,18 +1903,21 @@ function CarShowcasePage() {
 
               {/* Main Animated Stage Container */}
               <div className="relative w-full max-w-4xl px-4 flex flex-col items-center justify-center min-h-[380px] md:min-h-[460px]">
-                {/* Luminous Burst Flash during morphing */}
+                {/* Luminous Burst Flash during drawing */}
                 {introStage !== "driving" && (
-                  <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full bg-gradient-to-r from-amber-400/35 via-white/70 to-amber-300/35 blur-3xl animate-intro-flash pointer-events-none z-10" />
+                  <div className="absolute w-64 h-64 md:w-96 md:h-96 rounded-full bg-gradient-to-r from-amber-400/30 via-white/50 to-amber-300/30 blur-3xl animate-intro-flash pointer-events-none z-10" />
                 )}
 
-                {/* 1. Supercar Driving In from Right to Center & Morphing */}
-                {introStage !== "branded" && (
+                {/* Container for Car and Overlay Logo */}
+                <div className="relative w-full flex items-center justify-center">
+                  {/* 1. Supercar Driving In from Right and then Car Fading Behind Logo */}
                   <div
                     className={`relative z-20 flex items-center justify-center w-full ${
                       introStage === "driving"
                         ? "animate-intro-car-drive"
-                        : "animate-intro-car-morph"
+                        : introStage === "fading"
+                        ? "animate-intro-car-fade-behind"
+                        : ""
                     }`}
                   >
                     {/* Ground shadow beneath tires */}
@@ -1926,33 +1930,25 @@ function CarShowcasePage() {
                       className="w-full max-w-[540px] md:max-w-[720px] h-auto object-contain select-none pointer-events-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.95)]"
                     />
 
-                    {/* Forward Headlight Beam shooting left */}
-                    <div className="absolute left-[2%] top-[56%] -translate-y-1/2 w-48 md:w-72 h-16 md:h-24 bg-gradient-to-l from-amber-200/50 via-white/30 to-transparent blur-md -skew-y-3 pointer-events-none animate-intro-headlight" />
-                  </div>
-                )}
-
-                {/* 2. Brand Logo & Name Reveal */}
-                {(introStage === "morphing" || introStage === "branded") && (
-                  <div className="relative z-30 flex flex-col items-center justify-center text-center">
-                    {/* Transformed White Luxury Logo */}
-                    <div className="animate-intro-logo flex items-center justify-center mb-5 md:mb-7">
-                      <img
-                        src={luxoraLogoWhite}
-                        alt="Luxora Drive"
-                        className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 drop-shadow-[0_0_30px_rgba(255,230,0,0.45)]"
-                      />
-                    </div>
-
-                    {/* Brand Name "Luxora drive" emerges below logo */}
-                    {introStage === "branded" && (
-                      <div className="animate-intro-brand-title flex flex-col items-center">
-                        <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white drop-shadow-[0_2px_20px_rgba(255,255,255,0.4)]">
-                          Luxora drive
-                        </h1>
-                      </div>
+                    {/* Forward Headlight Beam shooting left while driving */}
+                    {introStage === "driving" && (
+                      <div className="absolute left-[2%] top-[56%] -translate-y-1/2 w-48 md:w-72 h-16 md:h-24 bg-gradient-to-l from-amber-200/50 via-white/30 to-transparent blur-md -skew-y-3 pointer-events-none animate-intro-headlight" />
                     )}
                   </div>
-                )}
+
+                  {/* 2. Logo Drawing directly on top of the car */}
+                  {introStage !== "driving" && (
+                    <div className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
+                      <div className="animate-intro-logo-draw flex items-center justify-center">
+                        <img
+                          src={luxoraLogoWhite}
+                          alt="Luxora Logo"
+                          className="h-20 sm:h-28 md:h-36 w-auto object-contain brightness-110 drop-shadow-[0_0_35px_rgba(255,230,0,0.6)] drop-shadow-[0_0_15px_rgba(255,255,255,0.9)]"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Top Right Skip Button */}
@@ -1979,40 +1975,34 @@ function CarShowcasePage() {
 
           {introPhase === "tearing" && (
             <div className="fixed inset-0 z-[99999] pointer-events-none overflow-hidden">
-              {/* Left Tearing Page Half (Jagged ripped edge peeling left) */}
+              {/* Left Tearing Page Half (Ripping downwards from top left) */}
               <div className="page-tear-left animate-paper-tear-left">
                 <div className="w-full h-full bg-[#060709] flex flex-col items-center justify-center relative overflow-hidden select-none">
-                  <div className="flex flex-col items-center justify-center text-center">
+                  <div className="flex items-center justify-center">
                     <img
                       src={luxoraLogoWhite}
                       alt=""
-                      className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
+                      className="h-20 sm:h-28 md:h-36 w-auto object-contain brightness-110 drop-shadow-[0_0_30px_rgba(255,230,0,0.5)]"
                     />
-                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white">
-                      Luxora drive
-                    </h1>
                   </div>
                 </div>
               </div>
 
-              {/* Right Tearing Page Half (Matching jagged ripped edge peeling right) */}
+              {/* Right Tearing Page Half (Ripping downwards from top right) */}
               <div className="page-tear-right animate-paper-tear-right">
                 <div className="w-full h-full bg-[#060709] flex flex-col items-center justify-center relative overflow-hidden select-none">
-                  <div className="flex flex-col items-center justify-center text-center">
+                  <div className="flex items-center justify-center">
                     <img
                       src={luxoraLogoWhite}
                       alt=""
-                      className="h-14 sm:h-18 md:h-24 w-auto object-contain brightness-110 mb-5 md:mb-7 drop-shadow-[0_0_25px_rgba(255,230,0,0.4)]"
+                      className="h-20 sm:h-28 md:h-36 w-auto object-contain brightness-110 drop-shadow-[0_0_30px_rgba(255,230,0,0.5)]"
                     />
-                    <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.2em] text-white">
-                      Luxora drive
-                    </h1>
                   </div>
                 </div>
               </div>
 
-              {/* Central Ripped Seam Flash Line */}
-              <div className="absolute top-0 bottom-0 left-[49.5%] w-1.5 bg-gradient-to-b from-white via-neutral-100 to-white shadow-[0_0_25px_rgba(255,255,255,0.95)] animate-rip-seam pointer-events-none z-30" />
+              {/* Top-to-Bottom Ripping Seam Beam */}
+              <div className="absolute top-0 bottom-0 left-[49.5%] w-2 bg-gradient-to-b from-amber-200 via-white to-amber-300 shadow-[0_0_30px_rgba(255,255,255,1)] animate-tear-down-beam pointer-events-none z-30" />
 
               {/* Flying torn paper fragment scraps */}
               <div className="absolute top-[28%] left-[49%] w-5 h-8 bg-neutral-200 shadow-xl rounded-xs animate-scrap-left pointer-events-none z-30 border border-white" />
@@ -2127,9 +2117,10 @@ function CarShowcasePage() {
                   <div className="pb-3 pt-1 grid grid-cols-2 gap-x-3 animate-in fade-in duration-150">
                     <div className="flex flex-col">
                       {categoryDropdownCol1.map((item, idx) => (
-                        <a
+                        <Link
                           key={item}
-                          href="#categories"
+                          to="/categories/$categorySlug"
+                          params={{ categorySlug: categoryNameToSlug(item) }}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
                             idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800/60" : ""
@@ -2137,14 +2128,15 @@ function CarShowcasePage() {
                         >
                           <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{item}</span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                     <div className="flex flex-col">
                       {categoryDropdownCol2.map((item, idx) => (
-                        <a
+                        <Link
                           key={item}
-                          href="#categories"
+                          to="/categories/$categorySlug"
+                          params={{ categorySlug: categoryNameToSlug(item) }}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className={`flex items-center gap-1.5 py-1.5 text-[11px] font-normal text-neutral-300 hover:text-[#FFE600] transition-colors ${
                             idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800/60" : ""
@@ -2152,7 +2144,7 @@ function CarShowcasePage() {
                         >
                           <span className="text-xs text-neutral-500">&gt;</span>
                           <span className="truncate">{item}</span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -2295,16 +2287,10 @@ function CarShowcasePage() {
       */}
       <section
         className="car-showroom-fullscreen min-h-screen w-full flex flex-col justify-between select-none relative overflow-hidden"
-        onMouseDown={(e) => handlePointerDown(e.clientX)}
-        onMouseMove={(e) => handlePointerMove(e.clientX)}
-        onMouseUp={handlePointerUp}
-        onTouchStart={(e) => handlePointerDown(e.touches[0].clientX)}
-        onTouchMove={(e) => handlePointerMove(e.touches[0].clientX)}
-        onTouchEnd={handlePointerUp}
       >
         {/* 
           Background Hero Video:
-          - Plays seamlessly behind the interactive supercar studio
+          - Plays seamlessly behind the luxury hero stage
           - On large screens (lg, xl, 2xl), precisely focused on the car
         */}
         <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
@@ -2319,26 +2305,9 @@ function CarShowcasePage() {
             <source src={heroVideo} type="video/mp4" />
           </video>
           {/* Subtle cinematic gradient overlays: light & balanced so video stays visible and vibrant */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0e1017]/70 via-black/15 to-[#0e1017]/35" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.3)_90%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07080b]/90 via-black/40 to-[#07080b]/50" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.5)_90%)]" />
         </div>
-
-        {/* 
-        Dynamic car-matched background patti (diagonal stripe):
-        Soft, light and transparent glassmorphic styling
-      */}
-        <div
-          className="diagonal-patti"
-          style={{
-            background: `linear-gradient(135deg, ${car.themeColor}55 0%, ${car.themeColor}22 50%, ${car.themeColor}0a 100%)`,
-            backdropFilter: "blur(6px)",
-            WebkitBackdropFilter: "blur(6px)",
-            borderLeft: `1px solid ${car.themeColor}30`,
-            borderRight: `1px solid ${car.themeColor}30`,
-            filter: "drop-shadow(0 15px 35px rgba(0,0,0,0.1))",
-          }}
-          aria-hidden="true"
-        />
 
         {/* 
         Navbar: Fully transparent (no background color, no glass blur, completely transparent)
@@ -2447,9 +2416,10 @@ function CarShowcasePage() {
                     {/* Column 1 */}
                     <div className="flex flex-col">
                       {categoryDropdownCol1.map((name, idx) => (
-                        <a
+                        <Link
                           key={name}
-                          href="#categories"
+                          to="/categories/$categorySlug"
+                          params={{ categorySlug: categoryNameToSlug(name) }}
                           onClick={() => setIsCategoriesDropdownOpen(false)}
                           className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
                             idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800" : ""
@@ -2458,19 +2428,20 @@ function CarShowcasePage() {
                           <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-medium text-xs sm:text-[13px] tracking-tight">
                             {name}
                           </span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
 
                     {/* Column 2 */}
                     <div className="flex flex-col">
                       {categoryDropdownCol2.map((name, idx) => (
-                        <a
+                        <Link
                           key={name}
-                          href="#categories"
+                          to="/categories/$categorySlug"
+                          params={{ categorySlug: categoryNameToSlug(name) }}
                           onClick={() => setIsCategoriesDropdownOpen(false)}
                           className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer ${
                             idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800" : ""
@@ -2479,10 +2450,10 @@ function CarShowcasePage() {
                           <span className="font-normal text-xs text-neutral-500 group-hover:text-[#FFE600] transition-colors select-none">
                             &gt;
                           </span>
-                          <span className="font-normal text-xs sm:text-[13px] tracking-tight">
+                          <span className="font-medium text-xs sm:text-[13px] tracking-tight">
                             {name}
                           </span>
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -2653,564 +2624,53 @@ function CarShowcasePage() {
           </div>
         </header>
 
-        {/* Main Feature Stage Area */}
-        <div className="relative z-20 flex-1 flex flex-col justify-center items-center w-full px-4 sm:px-8 lg:px-12 py-1 lg:py-2 overflow-hidden">
-          {/* 
-          3-Column Dribbble Showcase Stage:
-          - Left: Heading (1st and 2nd word), Model details, short description, Daily & weekly rates, RENT NOW button
-          - Center: Centered car with idle floating animation, dynamic shadow, and bottom thumbnail carousel
-          - Right: Vertical timeline with connected glowing dots showing vehicle SPECS
-        */}
-          <div className="w-full max-w-[1720px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center relative z-20 my-auto pt-4 sm:pt-6 lg:pt-10">
-            {/* Left Column (Desktop): Badge, Heading, Short Description, Rating - Shifted Further Down for Large Screen */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-start text-left z-30 pr-4 select-none translate-y-20 xl:translate-y-28 2xl:translate-y-32">
-              <div
-                key={`left-cat-${car.id}-${animKey}`}
-                className="animate-d-fade-up"
-                style={{ animationDelay: "50ms" }}
-              >
-                <span
-                  className="text-[11px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md"
-                  style={{ backgroundColor: `${car.themeColor}20`, color: car.themeColor }}
-                >
-                  {car.category} • LUXURY FLEET
-                </span>
-              </div>
-
-              <h1
-                key={`left-title-${car.id}-${animKey}`}
-                className="text-3xl xl:text-4xl font-black text-white tracking-tight uppercase leading-tight mt-3 animate-d-fade-up"
-                style={{ animationDelay: "120ms" }}
-              >
-                {getCarTitleBreakdown(car.make, car.model).firstTwo}{" "}
-                <span style={{ color: car.themeColor }}>
-                  {getCarTitleBreakdown(car.make, car.model).rest}
-                </span>
-              </h1>
-
-              <p
-                key={`left-desc-${car.id}-${animKey}`}
-                className="text-xs sm:text-sm text-neutral-300 font-medium leading-relaxed mt-2.5 max-w-xs animate-d-fade-up"
-                style={{ animationDelay: "200ms" }}
-              >
-                {car.description}
-              </p>
-
-              {/* Left Column Daily Pricing & Rent Button - Show only weekly and per day, no % OFF */}
-              <div
-                key={`left-cta-${car.id}-${animKey}`}
-                className="mt-6 flex flex-col items-start gap-2.5 animate-d-fade-up"
-                style={{ animationDelay: "260ms" }}
-              >
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-2xl sm:text-3xl font-black text-white leading-none">
-                      {formatPrice(car.dailyRate)}
-                    </span>
-                    <span className="text-xs text-neutral-400 font-semibold">/ day</span>
-                  </div>
-                  <div
-                    className="text-xs font-bold"
-                    style={{ color: car.themeColor }}
-                  >
-                    Weekly: {formatPrice(car.weeklyRate)}{" "}
-                    <span className="text-neutral-400 font-medium">/ week</span>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  onClick={() => setBookingCar(car)}
-                  className="text-xs font-black text-white px-5 py-2.5 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 mt-1"
-                  style={{ backgroundColor: car.themeColor }}
-                >
-                  <Key className="w-3.5 h-3.5" /> RENT NOW
-                </Button>
-              </div>
-            </div>
-
-            {/* Center Column: Increased Car Size on Large Screen, Shifted Down on Small Screen */}
-            <div className="col-span-12 lg:col-span-6 flex flex-col items-center justify-center relative z-20 my-auto pb-2 pt-10 sm:pt-12 lg:pt-0">
-              <div className="relative w-full max-w-[660px] sm:max-w-[740px] lg:max-w-[960px] xl:max-w-[1080px] 2xl:max-w-[1180px] aspect-[2.15/1] flex items-center justify-center cursor-grab active:cursor-grabbing px-1 sm:px-3">
-                {/* Desktop Giant Brand Typography: Exactly 80% on top of car, 20% behind car */}
-                {exitingCar && (
-                  <div
-                    key={`brand-name-exit-desk-${exitingCar.id}-${animKey}`}
-                    className="hidden lg:block giant-brand-typography animate-name-exit"
-                    style={getHeroTypographyStyle(getCarHeroBackdropName(exitingCar.id, exitingCar.make, exitingCar.model), false)}
-                  >
-                    {getCarHeroBackdropName(exitingCar.id, exitingCar.make, exitingCar.model)}
-                  </div>
-                )}
-                <div
-                  key={`brand-name-active-desk-${car.id}-${animKey}`}
-                  className="hidden lg:block giant-brand-typography animate-name-top"
-                  style={{
-                    ...getHeroTypographyStyle(getCarHeroBackdropName(car.id, car.make, car.model), false),
-                    opacity: nameDragOpacity,
-                    transform: isDragging
-                      ? `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`
-                      : undefined,
-                    transition: isDragging ? "none" : "opacity 200ms ease",
-                  }}
-                >
-                  {getCarHeroBackdropName(car.id, car.make, car.model)}
-                </div>
-
-                {/* Mobile Giant Brand Typography: Exactly 80% on top of car, 20% behind car */}
-                {exitingCar && (
-                  <div
-                    key={`brand-name-exit-mob-${exitingCar.id}-${animKey}`}
-                    className="lg:hidden giant-brand-typography-mobile animate-name-exit"
-                    style={getHeroTypographyStyle(getCarHeroBackdropName(exitingCar.id, exitingCar.make, exitingCar.model), true)}
-                  >
-                    {getCarHeroBackdropName(exitingCar.id, exitingCar.make, exitingCar.model)}
-                  </div>
-                )}
-                <div
-                  key={`brand-name-active-mob-${car.id}-${animKey}`}
-                  className="lg:hidden giant-brand-typography-mobile animate-name-top"
-                  style={{
-                    ...getHeroTypographyStyle(getCarHeroBackdropName(car.id, car.make, car.model), true),
-                    opacity: nameDragOpacity,
-                    transform: isDragging
-                      ? `translate(calc(-50% + ${dragOffsetX * 0.2}px), ${nameDragY}px)`
-                      : undefined,
-                    transition: isDragging ? "none" : "opacity 200ms ease",
-                  }}
-                >
-                  {getCarHeroBackdropName(car.id, car.make, car.model)}
-                </div>
-
-                {/* Ground Contact Shadow with Synchronous Breathing Animation */}
-                <div
-                  className={`car-contact-shadow ${exitingCar ? "" : "animate-shadow-breathe"}`}
-                />
-
-                {/* Exiting Car (smooth slide & scale-down exit) - STRICT z-20 so it is ALWAYS in front of typography (z-10) */}
-                {exitingCar && (
-                  <div
-                    key={`car-exiting-${exitingCar.id}`}
-                    className={`absolute inset-0 z-20 flex items-center justify-center ${
-                      transitionDirection === "next"
-                        ? "animate-car-exit-left"
-                        : "animate-car-exit-right"
-                    }`}
-                  >
-                    <img
-                      src={exitingCar.image}
-                      alt={exitingCar.alt}
-                      draggable={false}
-                      className="w-full h-full object-contain p-2 relative z-20 select-none pointer-events-none"
-                    />
-                  </div>
-                )}
-
-                {/* Entering / Active Car (slide-in with spring scale & idle floating breathing) - STRICT z-30 so it is ALWAYS in front of typography (z-10) */}
-                <div
-                  key={`car-active-${car.id}-${animKey}`}
-                  className={`relative z-30 w-full h-full flex items-center justify-center ${
-                    exitingCar
-                      ? transitionDirection === "next"
-                      ? "animate-car-enter-right"
-                      : "animate-car-enter-left"
-                      : isDragging
-                        ? ""
-                        : "animate-car-breathe"
-                  }`}
-                  style={{
-                    transform: isDragging ? `translateX(${dragOffsetX}px)` : undefined,
-                    transition: isDragging ? "none" : "transform 300ms ease-out",
-                  }}
-                >
-                  <img
-                    src={car.image}
-                    alt={car.alt}
-                    draggable={false}
-                    className="w-full h-full object-contain p-2 relative z-20 select-none pointer-events-none"
-                  />
-                </div>
-              </div>
-
-              {/* 
-                Under Center Car:
-                - On Small Screens (lg:hidden): Price section + RENT NOW button without background, show ONLY weekly and per day (no % OFF)
-                - On Large Screens (hidden lg:flex): 4 cars thumbnail carousel shifted lower down
-              */}
-
-              {/* Small Screen: Price & RENT NOW button without background, show only weekly and per day */}
-              <div className="flex lg:hidden flex-col items-center justify-center gap-2 mt-6 sm:mt-8 z-30 w-full px-2">
-                <div className="flex items-center gap-4 bg-transparent border-none shadow-none backdrop-blur-none px-2 py-1">
-                  <div className="flex flex-col items-start">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-xl sm:text-2xl font-black text-white tracking-tight leading-none">
-                        {formatPrice(car.dailyRate)}
-                      </span>
-                      <span className="text-[11px] font-semibold text-neutral-400">/ day</span>
-                    </div>
-                    <div
-                      className="text-[11px] font-bold mt-0.5"
-                      style={{ color: car.themeColor }}
-                    >
-                      Weekly: {formatPrice(car.weeklyRate)}{" "}
-                      <span className="text-neutral-400 font-medium">/ week</span>
-                    </div>
-                  </div>
-
-                  <Button
-                    size="sm"
-                    onClick={() => setBookingCar(car)}
-                    className="text-xs font-black text-white px-4 py-2 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center gap-1.5 shrink-0"
-                    style={{ backgroundColor: car.themeColor }}
-                  >
-                    RENT NOW
-                  </Button>
-                </div>
-
-                {/* 6 Hero Service Features for small screen: 2 items per row, NO icons */}
-                <div className="w-full max-w-[340px] mx-auto pt-2.5 pb-0.5">
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-center">
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      Insurance included
-                    </span>
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      No deposit
-                    </span>
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      Own fleet
-                    </span>
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      Working 24/7
-                    </span>
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      Delivery &amp; pick-up
-                    </span>
-                    <span className="text-[11px] font-bold text-neutral-300 tracking-tight">
-                      Late return
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Large Screen: Dribbble Style Bottom 4-Car Thumbnail Carousel - Shifted lower down */}
-              <div className="hidden lg:flex items-center justify-center gap-3 sm:gap-4 mt-8 lg:mt-12 z-30 translate-y-3 lg:translate-y-5">
-                <button
-                  type="button"
-                  onClick={goToPrev}
-                  aria-label="Previous Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <div className="flex items-center gap-3 sm:gap-5">
-                  {fleet.map((item, idx) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => selectCar(idx)}
-                      className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
-                        idx === currentIndex
-                        ? "scale-125 grayscale-0 opacity-100"
-                        : "grayscale opacity-40 hover:opacity-80 scale-95 hover:scale-100"
-                        }`}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.model}
-                        className="h-6 sm:h-8 w-auto object-contain pointer-events-none"
-                      />
-                    </button>
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={goToNext}
-                  aria-label="Next Car"
-                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column (Desktop): Vertical Connected Timeline with Glowing Dots for SPECS - Shifted Further Right */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col items-end text-left z-30 lg:pl-10 xl:pl-16 pr-1 xl:pr-4 select-none ml-auto">
-              <div key={`right-specs-${car.id}-${animKey}`} className="flex flex-col items-start w-full max-w-[230px]">
-                <div className="mb-4 animate-d-fade-up" style={{ animationDelay: "50ms" }}>
-                  <span className="text-[11px] font-black tracking-widest uppercase text-neutral-400 block">
-                    PERFORMANCE
-                  </span>
-                  <span
-                    className="text-lg font-black tracking-tight uppercase"
-                    style={{ color: car.themeColor }}
-                  >
-                    SPECS
-                  </span>
-                </div>
-
-                {/* Connected Vertical Timeline Line and Dots */}
-                <div className="relative pl-6 space-y-3.5 w-full">
-                  {/* Vertical connecting timeline line */}
-                  <div
-                    className="absolute left-2.5 top-2 bottom-2 w-0.5 rounded-full transition-colors duration-500"
-                    style={{ backgroundColor: `${car.themeColor}50` }}
-                  />
-
-                  {/* Spec 1: Engine */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "100ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.engine.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.engine.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.engine.subvalue}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Spec 2: Power */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "160ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.power.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.power.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.power.subvalue}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Spec 3: Torque */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "220ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.torque.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.torque.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.torque.subvalue}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Spec 4: Top Speed */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "280ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.topSpeed.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.topSpeed.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.topSpeed.subvalue}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Spec 5: Acceleration */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "340ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.acceleration.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.acceleration.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.acceleration.subvalue}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Spec 6: Weight */}
-                  <div
-                    className="relative flex items-start gap-3 animate-d-fade-up"
-                    style={{ animationDelay: "400ms" }}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full border-2 border-neutral-900 flex items-center justify-center shrink-0 shadow-xs transition-colors duration-500"
-                      style={{ backgroundColor: car.themeColor }}
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-950" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-black tracking-wider uppercase text-neutral-400 block">
-                        {car.specs.weight.label}
-                      </span>
-                      <span className="text-xs sm:text-sm font-black text-white leading-tight block">
-                        {car.specs.weight.value}
-                      </span>
-                      <span className="text-[10px] font-semibold text-neutral-400 block">
-                        {car.specs.weight.subvalue}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Carousel Arrow Navigation (Desktop edge arrows) */}
-          <button
-            type="button"
-            onClick={goToPrev}
-            aria-label="Previous Car"
-            className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow-xl border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
-          >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-          </button>
-
-          <button
-            type="button"
-            onClick={goToNext}
-            aria-label="Next Car"
-            className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-neutral-900/90 hover:bg-neutral-800 text-white shadow-xl border border-neutral-700 flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
-          >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-          </button>
-        </div>
         {/* 
-          Hero Section Integrated Controls & Pricing:
-          - Specifications text section is removed as requested.
-          - Per-day price with discount badge, weekly price, and RENT NOW button placed right here in the hero section!
+          Hero Center Stage:
+          - LUXORA DRIVE in large font
+          - Tagline below
+          - Little description below tagline
+          - Two action buttons below description
         */}
-        <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 pb-3 pt-1 relative z-30 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-3 mt-auto">
-          {/* Left Side: Slide Dots & Index Counter */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
-              {fleet.map((item, idx) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => selectCar(idx)}
-                  aria-label={`Go to ${item.make} ${item.model}`}
-                  className="w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer"
-                  style={{
-                    backgroundColor: idx === currentIndex ? car.themeColor : "#374151",
-                    transform: idx === currentIndex ? "scale(1.3)" : "scale(1)",
-                  }}
-                />
-              ))}
-            </div>
+        <div className="relative z-20 flex-1 flex flex-col justify-center items-center text-center w-full max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 py-16 sm:py-20 lg:py-28 my-auto">
+          {/* Main Title: LUXORA DRIVE in Medium Bold Font */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold font-cinzel tracking-tight uppercase text-white drop-shadow-[0_12px_35px_rgba(0,0,0,0.85)] leading-[1.05] animate-in fade-in duration-500">
+            LUXORA <span className="text-[#FFE600]">DRIVE</span>
+          </h1>
 
-            <div className="text-xs font-mono font-bold text-neutral-200 flex items-center gap-2">
-              <div>
-                <span style={{ color: car.themeColor }}>{car.number}</span>
-                <span className="text-neutral-500 mx-1">/</span>
-                <span>{String(fleet.length).padStart(2, "0")}</span>
-              </div>
-              <span className="text-[10px] text-neutral-500 font-sans tracking-wide hidden md:inline">
-                • Swipe or click arrows to explore fleet
-              </span>
-            </div>
+          {/* Tagline Below Title */}
+          <div className="mt-4 sm:mt-6 inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-1.5 sm:py-2 bg-black/60 border border-[#FFE600]/40 backdrop-blur-md rounded-none shadow-lg">
+            <span className="w-2 h-2 rounded-full bg-[#FFE600] animate-pulse" />
+            <span className="text-xs sm:text-sm md:text-base font-bold tracking-[0.2em] sm:tracking-[0.25em] text-[#FFE600] uppercase font-poppins">
+              DUBAI'S PREMIER LUXURY & SUPERCARS FLEET
+            </span>
           </div>
 
-          {/* Small Screen Bottom: 4-Car Preview Thumbnail Carousel (swapped to bottom for small screens only, shifted lower) */}
-          <div className="flex lg:hidden items-center justify-center gap-2 sm:gap-3 z-30 w-full sm:w-auto pt-3 pb-2 mt-1">
-            <button
-              type="button"
-              onClick={goToPrev}
-              aria-label="Previous Car"
-              className="w-7 h-7 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+          {/* Little Description Below Tagline */}
+          <p className="mt-5 sm:mt-7 text-xs sm:text-sm md:text-base lg:text-lg text-neutral-300 font-normal leading-relaxed max-w-2xl sm:max-w-3xl drop-shadow-md">
+            Experience ultimate prestige with Dubai's most exclusive supercar, sports, and luxury SUV collection. Instant 30-minute doorstep delivery to your hotel, villa, or DXB VIP terminal with zero hassle and 24/7 dedicated concierge service.
+          </p>
+
+          {/* Two Buttons Below Description: Single Row on All Screen Sizes */}
+          <div className="mt-8 sm:mt-10 flex flex-row items-center justify-center gap-2.5 sm:gap-5 w-full max-w-lg sm:max-w-none px-2 sm:px-0">
+            {/* Button 1: Explore Fleet */}
+            <a
+              href="#categories"
+              className="flex-1 sm:flex-initial min-w-0 sm:min-w-[200px] px-3 sm:px-8 py-3 sm:py-3.5 bg-[#FFE600] hover:bg-[#ffd900] text-black font-bold uppercase tracking-wider text-[11px] sm:text-sm transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5 sm:gap-2.5 cursor-pointer rounded-none whitespace-nowrap"
             >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <div className="flex items-center gap-2 sm:gap-3">
-              {fleet.map((item, idx) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => selectCar(idx)}
-                  className={`p-1 bg-transparent border-none outline-none shadow-none transition-all duration-300 flex items-center justify-center cursor-pointer ${
-                    idx === currentIndex
-                    ? "scale-125 grayscale-0 opacity-100"
-                    : "grayscale opacity-40 hover:opacity-80 scale-95 hover:scale-100"
-                    }`}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.model}
-                    className="h-5 sm:h-7 w-auto object-contain pointer-events-none"
-                  />
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={goToNext}
-              aria-label="Next Car"
-              className="w-7 h-7 rounded-full bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 border-none outline-none shadow-none flex items-center justify-center cursor-pointer transition-transform hover:scale-110 active:scale-95"
+              <Key className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-black stroke-[2.5] shrink-0" />
+              <span>EXPLORE FLEET</span>
+            </a>
+
+            {/* Button 2: Flash Deals (Replacing WhatsApp) */}
+            <Link
+              to="/flash-deals"
+              className="flex-1 sm:flex-initial min-w-0 sm:min-w-[200px] px-3 sm:px-8 py-3 sm:py-3.5 bg-[#131b2e] hover:bg-[#1a2540] text-white border-2 border-[#22396F] hover:border-[#FFE600] font-bold uppercase tracking-wider text-[11px] sm:text-sm transition-all duration-300 shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-1.5 sm:gap-2.5 cursor-pointer rounded-none whitespace-nowrap"
             >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#FFE600] text-[#FFE600] shrink-0 animate-bounce" />
+              <span>FLASH DEALS</span>
+            </Link>
           </div>
         </div>
-
-        {/* Auto Slide Progress Line */}
-        {isAutoPlay && (
-          <div className="w-full bg-neutral-800/80 h-0.5 overflow-hidden rounded-full mt-1">
-            <div
-              className="h-full transition-all duration-75"
-              style={{
-                width: `${progress}%`,
-                backgroundColor: car.themeColor,
-              }}
-            />
-          </div>
-        )}
       </section>
 
       {/* 
@@ -3237,41 +2697,73 @@ function CarShowcasePage() {
 
           {/* Categories Grid (Only Car, Yellow Line Accent, Rent Title, and Count - No white card box / No border line) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
-            {rentalCategories.slice(0, showAllCategories ? rentalCategories.length : 6).map((cat) => (
-              <a
-                key={cat.id}
-                href="#flash-sale"
-                className="bg-transparent border-0 shadow-none p-2 sm:p-3 text-center group relative flex flex-col items-center justify-between min-h-[140px] sm:min-h-[160px] cursor-pointer"
-              >
-                {/* Yellow Diagonal Patti Accent behind the car - Light & Transparent */}
-                <div className="absolute top-1 sm:top-2 right-2 sm:right-5 w-14 sm:w-16 h-8 sm:h-9 bg-[#FFE600]/30 -skew-x-12 rounded-xs backdrop-blur-xs transition-transform group-hover:scale-110 pointer-events-none" />
+            {rentalCategories.slice(0, showAllCategories ? rentalCategories.length : 6).map((cat) => {
+              const catSlug =
+                cat.id === "supercars"
+                  ? "rent-supercars"
+                  : cat.id === "monthly"
+                  ? "rent-monthly"
+                  : cat.id === "luxury"
+                  ? "rent-luxury"
+                  : cat.id === "sports"
+                  ? "rent-sports"
+                  : cat.id === "suv"
+                  ? "rent-suv"
+                  : cat.id === "modified"
+                  ? "rent-modified"
+                  : cat.id === "7-seater"
+                  ? "rent-7-seater"
+                  : cat.id === "economy"
+                  ? "rent-economy-car"
+                  : cat.id === "luxury-van"
+                  ? "luxury-van-rental"
+                  : cat.id === "convertible"
+                  ? "rent-convertible"
+                  : cat.id === "driver"
+                  ? "car-with-driver"
+                  : cat.id === "patrol"
+                  ? "patrol-experts"
+                  : cat.id === "lease"
+                  ? "lease-to-own"
+                  : categoryNameToSlug(cat.title);
 
-                {/* Flash Sale Red Badge */}
-                {cat.isFlash && (
-                  <span className="absolute -top-1 right-1 bg-[#FF0033] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded shadow-sm rotate-6 z-20">
-                    FLASH SALE
-                  </span>
-                )}
+              return (
+                <Link
+                  key={cat.id}
+                  to={cat.isFlash ? "/flash-deals" : "/categories/$categorySlug"}
+                  params={cat.isFlash ? undefined : { categorySlug: catSlug }}
+                  className="bg-transparent border-0 shadow-none p-2 sm:p-3 text-center group relative flex flex-col items-center justify-between min-h-[140px] sm:min-h-[160px] cursor-pointer"
+                >
+                  {/* Yellow Diagonal Patti Accent behind the car - Light & Transparent */}
+                  <div className="absolute top-1 sm:top-2 right-2 sm:right-5 w-14 sm:w-16 h-8 sm:h-9 bg-[#FFE600]/30 -skew-x-12 rounded-xs backdrop-blur-xs transition-transform group-hover:scale-110 pointer-events-none" />
 
-                {/* Car Image - shifts slightly to left on hover */}
-                <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center my-1">
-                  <img
-                    src={cat.image || lamboEvoCoupe}
-                    alt={cat.title}
-                    loading="lazy"
-                    className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:-translate-x-3 select-none pointer-events-none"
-                  />
-                </div>
+                  {/* Flash Sale Red Badge */}
+                  {cat.isFlash && (
+                    <span className="absolute -top-1 right-1 bg-[#FF0033] text-white text-[8px] font-black uppercase px-1.5 py-0.5 rounded shadow-sm rotate-6 z-20">
+                      FLASH SALE
+                    </span>
+                  )}
 
-                {/* Category Typography: Rent Title & Number of cars */}
-                <div className="relative z-10 w-full mt-2 text-center">
-                  <h3 className="text-xs sm:text-[13px] font-black uppercase text-white tracking-tight leading-tight group-hover:text-[#FFE600] transition-colors">
-                    {cat.title}
-                  </h3>
-                  <p className="text-[11px] text-neutral-400 font-semibold mt-0.5">{cat.count}</p>
-                </div>
-              </a>
-            ))}
+                  {/* Car Image - shifts slightly to left on hover */}
+                  <div className="relative z-10 w-full h-16 sm:h-20 flex items-center justify-center my-1">
+                    <img
+                      src={cat.image || lamboEvoCoupe}
+                      alt={cat.title}
+                      loading="lazy"
+                      className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:-translate-x-3 select-none pointer-events-none"
+                    />
+                  </div>
+
+                  {/* Category Typography: Rent Title & Number of cars */}
+                  <div className="relative z-10 w-full mt-2 text-center">
+                    <h3 className="text-xs sm:text-[13px] font-black uppercase text-white tracking-tight leading-tight group-hover:text-[#FFE600] transition-colors">
+                      {cat.title}
+                    </h3>
+                    <p className="text-[11px] text-neutral-400 font-semibold mt-0.5">{cat.count}</p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           {/* View More Categories Toggle Button */}

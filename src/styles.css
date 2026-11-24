@@ -74,89 +74,99 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.12 0.01 260);
-  --foreground: oklch(0.96 0.01 260);
-  --card: oklch(0.16 0.01 260);
-  --card-foreground: oklch(0.96 0.01 260);
-  --popover: oklch(0.16 0.01 260);
-  --popover-foreground: oklch(0.96 0.01 260);
-  --primary: oklch(0.9 0.18 96);
-  --primary-foreground: oklch(0.12 0.01 260);
-  --secondary: oklch(0.2 0.01 260);
-  --secondary-foreground: oklch(0.96 0.01 260);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.7 0.02 260);
-  --accent: oklch(0.22 0.01 260);
-  --accent-foreground: oklch(0.96 0.01 260);
-  --destructive: oklch(0.57 0.22 27);
-  --destructive-foreground: oklch(0.99 0.006 90);
-  --border: oklch(0.25 0.01 260);
-  --input: oklch(0.25 0.01 260);
-  --ring: oklch(0.9 0.18 96);
-  --chart-1: oklch(0.9 0.18 96);
-  --chart-2: oklch(0.62 0.14 150);
-  --chart-3: oklch(0.62 0.13 242);
-  --chart-4: oklch(0.76 0.16 83);
-  --chart-5: oklch(0.55 0.11 316);
-  --sidebar: oklch(0.14 0.01 260);
-  --sidebar-foreground: oklch(0.96 0.01 260);
-  --sidebar-primary: oklch(0.9 0.18 96);
-  --sidebar-primary-foreground: oklch(0.12 0.01 260);
-  --sidebar-accent: oklch(0.22 0.01 260);
-  --sidebar-accent-foreground: oklch(0.96 0.01 260);
-  --sidebar-border: oklch(0.25 0.01 260);
-  --sidebar-ring: oklch(0.9 0.18 96);
-  --showroom-glass: oklch(0.16 0.01 260);
-  --showroom-ink: oklch(0.96 0.01 260);
-  --showroom-soft-ink: oklch(0.7 0.02 260);
-  --showroom-red: oklch(0.57 0.22 27);
-  --showroom-line: oklch(0.25 0.01 260);
-  --font-display: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
-  --font-poster: "Barlow Condensed", "Impact", "Arial Black", sans-serif;
+  --background: #07080b;
+  --foreground: #ffffff;
+  --card: #0f1118;
+  --card-foreground: #ffffff;
+  --popover: #121319;
+  --popover-foreground: #ffffff;
+  --primary: #FFE600;
+  --primary-foreground: #000000;
+  --secondary: #141622;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1d2c;
+  --muted-foreground: #94a3b8;
+  --accent: #1e2235;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #262938;
+  --input: #262938;
+  --ring: #FFE600;
+  --chart-1: #FFE600;
+  --chart-2: #22396F;
+  --chart-3: #E89B5B;
+  --chart-4: #f59e0b;
+  --chart-5: #10b981;
+  --sidebar: #0a0c14;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #FFE600;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #141622;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #262938;
+  --sidebar-ring: #FFE600;
+  --showroom-glass: rgba(15, 17, 24, 0.9);
+  --showroom-ink: #ffffff;
+  --showroom-soft-ink: #94a3b8;
+  --showroom-red: #D1121E;
+  --showroom-line: #262938;
+  --font-display: "Poppins", sans-serif;
+  --font-poster: "Cinzel", serif;
+  --font-cinzel: "Cinzel", serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
 .dark {
-  --background: oklch(0.12 0.01 260);
-  --foreground: oklch(0.96 0.01 260);
-  --card: oklch(0.16 0.01 260);
-  --card-foreground: oklch(0.96 0.01 260);
-  --popover: oklch(0.16 0.01 260);
-  --popover-foreground: oklch(0.96 0.01 260);
-  --primary: oklch(0.9 0.18 96);
-  --primary-foreground: oklch(0.12 0.01 260);
-  --secondary: oklch(0.2 0.01 260);
-  --secondary-foreground: oklch(0.96 0.01 260);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.7 0.02 260);
-  --accent: oklch(0.22 0.01 260);
-  --accent-foreground: oklch(0.96 0.01 260);
-  --destructive: oklch(0.57 0.22 27);
-  --destructive-foreground: oklch(0.99 0.006 90);
-  --border: oklch(0.25 0.01 260);
-  --input: oklch(0.25 0.01 260);
-  --ring: oklch(0.9 0.18 96);
-  --chart-1: oklch(0.9 0.18 96);
-  --chart-2: oklch(0.62 0.14 150);
-  --chart-3: oklch(0.62 0.13 242);
-  --chart-4: oklch(0.76 0.16 83);
-  --chart-5: oklch(0.55 0.11 316);
-  --sidebar: oklch(0.14 0.01 260);
-  --sidebar-foreground: oklch(0.96 0.01 260);
-  --sidebar-primary: oklch(0.9 0.18 96);
-  --sidebar-primary-foreground: oklch(0.12 0.01 260);
-  --sidebar-accent: oklch(0.22 0.01 260);
-  --sidebar-accent-foreground: oklch(0.96 0.01 260);
-  --sidebar-border: oklch(0.25 0.01 260);
-  --sidebar-ring: oklch(0.9 0.18 96);
-  --showroom-glass: oklch(0.16 0.01 260);
-  --showroom-ink: oklch(0.96 0.01 260);
-  --showroom-soft-ink: oklch(0.7 0.02 260);
-  --showroom-red: oklch(0.57 0.22 27);
-  --showroom-line: oklch(0.25 0.01 260);
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #22396F;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #22396F;
+  --chart-1: #22396F;
+  --chart-2: #E89B5B;
+  --chart-3: #3b82f6;
+  --chart-4: #f59e0b;
+  --chart-5: #10b981;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #22396F;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #22396F;
+  --showroom-glass: rgba(255, 255, 255, 0.9);
+  --showroom-ink: #0f172a;
+  --showroom-soft-ink: #64748b;
+  --showroom-red: #22396F;
+  --showroom-line: #e2e8f0;
+  --font-display: "Poppins", sans-serif;
+  --font-poster: "Cinzel", serif;
+  --font-cinzel: "Cinzel", serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
 @theme inline {
-  --font-sans: var(--font-display);
+  --font-sans: var(--font-poppins);
+  --font-serif: var(--font-cinzel);
+  --font-poster: var(--font-cinzel);
+  --font-cinzel: var(--font-cinzel);
+  --font-poppins: var(--font-poppins);
   --color-showroom-glass: var(--showroom-glass);
   --color-showroom-ink: var(--showroom-ink);
   --color-showroom-soft-ink: var(--showroom-soft-ink);
@@ -172,7 +182,11 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-display);
+    font-family: var(--font-poppins);
+  }
+
+  h1, h2, h3, h4, .font-poster, .font-serif, .font-cinzel {
+    font-family: var(--font-cinzel);
   }
 }
 
@@ -180,19 +194,19 @@
   width: 100%;
   min-height: 100vh;
   min-height: 100svh;
-  background-color: #161922;
+  background-color: #11141c;
   background-image: radial-gradient(
     ellipse at 50% 25%,
     rgba(45, 52, 68, 0.75) 0%,
-    rgba(25, 29, 39, 0.85) 55%,
-    rgba(18, 20, 28, 0.95) 100%
+    rgba(22, 26, 36, 0.88) 55%,
+    rgba(14, 16, 24, 0.98) 100%
   );
   position: relative;
   overflow-x: hidden;
-  color: #f3f4f6;
+  color: #ffffff;
 }
 
-/* Dynamic diagonal background patti (stripe) - Soft, Light & Transparent */
+/* Dynamic diagonal background patti (stripe) */
 .diagonal-patti {
   position: absolute;
   top: 0;
@@ -201,7 +215,7 @@
   left: 0;
   pointer-events: none;
   clip-path: polygon(65% 0%, 86% 0%, 55% 100%, 34% 100%);
-  opacity: 0.35;
+  opacity: 0.32;
   transition:
     background 700ms cubic-bezier(0.16, 1, 0.3, 1),
     opacity 700ms ease;
@@ -212,7 +226,7 @@
   .diagonal-patti {
     /* Starts from right side and connects to left side corner, does not connect into the bottom */
     clip-path: polygon(100% 18%, 100% 42%, 0% 64%, 0% 40%);
-    opacity: 0.32;
+    opacity: 0.28;
   }
 }
 
@@ -220,19 +234,19 @@
   .diagonal-patti {
     /* Starts from right side and connects to left side corner, does not connect into the bottom */
     clip-path: polygon(100% 16%, 100% 44%, 0% 65%, 0% 37%);
-    opacity: 0.3;
+    opacity: 0.26;
   }
 }
 
 /* Giant brand typography (Desktop): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography {
-  font-family: var(--font-poster);
+  font-family: var(--font-cinzel);
   font-weight: 900;
   line-height: 0.82;
   text-transform: uppercase;
   color: #ffffff;
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
-  opacity: 0.95;
+  opacity: 0.92;
   text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
   white-space: nowrap;
   user-select: none;
@@ -247,13 +261,13 @@
 
 /* Giant brand typography (Mobile): exactly 80% on top of car, 20% behind car */
 .giant-brand-typography-mobile {
-  font-family: var(--font-poster);
+  font-family: var(--font-cinzel);
   font-weight: 900;
   line-height: 0.82;
   text-transform: uppercase;
   color: #ffffff;
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
-  opacity: 0.95;
+  opacity: 0.92;
   text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
   white-space: nowrap;
   user-select: none;
@@ -769,19 +783,20 @@
 @keyframes paper-tear-left-anim {
   0% {
     transform: translate3d(0, 0, 0) rotate(0deg) skewY(0deg);
+    transform-origin: top left;
   }
-  15% {
-    transform: translate3d(-4%, 0, 0) rotate(-1deg) skewY(-0.8deg);
+  20% {
+    transform: translate3d(-6%, -2%, 0) rotate(-4deg) skewY(-2deg);
   }
-  40% {
-    transform: translate3d(-24%, -1%, 0) rotate(-4deg) skewY(-3deg) scale(0.98);
+  50% {
+    transform: translate3d(-35%, -8%, 0) rotate(-14deg) skewY(-6deg) scale(0.96);
   }
-  75% {
-    transform: translate3d(-75%, -2%, 0) rotate(-8deg) skewY(-5deg) scale(0.94);
+  80% {
+    transform: translate3d(-85%, -18%, 0) rotate(-26deg) skewY(-10deg) scale(0.90);
     opacity: 0.95;
   }
   100% {
-    transform: translate3d(-130%, -4%, 0) rotate(-14deg) skewY(-7deg) scale(0.88);
+    transform: translate3d(-145%, -28%, 0) rotate(-38deg) skewY(-14deg) scale(0.82);
     opacity: 0;
   }
 }
@@ -789,31 +804,65 @@
 @keyframes paper-tear-right-anim {
   0% {
     transform: translate3d(0, 0, 0) rotate(0deg) skewY(0deg);
+    transform-origin: top right;
   }
-  15% {
-    transform: translate3d(4%, 0, 0) rotate(1deg) skewY(0.8deg);
+  20% {
+    transform: translate3d(6%, -2%, 0) rotate(4deg) skewY(2deg);
   }
-  40% {
-    transform: translate3d(24%, 1%, 0) rotate(4deg) skewY(3deg) scale(0.98);
+  50% {
+    transform: translate3d(35%, -8%, 0) rotate(14deg) skewY(6deg) scale(0.96);
   }
-  75% {
-    transform: translate3d(75%, 2%, 0) rotate(8deg) skewY(5deg) scale(0.94);
+  80% {
+    transform: translate3d(85%, -18%, 0) rotate(26deg) skewY(10deg) scale(0.90);
     opacity: 0.95;
   }
   100% {
-    transform: translate3d(130%, 4%, 0) rotate(14deg) skewY(7deg) scale(0.88);
+    transform: translate3d(145%, -28%, 0) rotate(38deg) skewY(14deg) scale(0.82);
     opacity: 0;
   }
 }
 
 .animate-paper-tear-left {
-  animation: paper-tear-left-anim 1150ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: paper-tear-left-anim 1250ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
 }
 
 .animate-paper-tear-right {
-  animation: paper-tear-right-anim 1150ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: paper-tear-right-anim 1250ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
+}
+
+/* Vertical Top-to-Bottom Paper Tear Rip Beam (Seam tearing downwards) */
+@keyframes paper-rip-down-seam {
+  0% {
+    top: 0%;
+    height: 0%;
+    opacity: 0;
+  }
+  15% {
+    top: 0%;
+    height: 35%;
+    opacity: 1;
+  }
+  55% {
+    top: 20%;
+    height: 80%;
+    opacity: 1;
+  }
+  85% {
+    top: 60%;
+    height: 40%;
+    opacity: 0.8;
+  }
+  100% {
+    top: 100%;
+    height: 0%;
+    opacity: 0;
+  }
+}
+
+.animate-tear-down-beam {
+  animation: paper-rip-down-seam 1200ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Bright rip light beam along tear line */
@@ -914,11 +963,60 @@
 }
 
 .animate-intro-car-drive {
-  animation: intro-car-drive-in-anim 2800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: intro-car-drive-in-anim 2000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: transform, opacity;
 }
 
-/* 2. Car Morphs / Dissolves */
+/* 2. Logo Drawing Over Car Animation */
+@keyframes intro-logo-draw-anim {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  15% {
+    opacity: 1;
+  }
+  65% {
+    clip-path: inset(0 0% 0 0);
+    filter: drop-shadow(0 0 35px rgba(232, 155, 91, 0.95)) drop-shadow(0 0 15px rgba(255, 255, 255, 1));
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+    filter: drop-shadow(0 0 30px rgba(34, 57, 111, 0.7)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.85));
+  }
+}
+
+.animate-intro-logo-draw {
+  animation: intro-logo-draw-anim 1600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  will-change: clip-path, opacity, filter;
+}
+
+/* 3. Car Fading Away Behind Drawn Logo */
+@keyframes intro-car-fade-behind-anim {
+  0% {
+    opacity: 1;
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    filter: brightness(0.7);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(0.2) blur(6px);
+    transform: scale(0.96);
+  }
+}
+
+.animate-intro-car-fade-behind {
+  animation: intro-car-fade-behind-anim 1400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  will-change: opacity, filter, transform;
+}
+
+/* 4. Car Morphs / Dissolves */
 @keyframes intro-car-morph-anim {
   0% {
     opacity: 1;

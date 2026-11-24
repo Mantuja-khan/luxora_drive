@@ -14,7 +14,7 @@ import {
   SlidersHorizontal,
   Flame,
 } from "lucide-react";
-import { getAllCars, type ProductCar } from "@/data/cars";
+import { getAllCars, categoryNameToSlug, type ProductCar } from "@/data/cars";
 import luxoraLogoWhite from "@/assets/luxora-logo-white.png";
 
 export const Route = createFileRoute("/flash-deals")({
@@ -319,7 +319,8 @@ function FlashDealsPage() {
                     {categoryDropdownCol1.map((name, idx) => (
                       <Link
                         key={name}
-                        to="/"
+                        to="/categories/$categorySlug"
+                        params={{ categorySlug: categoryNameToSlug(name) }}
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                         className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer rounded-none ${
                           idx < categoryDropdownCol1.length - 1 ? "border-b border-neutral-800" : ""
@@ -339,7 +340,8 @@ function FlashDealsPage() {
                     {categoryDropdownCol2.map((name, idx) => (
                       <Link
                         key={name}
-                        to="/"
+                        to="/categories/$categorySlug"
+                        params={{ categorySlug: categoryNameToSlug(name) }}
                         onClick={() => setIsCategoriesDropdownOpen(false)}
                         className={`group flex items-center gap-2 py-2 text-neutral-300 hover:text-[#FFE600] transition-colors cursor-pointer rounded-none ${
                           idx < categoryDropdownCol2.length - 1 ? "border-b border-neutral-800" : ""
